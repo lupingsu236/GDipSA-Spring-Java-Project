@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Sa51JavaCaApplication {
 
 	public static void main(String[] args) {
+		// Hi it's jon
 		SpringApplication.run(Sa51JavaCaApplication.class, args);
 	}
 
