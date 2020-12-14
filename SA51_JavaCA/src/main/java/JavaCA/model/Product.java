@@ -15,8 +15,8 @@ public class Product
 	@ManyToOne
 	private Brand brand;
 	private String name, description, type, category, subcategory;
-	private double originalPrice, reorderLevel, minOrderQty;
-	private int quantity;
+	private double originalPrice;
+	private int reorderLevel, minOrderQty, quantity;
 	@ManyToOne
 	private Supplier supplier;
 	
@@ -30,7 +30,7 @@ public class Product
 	}
 
 	public Product(String name, String description, String type, String category, String subcategory,
-			double originalPrice, double reorderLevel, double minOrderQty, int quantity)
+			double originalPrice, int reorderLevel, int minOrderQty, int quantity)
 	{
 		super();
 		this.name = name;
@@ -124,22 +124,22 @@ public class Product
 		this.originalPrice = originalPrice;
 	}
 
-	public double getReorderLevel() 
+	public int getReorderLevel() 
 	{
 		return reorderLevel;
 	}
 
-	public void setReorderLevel(double reorderLevel) 
+	public void setReorderLevel(int reorderLevel) 
 	{
 		this.reorderLevel = reorderLevel;
 	}
 
-	public double getMinOrderQty() 
+	public int getMinOrderQty() 
 	{
 		return minOrderQty;
 	}
 
-	public void setMinOrderQty(double minOrderQty) 
+	public void setMinOrderQty(int minOrderQty) 
 	{
 		this.minOrderQty = minOrderQty;
 	}
