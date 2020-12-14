@@ -47,6 +47,7 @@ public class ProductController {
 	@RequestMapping(value="/save", method=RequestMethod.POST) 
 	public String saveProduct(@ModelAttribute("p") Product p, Model model) {
 		pservice.saveProduct(p);
+		//save first transaction if quantity >0
 		return "redirect:/product";
 	}
 	
