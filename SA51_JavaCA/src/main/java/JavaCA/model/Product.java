@@ -1,10 +1,13 @@
 package JavaCA.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Product 
@@ -19,6 +22,8 @@ public class Product
 	private int reorderLevel, minOrderQty, quantity;
 	@ManyToOne
 	private Supplier supplier;
+	@OneToMany(mappedBy = "product")
+	private List<TransactionDetail> transactionDetails;
 	
 	private static double wholesaleMultiplier = 1.2;
 	private static double partnerMultiplier = 1.3;
@@ -164,6 +169,14 @@ public class Product
 		this.supplier = supplier;
 	}
 	
+	public List<TransactionDetail> getTransactionDetails() {
+		return transactionDetails;
+	}
+
+	public void setTransactionDetails(List<TransactionDetail> transactionDetails) {
+		this.transactionDetails = transactionDetails;
+	}
+
 	public double getWholesalePrice() 
 	{
 		return wholesaleMultiplier * originalPrice;
@@ -184,7 +197,7 @@ public class Product
 		return "Product [id=" + id + ", brand=" + brand + ", name=" + name + ", description=" + description + ", type="
 				+ type + ", category=" + category + ", subcategory=" + subcategory + ", originalPrice=" + originalPrice
 				+ ", reorderLevel=" + reorderLevel + ", minOrderQty=" + minOrderQty + ", quantity=" + quantity
-				+ ", supplier=" + supplier + "]";
+				+ ", supplier=" + supplier + ", transactionDetails=" + transactionDetails + "]";
 	}
-	
+
 }
