@@ -28,9 +28,47 @@
 		<label for="subcategory">Sub-category:</label>
 		<input type="text" class="form-control" th:field="*{subcategory}"> 
 		</div>
-		<div class="form-group">
-        <button class="btn btn-success" type="submit">Save</button>
+		<div class="form-group w-50">
+		<label for="brand">Brand:</label>
+		<input list="brands" class="form-control" th:field="*{brand.name}"
+				placeholder="Enter new brand name if not available in list">	
+			<datalist id="brands">
+			  <option th:each="b: ${brands}" th:value="${b.name}">
+			</datalist>
 		</div>
+		<div class="form-group w-50">
+		<label for="supplier">Supplier:</label>
+		<input list="suppliers" class="form-control" th:field="*{supplier.supplierName}"
+				placeholder="Enter new supplier name if not available in list">	
+			<datalist id="suppliers">
+			  <option th:each="s: ${suppliers}" th:value="${s.supplierName}">
+			</datalist>
+		</div>
+		<div class="form-group w-50">
+		<label for="originalPrice">Original Price:</label>
+		<input type="text" class="form-control" th:field="*{originalPrice}"> 
+		</div>
+		<div class="form-group w-50">
+		<label for="quantity">Quantity:</label>
+		<input type="text" class="form-control" th:field="*{quantity}" 
+				placeholder="Set as 0 if initial order has yet to be made"> 
+		</div>
+		<div class="form-group w-50">
+		<label for="reorderLevel">Reorder Level:</label>
+		<input type="text" class="form-control" th:field="*{reorderLevel}"> 
+		</div>
+		<div class="form-group w-50">
+		<label for="minOrderQty">Minimum Order Quantity:</label>
+		<input type="text" class="form-control" th:field="*{minOrderQty}"> 
+		</div>
+		
+		<div class="form-group">
+        <button class="btn btn-success" type="submit" style="margin:10px">Save</button>
+        <a class="btn btn-danger" th:href="@{/product/list}" style="margin:10px">Cancel</a>
+		</div>
+		
+		
+		
 	
 	</form>
 	
