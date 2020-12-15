@@ -44,4 +44,14 @@ public class TransactionImplementation implements TransactionInterface
 	{
 		return transRepo.findById(id).get();
 	}
+	
+	@Override
+	public void saveTransaction(Transaction transaction) {
+		transRepo.save(transaction);		
+	}
+
+	@Override
+	public void saveTransactionDetail(TransactionDetail transactionDetail) {
+		transDRepo.save(transactionDetail);		
+	}
 }
