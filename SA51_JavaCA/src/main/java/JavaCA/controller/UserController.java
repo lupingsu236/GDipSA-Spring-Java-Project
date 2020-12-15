@@ -26,6 +26,7 @@ public class UserController {
 	
 	@RequestMapping(path = "")
 	public String home() {
+		//need to make it so that it redirects to login if sessions is null
 		return "index";
 	}
 	
