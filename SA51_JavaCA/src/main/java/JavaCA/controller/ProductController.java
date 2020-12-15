@@ -2,9 +2,14 @@ package JavaCA.controller;
 
 import java.util.ArrayList;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +43,9 @@ public class ProductController {
 		this.tservice = tservice;
 	}
 	
+	@InitBinder
+	protected void initBinder(WebDataBinder binder) {}
+	
 	@RequestMapping(value={"","/list"}, method=RequestMethod.GET)
 	public String findAllProducts(Model model) {
 		ArrayList<Product> products = pservice.findAllProducts();
@@ -64,7 +72,17 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value="/save", method=RequestMethod.POST) 
-	public String saveProduct(@ModelAttribute("p") Product p, Model model) {
+	public String saveProduct(@ModelAttribute("p") @Valid Product p, 
+			BindingResult bindingResult, Model model) {
+		
+		if (bindingResult.hasErrors()) {
+			ArrayList<Brand> brands = bservice.findAllBrands();
+			model.addAttribute("brands", brands);
+			ArrayList<Supplier> suppliers = suppservice.findAllSuppliers();
+			model.addAttribute("suppliers", suppliers);
+			return "/product/productform";
+		}
+		
 		//search for existing brand based on name
 		Brand b = bservice.findBrandByName(p.getBrand().getName());
 		//if no existing brand, create brand before setting into p
@@ -98,6 +116,7 @@ public class ProductController {
 			td.setTransaction(t);
 			tservice.saveTransactionDetail(td);
 		}
+		
 		return "redirect:/product";
 	}
 	
