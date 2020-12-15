@@ -2,6 +2,8 @@ package JavaCA.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ import JavaCA.model.Supplier;
 import JavaCA.model.Transaction;
 import JavaCA.model.TransactionDetail;
 import JavaCA.model.TransactionType;
+import JavaCA.model.User;
 import JavaCA.service.BrandServiceImpl;
 import JavaCA.service.ProductServiceImpl;
 import JavaCA.service.SupplierServiceImpl;
@@ -64,7 +67,7 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value="/save", method=RequestMethod.POST) 
-	public String saveProduct(@ModelAttribute("p") Product p, Model model) {
+	public String saveProduct(@ModelAttribute("p") Product p, Model model, HttpSession session) {
 		//search for existing brand based on name
 		Brand b = bservice.findBrandByName(p.getBrand().getName());
 		//if no existing brand, create brand before setting into p
@@ -90,7 +93,8 @@ public class ProductController {
 		if(p.getQuantity()>0) {
 			//get user to set into transaction
 			Transaction t = new Transaction();
-			//t.setUser(user);
+			User user = (User) session.getAttribute("usession");
+			t.setUser(user);
 			tservice.saveTransaction(t);
 			// Create the transaction detail and set product and transaction before persisting
 			TransactionDetail td = new TransactionDetail(p.getQuantity(), TransactionType.ORDER);
