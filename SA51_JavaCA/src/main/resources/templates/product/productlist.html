@@ -21,20 +21,26 @@
 			<th>Brand</th>
 			<th>Type</th>
 			<th>Category</th>
-			<th>Quantity</th>
-			<th>Details</th>
+			<th style="text-align:center">Quantity</th>
+			<th style="text-align:center">Details</th>
+			<th style="text-align:center">View Transactions</th>
 		</tr>
 		</thead>
 		<tr th:each="p : ${products}">
-			<td th:text="${p.id}"></td>
-			<td th:text="${p.name}"></td>
-			<td th:text="${p.description}"></td>
-			<td th:text="${p.brand.name}"></td>
-			<td th:text="${p.type}"></td>
-			<td th:text="${p.category}"></td>
-			<td th:text="${p.quantity}"></td>
-			<td>
-			<a href="#" class="btn btn-light" th:href="@{/product/detail/}+${p.id}">More</a>
+			<td th:text="${p.id}" style="vertical-align:middle"></td>
+			<td th:text="${p.name}" style="vertical-align:middle"></td>
+			<td th:text="${p.description}" style="vertical-align:middle"></td>
+			<td th:text="${p.brand.name}" style="vertical-align:middle"></td>
+			<td th:text="${p.type}" style="vertical-align:middle"></td>
+			<td th:text="${p.category}" style="vertical-align:middle"></td>
+			<td th:text="${p.quantity}" style="text-align:center; vertical-align:middle"></td>
+			<td style="text-align:center; vertical-align:middle">
+			<a href="#" class="btn btn-light" th:href="@{/product/detail/}+${p.id}">
+			<i class="fas fa-ellipsis-h"></i></a>
+			</td>
+			<td style="text-align:center; vertical-align:middle">
+			<a href="#" class="btn btn-light" th:href="@{/transaction/list/}+${p.id}">
+			<i class="fas fa-history"></i></a>
 			</td>
 
 		</tr>
