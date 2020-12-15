@@ -24,13 +24,7 @@ public class UserController {
 		this.uservice = uimpl;
 	}
 	
-	@RequestMapping(path = "")
-	public String home() {
-		//need to make it so that it redirects to login if sessions is null
-		return "index";
-	}
-	
-	@RequestMapping(path = "/login")
+	@RequestMapping(path = {"", "/", "/login"})
 	public String login(Model model, HttpSession session) {
 		if (session.getAttribute("usession") != null) {
 			return "index";
