@@ -20,10 +20,7 @@ public class UserImplementation implements UserInterface {
 	@Override
 	public void createUser(User user) {
 		// TODO Auto-generated method stub
-		User dbuser = urepo.findUserByUsername(user.getUsername());
-		if (dbuser == null) {
-			urepo.save(user);
-		}
+		urepo.save(user);
 	}
 
 	@Override

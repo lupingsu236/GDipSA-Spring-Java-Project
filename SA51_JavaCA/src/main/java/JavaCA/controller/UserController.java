@@ -24,8 +24,16 @@ public class UserController {
 		this.uservice = uimpl;
 	}
 	
+	@RequestMapping(path = "")
+	public String home() {
+		return "index";
+	}
+	
 	@RequestMapping(path = "/login")
-	public String login(Model model) {
+	public String login(Model model, HttpSession session) {
+		if (session.getAttribute("usession") != null) {
+			return "index";
+		}
 		User u = new User();
 		model.addAttribute("user", u);
 		return "login";
@@ -37,7 +45,7 @@ public class UserController {
 		{
 			User u = uservice.findByName(user.getUsername());
 			session.setAttribute("usession", u);
-			return "welcome";
+			return "index";
 		}
 		else
 			return "login";
