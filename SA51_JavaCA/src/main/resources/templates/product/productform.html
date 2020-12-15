@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body})}">
+
+<body>
+
+	<div class="my-4 container-sm">
+	
+	<h2>Add/Edit Product</h2><br>
+	
+	<form action="" th:object="${p}" th:action="@{/product/save}" method="post">
+		<div class="form-group w-50">
+		<label for="name">Name:</label>
+		<input type="text" class="form-control" th:field="*{name}"> 
+		</div>
+		<div class="form-group w-50">
+		<label for="description">Description:</label>
+		<textarea class="form-control" rows="3" th:field="*{description}"></textarea> 
+		</div>
+		<div class="form-group w-50">
+		<label for="type">Type:</label>
+		<input type="text" class="form-control" th:field="*{type}"> 
+		</div>
+		<div class="form-group w-50">
+		<label for="category">Category:</label>
+		<input type="text" class="form-control" th:field="*{category}"> 
+		</div>
+		<div class="form-group w-50">
+		<label for="subcategory">Sub-category:</label>
+		<input type="text" class="form-control" th:field="*{subcategory}"> 
+		</div>
+		<div class="form-group">
+        <button class="btn btn-success" type="submit">Save</button>
+		</div>
+	
+	</form>
+	
+	</div>
+	
+</body>
+</html>

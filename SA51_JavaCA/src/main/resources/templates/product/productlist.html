@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body})}">
+
+<body>
+	<div class="my-4 container-sm">
+	
+	<div class="row">
+		<div class="col-sm-9"> <h3>Products</h3></div>
+		<div class="col-sm">
+		<a href="#" class="btn btn-info" th:href="@{/product/new/}">Add New Product</a>
+		</div>
+	</div>
+	<br>
+	<div class="row">
+	<table class="table table-hover"> 
+		<thead class="thead-light">
+		<tr> 
+			<th>Id</th>
+			<th>Name</th>
+			<th>Description</th>
+			<th>Brand</th>
+			<th>Type</th>
+			<th>Category</th>
+			<th>Quantity</th>
+			<th>Details</th>
+		</tr>
+		</thead>
+		<tr th:each="p : ${products}">
+			<td th:text="${p.id}"></td>
+			<td th:text="${p.name}"></td>
+			<td th:text="${p.description}"></td>
+			<td th:text="${p.brand.name}"></td>
+			<td th:text="${p.type}"></td>
+			<td th:text="${p.category}"></td>
+			<td th:text="${p.quantity}"></td>
+			<td>
+			<a href="#" class="btn btn-light" th:href="@{/product/detail/}+${p.id}">More</a>
+			</td>
+
+		</tr>
+	</table>
+	</div>
+	
+	</div>
+
+</body>
+</html>

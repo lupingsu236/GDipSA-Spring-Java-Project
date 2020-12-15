@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body})}">
+
+<body>
+	<div class="my-4 container-sm">
+	<h3>Product Detail</h3>
+	<br>
+	
+	<div class="row align-items-start">
+		<div class="col-sm">
+		<table class="table table-bordered table-sm"> 
+		<thead class="thead-light">
+			<tr> <th colspan=2>Product</th></tr>
+		</thead>
+		<tr><td>Id</td> <td th:text="${p.id}"></td></tr>
+		<tr><td>Name</td> <td th:text="${p.name}"></td></tr>
+		<tr><td>Description</td> <td th:text="${p.description}"></td></tr>
+		<tr><td>Type</td> <td th:text="${p.type}"></td></tr>
+		<tr><td>Category</td> <td th:text="${p.category}"></td></tr>
+		<tr><td>Sub-category</td> <td th:text="${p.subcategory}"></td></tr>
+		<tr><td>Brand Id</td> <td th:text="${p.brand.id}"></td></tr>
+		<tr><td>Brand Name</td> <td th:text="${p.brand.name}"></td></tr>
+		</table>
+		
+		<br>
+		<table style="width:180px">
+		<tr>
+		<td>
+		<a href="#" class="btn btn-primary" th:href="@{/product/edit/}+${p.id}">Edit</a>
+		</td>
+		<td>
+		<a href="#" class="btn btn-danger" th:href="@{/product/delete/}+${p.id}">Delete</a>
+		</td>
+		</tr>
+		</table>
+		
+		</div>
+		
+		<div class="col-sm">
+		<div class="short-div">
+			<table class="table table-bordered table-sm"> 
+			<thead class="thead-light">
+			<tr> <th colspan=2>Inventory</th></tr>
+			</thead>
+			<tr><td>Current Quantity</td> <td th:text="${p.quantity}"></td></tr>
+			<tr><td>Reorder Level</td> <td th:text="${p.reorderLevel}"></td></tr>
+			<tr><td>Minimum Order Quantity</td> <td th:text="${p.minOrderQty}"></td></tr>
+			<tr><td>Supplier Id</td> <td th:text="${p.supplier.id}"></td></tr>
+			<tr><td>Supplier Name</td> <td th:text="${p.supplier.supplierName}"></td></tr>
+			</table>
+		</div>
+		
+		<div class="short-div">
+			<table class="table table-bordered table-sm"> 
+			<thead class="thead-light">
+				<tr> <th colspan=2>Pricing</th></tr>
+			</thead>
+			<tr><td>Original Price</td> <td th:text="${p.originalPrice}"></td></tr>
+			<tr><td>Wholesale Price</td> <td th:text="${p.getWholesalePrice()}"></td></tr>
+			<tr><td>Partner Price</td> <td th:text="${p.getPartnerPrice()}"></td></tr>
+			<tr><td>Retail Price</td> <td th:text="${p.getRetailPrice()}"></td></tr>
+			</table>
+		</div>	
+		</div>
+	</div>
+	</div>
+
+</body>
+</html>
