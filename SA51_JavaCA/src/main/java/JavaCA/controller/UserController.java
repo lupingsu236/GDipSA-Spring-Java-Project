@@ -38,10 +38,10 @@ public class UserController {
 		{
 			User u = uservice.findByName(user.getUsername());
 			session.setAttribute("usession", u);
-			return "welcome";
+			return "index";
 		}
 		else
-			return "login";
+			return "redirect:/login";
 	}
 	
 	@RequestMapping(path = "/logout", method=RequestMethod.GET)
