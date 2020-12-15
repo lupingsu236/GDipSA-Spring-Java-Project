@@ -69,24 +69,26 @@
                                     <a class="nav-link" th:href="@{link}">Transaction History</a>
                                 </nav>
                             </div>
-                            <div class="sb-sidenav-menu-heading">Admin</div>
-                            <a class="nav-link" th:href="@{link}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
-                                New User
-                            </a>
-                            <a class="nav-link" th:href="@{link}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
-                                New Product
-                            </a>
-                            <a class="nav-link" th:href="@{link}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-parachute-box"></i></div>
-                                New Supplier
-                            </a>
+                            <div class="admin" th:if="${session.usession.getRoleName() == 'ADMIN'}">
+	                            <div class="sb-sidenav-menu-heading">Admin</div>
+	                            <a class="nav-link" th:href="@{link}">
+	                                <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
+	                                New User
+	                            </a>
+	                            <a class="nav-link" th:href="@{link}">
+	                                <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+	                                New Product
+	                            </a>
+	                            <a class="nav-link" th:href="@{link}">
+	                                <div class="sb-nav-link-icon"><i class="fas fa-parachute-box"></i></div>
+	                                New Supplier
+	                            </a>
+	                         </div>
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
                         <div class="small">Logged in as:</div>
-                        Mechanic
+                        <span th:utext="${session.usession.getRoleName()}">
                     </div>
                 </nav>
             </div>

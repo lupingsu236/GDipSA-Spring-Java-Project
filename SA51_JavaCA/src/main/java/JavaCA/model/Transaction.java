@@ -1,5 +1,6 @@
 package JavaCA.model;
 
+import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -16,6 +17,7 @@ public class Transaction
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private String carPlateNo;
+	private Date date;
 	@ManyToOne
 	private User user;
 	@OneToMany(mappedBy = "transaction")
@@ -28,6 +30,8 @@ public class Transaction
 
 	public Transaction(String carPlateNo) {
 		super();
+		long millis = System.currentTimeMillis();  
+		this.setDate(new Date(millis));
 		this.carPlateNo = carPlateNo;
 	}
 
@@ -67,6 +71,14 @@ public class Transaction
 	public String toString() {
 		return "Transaction [id=" + id + ", carPlateNo=" + carPlateNo + ", user=" + user + ", transactionDetails="
 				+ transactionDetails + "]";
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 	
 }

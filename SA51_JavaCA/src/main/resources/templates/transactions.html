@@ -16,6 +16,7 @@
 		<thead class="thead-light">
 		<tr> 
 			<th>Transaction Id</th>
+			<th>Date Added</th>
 			<th>Car Plate No.</th>
 			<th>Name of User</th>
 			<th>View Transaction Details</th>
@@ -24,6 +25,7 @@
 		</thead>
 		<tr th:each="t : ${transactions}">
 			<td th:utext="${t.id}"></td>
+			<td th:utext="${t.date}"></td>
 			<td th:utext="${t.carPlateNo}"></td>
 			<td th:utext="${t.user.fullName}"></td>
 			<td>
