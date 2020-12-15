@@ -79,11 +79,7 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
-                        <h1 class="mt-4">Dashboard</h1>
-                        <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">Dashboard</li>
-                        </ol>
-                        
+                    
                         <!-- ******Insert snippets if need be*******-->
                         <th:block th:include="${template}" />
                         <!-- The magical insertion above -->
@@ -109,6 +105,5 @@
         <script th:src="@{/js/scripts.js}"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
-        <script th:src="@{/assets/demo/datatables-demo.js}"></script>
     </body>
 </html>
