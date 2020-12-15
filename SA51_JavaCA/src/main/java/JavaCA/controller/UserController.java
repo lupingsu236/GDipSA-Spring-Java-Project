@@ -43,7 +43,7 @@ public class UserController {
 			return "index";
 		}
 		else
-			return "login";
+			return "redirect:/login";
 	}
 	
 	@RequestMapping(path = "/logout", method=RequestMethod.GET)
