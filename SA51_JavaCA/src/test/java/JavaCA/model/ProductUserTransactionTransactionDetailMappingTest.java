@@ -21,7 +21,7 @@ class ProductUserTransactionTransactionDetailMappingTest
 	private BrandRepository brandRepo;
 	@Autowired
 	private SupplierRepository supplierRepo;
-	
+
 	@Test
 	void creationTest() 
 	{
@@ -37,7 +37,7 @@ class ProductUserTransactionTransactionDetailMappingTest
 		product.setBrand(mazda);
 		product.setSupplier(supplier);
 		productRepo.save(product);
-		
+
 		// Creation of Transaction detail
 		// First create and persist the user (assuming the user is not already persisted)
 		User user = new User("Jon", "jon", "password", RoleType.ADMIN);
