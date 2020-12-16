@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import JavaCA.model.Product;
 import JavaCA.model.Transaction;
+import JavaCA.model.TransactionDetail;
 import JavaCA.model.User;
+import JavaCA.service.TransactionDetailsService;
 import JavaCA.service.TransactionImplementation;
 import JavaCA.service.TransactionInterface;
 
@@ -27,24 +28,45 @@ public class TransactionController
 	private TransactionInterface transactionService;
 	
 	@Autowired
-	public void setTransactionImplementation(TransactionImplementation transImpl)
+	private TransactionDetailsService tdService;
+	
+	@Autowired
+	public void setTransactionImplementation(TransactionImplementation transImpl, TransactionDetailsService transDetailImpl)
 	{
 		this.transactionService = transImpl;
+		this.tdService = transDetailImpl;
 	}
 	
-	@RequestMapping("/list")
-	public String viewAllTransactions(Model model, HttpSession session)
+	@RequestMapping("/car")
+	public String viewAllCarTransactions(Model model, HttpSession session)
 	{
 		List<Transaction> carjobs = transactionService.listAllCarTransactions();
 		model.addAttribute("transactions", carjobs);
 		return "/transaction/transactions";
 	}
 	
+	@RequestMapping("/list")
+	public String viewAllTransactions(Model model, HttpSession session)
+	{
+		List<TransactionDetail> td = tdService.findAllTransactionDetails();
+		model.addAttribute("transactiondetail", td);
+		return "/transaction/alltransactiondetail";
+	}
+	
+	@RequestMapping("/list/{productid}")
+	public String viewAllProductTransactions(@PathVariable("productid") int id, Model model, HttpSession session)
+	{
+		List<TransactionDetail> td = transactionService.listAllProductTransactions(id);
+		model.addAttribute("transactiondetail", td);
+		model.addAttribute("message", "product");
+		return "/transaction/alltransactiondetail";
+	}
+	
 	@RequestMapping("/delete/{id}")
 	public String deleteTransactionAndTransactionDetails(@PathVariable("id") int id)
 	{
 		transactionService.deleteTransaction(transactionService.findTransactionById(id));
-		return "forward:/transaction/list";
+		return "forward:/transaction/car";
 	}
 	
 	@RequestMapping("/new")
@@ -66,7 +88,7 @@ public class TransactionController
 		Transaction t2 = transactionService.findTransactionById(id);
 		t2.setCarPlateNo(t.getCarPlateNo());
 		transactionService.saveTransaction(t2);
-		return "redirect:/transaction/list";
+		return "redirect:/transaction/car";
 	}
 	
 	@RequestMapping("/saveTransaction")
@@ -74,6 +96,6 @@ public class TransactionController
 		User u = (User)session.getAttribute("usession");
 		t.setUser(u);
 		transactionService.saveTransaction(t);
-		return "redirect:/transaction/list";
+		return "redirect:/transaction/car";
 	}
 }

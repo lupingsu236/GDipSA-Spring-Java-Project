@@ -17,6 +17,7 @@
 			<th>Quantity Change</th>
 			<th>Transaction Type</th>
 			<th>View Product Detail</th>
+			<th>Edit Product Detail</th>
 			<th>Delete Transaction Detail</th>
 		</tr>
 		</thead>
@@ -29,13 +30,16 @@
 			th:utext="${td.product.name}">Product</a>
 			</td>
 			<td>
+			<a href="#" class="btn btn-light" th:href="@{/transactiondetails/edit/} + ${td.id}">Edit</a>
+			</td>
+			<td>
 			<a href="#" class="btn btn-danger">Delete</a>
 			</td>
 		</tr>
 	</table>
 	<div class="row">
 		<div class="col-sm">
-		<a th:href="@{/transaction/list}" class="btn btn-dark">View Transactions</a>
+		<a th:href="@{/transaction/car}" class="btn btn-dark">View Transactions</a>
 		</div>
 	</div>
 

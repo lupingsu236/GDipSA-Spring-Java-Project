@@ -1,11 +1,13 @@
 package JavaCA.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import JavaCA.model.Transaction;
 import JavaCA.model.TransactionDetail;
 import JavaCA.repo.TransactionDetailRepository;
 
@@ -29,6 +31,12 @@ public class TransactionDetailsServiceImpl implements TransactionDetailsService 
 	@Override
 	public void deleteTransactionDetail(TransactionDetail transactionDetail) {
 		transDRepo.delete(transactionDetail);
+	}
+
+	@Override
+	public List<TransactionDetail> findAllTransactionDetails() {
+		// TODO Auto-generated method stub
+		return transDRepo.findAll();
 	}
 
 }

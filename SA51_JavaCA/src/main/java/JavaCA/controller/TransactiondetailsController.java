@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import JavaCA.model.Product;
-import JavaCA.model.RoleType;
 import JavaCA.model.Transaction;
 import JavaCA.model.TransactionDetail;
 import JavaCA.model.TransactionType;
@@ -30,7 +28,7 @@ public class TransactiondetailsController {
 	private TransactionInterface transactionService;
 	
 	@Autowired
-	private ProductService productservice;
+	private ProductService productService;
 	
 	@Autowired
 	private TransactionDetailsService tdService;
@@ -39,14 +37,14 @@ public class TransactiondetailsController {
 	public void setImplementation(TransactionImplementation transImpl, ProductServiceImpl prodImpl, TransactionDetailsService transDetailImpl)
 	{
 		this.transactionService = transImpl;
-		this.productservice = prodImpl;
+		this.productService = prodImpl;
 		this.tdService = transDetailImpl;
 	}
 	
 	@RequestMapping("/new/{id}")
 	public String addProductToTransaction(@PathVariable("id") int id, Model model) {
 		TransactionDetail transactiondetail = new TransactionDetail();
-		List<Product> productList = productservice.findAllProducts();
+		List<Product> productList = productService.findAllProducts();
 		model.addAttribute("type1", TransactionType.ORDER);
 		model.addAttribute("type2", TransactionType.DAMAGED);
 		model.addAttribute("pl", productList);
@@ -65,11 +63,16 @@ public class TransactiondetailsController {
 	}
 	
 	@PostMapping("/detail/{id}")
-	public String saveTransactionDetails(@PathVariable("id") int id, @ModelAttribute("td") TransactionDetail td) {
-		TransactionDetail td_test = td;
+	public String saveTransactionDetails(@PathVariable("id") int id, @ModelAttribute("td") TransactionDetail td, Model model) {
 		Transaction t = transactionService.findTransactionById(id);
-		td_test.setTransaction(t);
-		tdService.saveTransactionDetail(td_test);
-		return "/transactiondetails/detail/{id}";
+		td.setTransaction(t);
+		Product p = productService.findProduct(td.getProduct().getId());
+		td.setProduct(p);
+		tdService.saveTransactionDetail(td);
+		//---------
+		Transaction thisTransaction = transactionService.findTransactionById(id);
+		model.addAttribute("transaction", thisTransaction);
+		model.addAttribute("transactiondetail", thisTransaction.getTransactionDetails());
+		return "/transaction/transactiondetail";
 	}
 }

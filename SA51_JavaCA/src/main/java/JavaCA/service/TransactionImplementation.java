@@ -1,6 +1,5 @@
 package JavaCA.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -56,6 +55,12 @@ public class TransactionImplementation implements TransactionInterface
 	public List<Transaction> listAllCarTransactions() {
 		// TODO Auto-generated method stub
 		return transRepo.findAllCarTransactions();
+	}
+
+	@Override
+	public List<TransactionDetail> listAllProductTransactions(int id) {
+		// TODO Auto-generated method stub
+		return transDRepo.findAllProductTransactionsByProductId(id);
 	}
 	
 }

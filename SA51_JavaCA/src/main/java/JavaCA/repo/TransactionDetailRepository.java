@@ -12,4 +12,7 @@ public interface TransactionDetailRepository extends JpaRepository<TransactionDe
 {
 	@Query("SELECT td FROM TransactionDetail td JOIN td.product pdt WHERE pdt.id = :productId")
 	List<TransactionDetail> findTransactionDetailsByProductId(@Param("productId") long productId);
+	
+	@Query(value = "SELECT * FROM transaction_detail WHERE product_id = :pid",  nativeQuery = true)
+	List<TransactionDetail> findAllProductTransactionsByProductId(@Param("pid") int id);
 }
