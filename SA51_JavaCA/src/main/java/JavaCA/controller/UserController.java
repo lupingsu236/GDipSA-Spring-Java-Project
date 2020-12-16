@@ -24,6 +24,11 @@ public class UserController {
 		this.uservice = uimpl;
 	}
 	
+	@RequestMapping(path = "/dashboard")
+	public String dashboard(HttpSession session) {
+		return "index";
+	}
+	
 	@RequestMapping(path = {"", "/", "/login"})
 	public String login(Model model, HttpSession session) {
 		if (session.getAttribute("usession") != null) {
@@ -43,7 +48,7 @@ public class UserController {
 			return "index";
 		}
 		else
-			return "login";
+			return "redirect:/login";
 	}
 	
 	@RequestMapping(path = "/logout", method=RequestMethod.GET)

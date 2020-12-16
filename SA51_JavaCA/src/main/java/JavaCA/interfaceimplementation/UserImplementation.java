@@ -45,6 +45,7 @@ public class UserImplementation implements UserInterface {
 	public boolean authenticate(User user) {
 		// TODO Auto-generated method stub
 		User dbuser = urepo.findUserByUsername(user.getUsername());
+		if (dbuser == null) return false;
 		if (dbuser.getUsername().equals(user.getUsername()) && dbuser.getPassword().equals(user.getPassword()))
 			return true;
 		else

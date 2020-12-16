@@ -67,6 +67,10 @@ public class User
 	public RoleType getRole() {
 		return role;
 	}
+	
+	public String getRoleName() {
+		return this.getRole().toString();
+	}
 
 	public void setRole(RoleType role) {
 		this.role = role;
