@@ -27,6 +27,8 @@ import JavaCA.model.User;
 import JavaCA.service.BrandServiceImpl;
 import JavaCA.service.ProductServiceImpl;
 import JavaCA.service.SupplierServiceImpl;
+import JavaCA.service.TransactionDetailsService;
+import JavaCA.service.TransactionDetailsServiceImpl;
 import JavaCA.service.TransactionImplementation;
 
 @Controller
@@ -36,14 +38,16 @@ public class ProductController {
 	private BrandServiceImpl bservice;
 	private SupplierServiceImpl suppservice;
 	private TransactionImplementation tservice;
+	private TransactionDetailsService tdservice;
 	
 	@Autowired
 	public void setServices(ProductServiceImpl pservice, BrandServiceImpl bservice, 
-			SupplierServiceImpl suppservice, TransactionImplementation tservice) {
+			SupplierServiceImpl suppservice, TransactionImplementation tservice, TransactionDetailsServiceImpl tdservice) {
 		this.pservice = pservice;
 		this.bservice = bservice;
 		this.suppservice = suppservice;
 		this.tservice = tservice;
+		this.tdservice = tdservice;
 	}
 	
 	@InitBinder
@@ -154,7 +158,7 @@ public class ProductController {
 				TransactionDetail td = new TransactionDetail(p.getQuantity(), TransactionType.ORDER);
 				td.setProduct(p);
 				td.setTransaction(t);
-				tservice.saveTransactionDetail(td);
+				tdservice.saveTransactionDetail(td);
 			}
 		}
 			
@@ -167,9 +171,9 @@ public class ProductController {
 		Product p = pservice.findProduct(id);
 		
 		//check for existing transactionDetails to delete 
-		ArrayList<TransactionDetail> transactionDetails = tservice.findTransactionDetailsByProductId(id);
+		ArrayList<TransactionDetail> transactionDetails = tdservice.findTransactionDetailsByProductId(id);
 		for (TransactionDetail td : transactionDetails) {
-			tservice.deleteTransactionDetail(td);
+			tdservice.deleteTransactionDetail(td);
 			//if no remaining transaction detail, delete transaction as well
 			if(td.getTransaction().getTransactionDetails().size()==0) {
 				tservice.deleteTransaction(td.getTransaction());

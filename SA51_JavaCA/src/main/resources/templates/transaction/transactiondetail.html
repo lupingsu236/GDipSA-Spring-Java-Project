@@ -5,8 +5,8 @@
 	<div class="my-4 container-sm">
 	
 	<div class="row">
-		<div class="col-sm-9"> <h3>Transaction Detail for Transaction ID <span th:utext="${transaction.id}">
-		</span></h3></div>
+		<div class="col-sm-9"> <h3>Transaction Detail for Transaction ID <span th:utext="${transaction.id}"></span></h3></div>
+		<div class="col-sm"><a th:href="@{/transactiondetails/new/} + ${transaction.id}" class="btn btn-info">Add Product</a></div>
 	</div>
 	<br>
 	<div class="row">

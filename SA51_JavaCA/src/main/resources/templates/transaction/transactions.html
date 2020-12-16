@@ -5,9 +5,9 @@
 	<div class="my-4 container-sm">
 	
 	<div class="row">
-		<div class="col-sm-9"> <h3>Transactions</h3></div>
+		<div class="col-sm-9"> <h3>Car Jobs</h3></div>
 		<div class="col-sm">
-		<a th:href="@{/transaction/new}" class="btn btn-info">New Transaction</a>
+		<a th:href="@{/transaction/new}" class="btn btn-info">New Job</a>
 		</div>
 	</div>
 	<br>
@@ -48,7 +48,7 @@
 								<td th:utext="${t.carPlateNo}"></td>
 								<td th:utext="${t.user.fullName}"></td>
 								<td>
-								<a href="#" class="btn btn-light" th:href="@{/transaction/detail/} + ${t.id}">Details</a>
+								<a href="#" class="btn btn-light" th:href="@{/transactiondetails/detail/} + ${t.id}">Details</a>
 								</td>
 								<td>
 								<a href="#" class="btn btn-light" th:href="@{/transaction/edit/} + ${t.id}">Edit</a>

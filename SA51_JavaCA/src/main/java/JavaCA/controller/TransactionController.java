@@ -1,5 +1,7 @@
 package JavaCA.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +35,8 @@ public class TransactionController
 	@RequestMapping("/list")
 	public String viewAllTransactions(Model model, HttpSession session)
 	{
-		model.addAttribute("transactions", transactionService.listAllTransactions());
+		List<Transaction> carjobs = transactionService.listAllCarTransactions();
+		model.addAttribute("transactions", carjobs);
 		return "/transaction/transactions";
 	}
 	
@@ -42,15 +45,6 @@ public class TransactionController
 	{
 		transactionService.deleteTransaction(transactionService.findTransactionById(id));
 		return "forward:/transaction/list";
-	}
-	
-	@RequestMapping("/detail/{id}")
-	public String viewTransactionDetails(Model model, @PathVariable("id") int id)
-	{
-		Transaction thisTransaction = transactionService.findTransactionById(id);
-		model.addAttribute("transaction", thisTransaction);
-		model.addAttribute("transactiondetail", thisTransaction.getTransactionDetails());
-		return "/transaction/transactiondetail";
 	}
 	
 	@RequestMapping("/new")

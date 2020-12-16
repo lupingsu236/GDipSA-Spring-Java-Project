@@ -52,6 +52,10 @@ public class TransactionDetail
 	public TransactionType getTransactionType() {
 		return transactionType;
 	}
+	
+	public String getTransactionTypeString() {
+		return transactionType.toString();
+	}
 
 	public void setTransactionType(TransactionType transactionType) {
 		this.transactionType = transactionType;
