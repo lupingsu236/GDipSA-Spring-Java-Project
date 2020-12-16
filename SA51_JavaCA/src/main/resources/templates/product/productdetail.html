@@ -6,13 +6,28 @@
 	<div class="row">
 		<div class="col-sm-10"> <h3>Product Detail</h3></div>
 		<div class="col-sm">
-		<a href="#" class="btn btn-info" th:href="@{/product/list/}"><i class="	fas fa-chevron-left"></i>  Back</a>
+		<a href="#" class="btn btn-info" th:href="@{/product/list/}"><i class="	fas fa-chevron-left"></i>  View All</a>
 		</div>
 	</div>
-	<br>
-	
-	<div class="row align-items-start">
-		<div class="col-sm-7">
+		<br>
+	<div class="row mx-2">
+		<div class="col-sm-7 mr-3">
+		<div class="row">
+			<div class="col-sm d-flex justify-content-center">
+			<a href="#" class="btn btn-dark" th:href="@{/transaction/list/}+${p.id}">View Transactions</a>
+			</div>
+			<div class="col-sm d-flex justify-content-center">
+			<a href="#" class="btn btn-primary" th:href="@{/product/edit/}+${p.id}">Edit Product</a>
+			</div>
+			<div class="col-sm d-flex justify-content-center">
+			<a href="#" class="btn btn-danger" th:href="@{/product/delete/}+${p.id}" 
+			onclick="return confirm('Are you sure you want to delete the product? \r\nAll related transactions will be deleted.')">
+			Delete Product</a>
+			</div>
+		</div>
+		<br>
+		
+		<div class="row">
 		<table class="table table-bordered table-sm"> 
 		<thead class="thead-light">
 			<tr> <th colspan=2>Product</th></tr>
@@ -26,24 +41,12 @@
 		<tr><td>Brand Id</td> <td th:text="${p.brand.id}"></td></tr>
 		<tr><td>Brand Name</td> <td th:text="${p.brand.name}"></td></tr>
 		</table>
-		
-		<br>
-		<div class="row">
-			<div class="col-sm d-flex justify-content-center">
-			<a href="#" class="btn btn-dark" th:href="@{/transaction/list/}+${p.id}">View Transactions</a>
-			</div>
-			<div class="col-sm d-flex justify-content-center">
-			<a href="#" class="btn btn-primary" th:href="@{/product/edit/}+${p.id}">Edit Product</a>
-			</div>
-			<div class="col-sm d-flex justify-content-center">
-			<a href="#" class="btn btn-danger" th:href="@{/product/delete/}+${p.id}">Delete Product</a>
-			</div>
 		</div>
 		
 		</div>
 		
 		<div class="col-sm">
-		<div class="short-div">
+		<div class="row">
 			<table class="table table-bordered table-sm"> 
 			<thead class="thead-light">
 			<tr> <th colspan=2>Inventory</th></tr>
@@ -56,15 +59,15 @@
 			</table>
 		</div>
 		
-		<div class="short-div">
+		<div class="row">
 			<table class="table table-bordered table-sm"> 
 			<thead class="thead-light">
 				<tr> <th colspan=2>Pricing</th></tr>
 			</thead>
-			<tr><td>Original Price</td> <td th:text="${p.originalPrice}"></td></tr>
-			<tr><td>Wholesale Price</td> <td th:text="${p.getWholesalePrice()}"></td></tr>
-			<tr><td>Partner Price</td> <td th:text="${p.getPartnerPrice()}"></td></tr>
-			<tr><td>Retail Price</td> <td th:text="${p.getRetailPrice()}"></td></tr>
+			<tr><td>Original Price</td> <td th:text="${#numbers.formatCurrency(p.originalPrice)}"></td></tr>
+			<tr><td>Wholesale Price</td> <td th:text="${#numbers.formatCurrency(p.getWholesalePrice())}"></td></tr>
+			<tr><td>Partner Price</td> <td th:text="${#numbers.formatCurrency(p.getPartnerPrice())}"></td></tr>
+			<tr><td>Retail Price</td> <td th:text="${#numbers.formatCurrency(p.getRetailPrice())}"></td></tr>
 			</table>
 		</div>	
 		</div>
