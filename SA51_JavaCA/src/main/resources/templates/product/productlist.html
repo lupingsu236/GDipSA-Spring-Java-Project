@@ -7,7 +7,11 @@
 	<div class="row">
 		<div class="col-sm-9"> <h3>Products</h3></div>
 		<div class="col-sm">
+<<<<<<< HEAD
 		<a th:if="${session.usession.getRoleName() == 'ADMIN'}" class="btn btn-info" th:href="@{/product/new/}">Add New Product</a>
+=======
+		<a href="#" class="btn btn-info" th:href="@{/product/new/}" th:if="${session.usession.role} == ${session.admin}">Add New Product</a>
+>>>>>>> refs/heads/Jon
 		</div>
 	</div>
 	<br>

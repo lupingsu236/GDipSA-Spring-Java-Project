@@ -9,18 +9,20 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import JavaCA.interfaceimplementation.UserImplementation;
-import JavaCA.interfaceimplementation.UserInterface;
+import JavaCA.model.RoleType;
 import JavaCA.model.User;
+import JavaCA.service.UserImplementation;
+import JavaCA.service.UserInterface;
 
 @Controller
-public class UserController {
-	
+public class UserController 
+{
 	@Autowired 
 	UserInterface uservice;
 	
 	@Autowired
-	public void setUserImplementation(UserImplementation uimpl) {
+	public void setUserImplementation(UserImplementation uimpl) 
+	{
 		this.uservice = uimpl;
 	}
 	
@@ -30,8 +32,11 @@ public class UserController {
 	}
 	
 	@RequestMapping(path = {"", "/", "/login"})
-	public String login(Model model, HttpSession session) {
-		if (session.getAttribute("usession") != null) {
+	public String login(Model model, HttpSession session) 
+	{
+		session.setAttribute("admin", RoleType.ADMIN);
+		if (session.getAttribute("usession") != null) 
+		{
 			return "index";
 		}
 		User u = new User();
@@ -40,7 +45,8 @@ public class UserController {
 	}
 	
 	@RequestMapping(path = "/authenticate")
-	public String authenticate(@ModelAttribute("user") User user, Model model, HttpSession session) {
+	public String authenticate(@ModelAttribute("user") User user, HttpSession session) 
+	{
 		if(uservice.authenticate(user)) 
 		{
 			User u = uservice.findByName(user.getUsername());
@@ -48,13 +54,13 @@ public class UserController {
 			return "index";
 		}
 		else
-			return "redirect:/login";
+			return "login";
 	}
 	
 	@RequestMapping(path = "/logout", method=RequestMethod.GET)
-	public String logout(HttpSession session) {
+	public String logout(HttpSession session) 
+	{
 		session.invalidate();
 		return "redirect:/login";
-		
 	}
 }
