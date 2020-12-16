@@ -57,7 +57,7 @@ public class TransactionController
 	public String newTransaction(HttpSession session, Model model) {
 		Transaction t = new Transaction();
 		model.addAttribute("t", t);
-		return "/transaction/transactionForm";
+		return "/transaction/newTransaction";
 	}
 	
 	@GetMapping("/edit/{id}")
@@ -71,7 +71,7 @@ public class TransactionController
 	public String saveEdit(@ModelAttribute("t") Transaction t, @PathVariable("id") int id, Model model, HttpSession session) {
 		Transaction t2 = transactionService.findTransactionById(id);
 		t2.setCarPlateNo(t.getCarPlateNo());
-		transactionService.saveTransaction(t);
+		transactionService.saveTransaction(t2);
 		return "redirect:/transaction/list";
 	}
 	
