@@ -19,7 +19,7 @@
 			<th>Car Plate No.</th>
 			<th>Name of User</th>
 			<th>View Transaction Details</th>
-			<th>Delete Transaction</th>
+			<th th:if="${session.usession.role} == ${session.admin}">Delete Transaction</th>
 		</tr>
 		</thead>
 		<tr th:each="t : ${transactions}">
@@ -30,7 +30,7 @@
 			<a href="#" class="btn btn-light" th:href="@{/transaction/detail/} + ${t.id}">Details</a>
 			</td>
 			<td>
-			<a href="#" class="btn btn-danger" th:href="@{/transaction/delete/} + ${t.id}">Delete</a>
+			<a href="#" class="btn btn-danger" th:href="@{/transaction/delete/} + ${t.id}" th:if="${session.usession.role} == ${session.admin}">Delete</a>
 			</td>
 		</tr>
 	</table>

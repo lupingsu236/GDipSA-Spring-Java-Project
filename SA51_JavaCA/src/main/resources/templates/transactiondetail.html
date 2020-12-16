@@ -20,7 +20,7 @@
 			<th>Quantity change</th>
 			<th>Type</th>
 			<th>View product detail</th>
-			<th>Delete transaction detail</th>
+			<th th:if="${session.usession.role} == ${session.admin}">Delete transaction detail</th>
 		</tr>
 		</thead>
 		<tr th:each="td : ${transactiondetail}">
@@ -32,7 +32,7 @@
 			th:utext="${td.product.name}">Product</a>
 			</td>
 			<td>
-			<a href="#" class="btn btn-danger">Delete</a>
+			<a href="#" class="btn btn-danger" th:if="${session.usession.role} == ${session.admin}">Delete</a>
 			</td>
 		</tr>
 	</table>
