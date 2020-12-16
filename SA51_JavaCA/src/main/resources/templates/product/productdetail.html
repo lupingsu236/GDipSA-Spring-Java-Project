@@ -17,10 +17,11 @@
 			<a href="#" class="btn btn-dark" th:href="@{/transaction/list/}+${p.id}">View Transactions</a>
 			</div>
 			<div class="col-sm d-flex justify-content-center">
-			<a href="#" class="btn btn-primary" th:href="@{/product/edit/}+${p.id}">Edit Product</a>
+			<a href="#" class="btn btn-primary" th:href="@{/product/edit/}+${p.id}" th:if="${session.usession.role} == ${session.admin}">
+			Edit Product</a>
 			</div>
 			<div class="col-sm d-flex justify-content-center">
-			<a href="#" class="btn btn-danger" th:href="@{/product/delete/}+${p.id}" 
+			<a href="#" class="btn btn-danger" th:href="@{/product/delete/}+${p.id}" th:if="${session.usession.role} == ${session.admin}" 
 			onclick="return confirm('Are you sure you want to delete the product? \r\nAll related transactions will be deleted.')">
 			Delete Product</a>
 			</div>
@@ -41,25 +42,7 @@
 		<tr><td>Brand Id</td> <td th:text="${p.brand.id}"></td></tr>
 		<tr><td>Brand Name</td> <td th:text="${p.brand.name}"></td></tr>
 		</table>
-<<<<<<< HEAD
-=======
-		
-		<br>
-		<div class="row">
-			<div class="col-sm d-flex justify-content-center">
-			<a href="#" class="btn btn-dark" th:href="@{/transaction/list}+${p.id}">View Transactions</a>
-			</div>
-			<div class="col-sm d-flex justify-content-center">
-			<a href="#" class="btn btn-primary" th:href="@{/product/edit/}+${p.id}" th:if="${session.usession.role} == ${session.admin}">
-			Edit Product</a>
-			</div>
-			<div class="col-sm d-flex justify-content-center">
-			<a href="#" class="btn btn-danger" th:href="@{/product/delete/}+${p.id}" th:if="${session.usession.role} == ${session.admin}">
-			Delete Product</a>
-			</div>
->>>>>>> refs/heads/Jon
 		</div>
-		
 		</div>
 		
 		<div class="col-sm">
@@ -90,6 +73,6 @@
 		</div>
 	</div>
 	</div>
-
+	
 </body>
 </html>
