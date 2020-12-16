@@ -6,5 +6,5 @@ import JavaCA.model.Transaction;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 {
-
+	
 }
