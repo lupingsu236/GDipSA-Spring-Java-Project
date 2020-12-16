@@ -25,13 +25,12 @@ public class Transaction
 	
 	public Transaction()
 	{
-		
+		long millis = System.currentTimeMillis();  
+		this.setDate(new Date(millis));
 	}
 
 	public Transaction(String carPlateNo) {
 		super();
-		long millis = System.currentTimeMillis();  
-		this.setDate(new Date(millis));
 		this.carPlateNo = carPlateNo;
 	}
 
