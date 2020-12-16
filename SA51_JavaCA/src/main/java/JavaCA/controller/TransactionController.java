@@ -5,8 +5,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import JavaCA.model.Product;
@@ -29,7 +31,7 @@ public class TransactionController
 	}
 	
 	@RequestMapping("/list")
-	public String viewAllTransactions(Model model)
+	public String viewAllTransactions(Model model, HttpSession session)
 	{
 		model.addAttribute("transactions", transactionService.listAllTransactions());
 		return "/transaction/transactions";
@@ -58,11 +60,19 @@ public class TransactionController
 		return "/transaction/transactionForm";
 	}
 	
-	@RequestMapping("/edit/{id}")
+	@GetMapping("/edit/{id}")
 	public String editTransaction(@PathVariable("id") int id, Model model, HttpSession session) {
 		Transaction t = transactionService.findTransactionById(id);
 		model.addAttribute("t", t);
-		return "/transaction/transactionForm";
+		return "/transaction/editTransaction";
+	}
+	
+	@PostMapping("/edit/{id}")
+	public String saveEdit(@ModelAttribute("t") Transaction t, @PathVariable("id") int id, Model model, HttpSession session) {
+		Transaction t2 = transactionService.findTransactionById(id);
+		t2.setCarPlateNo(t.getCarPlateNo());
+		transactionService.saveTransaction(t);
+		return "redirect:/transaction/list";
 	}
 	
 	@RequestMapping("/saveTransaction")
