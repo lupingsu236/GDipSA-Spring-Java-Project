@@ -29,6 +29,18 @@ public class TransactionImplementation implements TransactionInterface
 	}
 	
 	@Override
+	public Transaction findTransactionById(long id)
+	{
+		return transRepo.findById(id).get();
+	}
+	
+	
+	@Override
+	public void saveTransaction(Transaction transaction) {
+		transRepo.save(transaction);		
+	}
+	
+	@Override
 	public void deleteTransaction(Transaction transaction)
 	{
 		List<TransactionDetail> transDForThisTransaction = transaction.getTransactionDetails();
@@ -38,20 +50,17 @@ public class TransactionImplementation implements TransactionInterface
 		}
 		transRepo.delete(transaction);
 	}
-	
+
 	@Override
-	public Transaction findTransactionById(long id)
-	{
-		return transRepo.findById(id).get();
-	}
-	
-	@Override
-	public void saveTransaction(Transaction transaction) {
-		transRepo.save(transaction);		
+	public List<Transaction> listAllCarTransactions() {
+		// TODO Auto-generated method stub
+		return transRepo.findAllCarTransactions();
 	}
 
 	@Override
-	public void saveTransactionDetail(TransactionDetail transactionDetail) {
-		transDRepo.save(transactionDetail);		
+	public List<TransactionDetail> listAllProductTransactions(int id) {
+		// TODO Auto-generated method stub
+		return transDRepo.findAllProductTransactionsByProductId(id);
 	}
+	
 }

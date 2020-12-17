@@ -8,8 +8,9 @@ import JavaCA.model.TransactionDetail;
 public interface TransactionInterface 
 {
 	List<Transaction> listAllTransactions();
-	void deleteTransaction(Transaction transaction);
-	public Transaction findTransactionById(long id);
+	List<Transaction> listAllCarTransactions();
+	List<TransactionDetail> listAllProductTransactions(int id);
+	Transaction findTransactionById(long id);
 	void saveTransaction(Transaction transaction);
-	void saveTransactionDetail(TransactionDetail transactionDetail);
+	void deleteTransaction(Transaction transaction);
 }

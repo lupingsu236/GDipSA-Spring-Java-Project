@@ -92,6 +92,7 @@ public class User
 		this.password = password;
 	}
 
+
 	public List<Transaction> getTransactions() {
 		return transactions;
 	}

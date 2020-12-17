@@ -1,5 +1,7 @@
 package JavaCA.model;
 
+import java.sql.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -49,6 +51,10 @@ public class TransactionDetail
 
 	public TransactionType getTransactionType() {
 		return transactionType;
+	}
+	
+	public String getTransactionTypeString() {
+		return transactionType.toString();
 	}
 
 	public void setTransactionType(TransactionType transactionType) {
