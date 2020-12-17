@@ -4,7 +4,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import JavaCA.repo.*;
+import JavaCA.repo.BrandRepository;
+import JavaCA.repo.ProductRepository;
+import JavaCA.repo.SupplierRepository;
+import JavaCA.repo.TransactionDetailRepository;
+import JavaCA.repo.TransactionRepository;
+import JavaCA.repo.UserRepository;
 
 @SpringBootTest
 class ProductUserTransactionTransactionDetailMappingTest 
@@ -21,7 +26,7 @@ class ProductUserTransactionTransactionDetailMappingTest
 	private BrandRepository brandRepo;
 	@Autowired
 	private SupplierRepository supplierRepo;
-
+	
 	@Test
 	void creationTest() 
 	{
@@ -37,7 +42,7 @@ class ProductUserTransactionTransactionDetailMappingTest
 		product.setBrand(mazda);
 		product.setSupplier(supplier);
 		productRepo.save(product);
-
+		
 		// Creation of Transaction detail
 		// First create and persist the user (assuming the user is not already persisted)
 		User user = new User("Liau Han Yang, Jonathan", "liauhyj", "password", RoleType.MECHANIC);

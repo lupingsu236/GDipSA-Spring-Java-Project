@@ -9,5 +9,6 @@ public interface ProductService {
 	ArrayList<Product> findAllProducts();
 	Product findProduct(long id);
 	void saveProduct(Product p);
+	void deleteProduct(Product p);
 
 }

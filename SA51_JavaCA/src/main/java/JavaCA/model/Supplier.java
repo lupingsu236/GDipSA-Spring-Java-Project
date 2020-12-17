@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Supplier 
@@ -14,6 +16,8 @@ public class Supplier
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	@NotNull
+	@Size(min=2, max=50)
 	private String supplierName;
 	@OneToMany(mappedBy = "supplier")
 	private List<Product> products;

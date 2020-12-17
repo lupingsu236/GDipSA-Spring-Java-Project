@@ -13,7 +13,7 @@
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <a class="navbar-brand" th:utext="${session.usession.role} + ' ' + ${session.usession.fullName}"><!-- Role fullName --></a>
+            <a class="navbar-brand" th:utext="${session.usession.fullName}"><!-- Role fullName --></a>
             <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search -->
             <div class="input-group ml-auto ml-md-0">
@@ -41,9 +41,13 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Parts
                             </a>
-                            <a class="nav-link" th:href="@{/transaction/list}">
+                            <a class="nav-link" th:href="@{/transaction/car}">
                                 <div class="sb-nav-link-icon"><i class="fa fa-car"></i></div>
-                                Transactions
+                                Repair Transactions
+                            </a>
+                            <a class="nav-link" th:href="@{/transaction/list}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-receipt"></i></div>
+                                All Transactions Details
                             </a>
                             <div class="sb-sidenav-menu-heading" th:if="${session.usession.role} == ${session.admin}">Admin</div>
                             <a class="nav-link" th:href="@{link}" th:if="${session.usession.role} == ${session.admin}">
@@ -63,6 +67,10 @@
                                 Generate Report
                             </a>
                         </div>
+                    </div>
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Logged in as:</div>
+                        <span th:utext="${session.usession.getRoleName()}"></span>
                     </div>
                 </nav>
             </div>

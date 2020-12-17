@@ -31,8 +31,24 @@ public class BrandServiceImpl implements BrandService {
 	}
 
 	@Override
+	public Brand findBrand(long id) {
+		return brepo.findById(id).get();
+	}
+	
+	@Override
 	public void saveBrand(Brand brand) {
 		brepo.save(brand);		
 	}
+
+	@Override
+	public void editBrandName(long brandId, String newBrandName) {
+		Brand brand = findBrand(brandId);
+		brand.setName(newBrandName);
+		saveBrand(brand);
+		
+	}
+
+	
+	
 
 }
