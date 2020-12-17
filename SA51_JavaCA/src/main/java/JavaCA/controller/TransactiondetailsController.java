@@ -70,9 +70,8 @@ public class TransactiondetailsController {
 		td.setProduct(p);
 		tdService.saveTransactionDetail(td);
 		//---------
-		Transaction thisTransaction = transactionService.findTransactionById(id);
-		model.addAttribute("transaction", thisTransaction);
-		model.addAttribute("transactiondetail", thisTransaction.getTransactionDetails());
+		model.addAttribute("transaction", t);
+		model.addAttribute("transactiondetail", t.getTransactionDetails());
 		return "/transaction/transactiondetail";
 	}
 	
@@ -91,11 +90,11 @@ public class TransactiondetailsController {
 	@RequestMapping("/delete/{id}")
 	public String deleteTransactionDetails(@PathVariable("id") int id) {
 		int transactionId = (int) tdService.findTransactionDetailById(id).getTransaction().getId();
-		TransactionDetail transactiondetail = tdService.findTransactionDetailById(id);
-		Transaction transaction = transactiondetail.getTransaction();
-		tdService.deleteTransactionDetail(transactiondetail);
-		if (transactionService.noTransactionDetailsInNullTransaction(transaction)) {
-			transactionService.deleteTransaction(transaction);
+		TransactionDetail td = tdService.findTransactionDetailById(id);
+		Transaction t = td.getTransaction();
+		tdService.deleteTransactionDetail(td);
+		if (transactionService.noTransactionDetailsInNullTransaction(t)) {
+			transactionService.deleteTransaction(t);
 			return "redirect:/transaction/list";
 		}
 		return "redirect:/transactiondetails/detail/" + transactionId;
