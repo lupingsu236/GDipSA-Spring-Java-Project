@@ -2,6 +2,8 @@ package JavaCA.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,23 +56,25 @@ public class TransactiondetailsController {
 		return "/transaction/newTransactionDetail";
 	}
 	
-	@GetMapping("/detail/{id}")
-	public String viewTransactionDetails(Model model, @PathVariable("id") int id)
+	@GetMapping("/detail/{tid}")
+	public String viewTransactionDetails(Model model, @PathVariable("tid") int tid, HttpSession session)
 	{
-		Transaction thisTransaction = transactionService.findTransactionById(id);
-		model.addAttribute("transaction", thisTransaction);
-		model.addAttribute("transactiondetail", thisTransaction.getTransactionDetails());
+		Transaction t = transactionService.findTransactionById(tid);
+		if (session.getAttribute("preView") == "all") {return "redirect:/transaction/list";}
+		model.addAttribute("transaction", t);
+		model.addAttribute("transactiondetail", t.getTransactionDetails());
 		return "/transaction/transactiondetail";
 	}
 	
 	@PostMapping("/save/{tid}")
-	public String saveTransactionDetails(@PathVariable("tid") int tid, @ModelAttribute("td") TransactionDetail td, Model model) {
+	public String saveTransactionDetails(@PathVariable("tid") int tid, 
+			@ModelAttribute("td") TransactionDetail td, Model model, HttpSession session) {
 		Transaction t = transactionService.findTransactionById(tid);
 		td.setTransaction(t);
 		Product p = productService.findProduct(td.getProduct().getId());
 		td.setProduct(p);
 		tdService.saveTransactionDetail(td);
-		//---------
+		if (session.getAttribute("preView") == "all") {return "redirect:/transaction/list";}
 		model.addAttribute("transaction", t);
 		model.addAttribute("transactiondetail", t.getTransactionDetails());
 		return "/transaction/transactiondetail";
