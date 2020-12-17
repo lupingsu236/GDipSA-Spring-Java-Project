@@ -9,7 +9,7 @@
 	</div>
 	<br>
 	<div class="row">
-		<form action="" th:object="${td}" th:action="@{/transactiondetails/detail/} + ${id}" method="post">
+		<form action="" th:object="${td}" th:action="@{/transactiondetails/save/} + ${id}" method="post">
 				<div class="form-group w-200">
 					  <label for="prod">Select Product:</label>
 				      <select th:field="*{product}" class="form-control" id="prod">

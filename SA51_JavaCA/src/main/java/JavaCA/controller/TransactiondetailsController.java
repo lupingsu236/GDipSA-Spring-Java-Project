@@ -62,7 +62,7 @@ public class TransactiondetailsController {
 		return "/transaction/transactiondetail";
 	}
 	
-	@PostMapping("/detail/{id}")
+	@PostMapping("/save/{id}")
 	public String saveTransactionDetails(@PathVariable("id") int id, @ModelAttribute("td") TransactionDetail td, Model model) {
 		Transaction t = transactionService.findTransactionById(id);
 		td.setTransaction(t);
@@ -86,5 +86,18 @@ public class TransactiondetailsController {
 		model.addAttribute("td", td2);
 		model.addAttribute("id", id);
 		return "/transaction/newTransactionDetail";
+	}
+	
+	@RequestMapping("/delete/{id}")
+	public String deleteTransactionDetails(@PathVariable("id") int id) {
+		int transactionId = (int) tdService.findTransactionDetailById(id).getTransaction().getId();
+		TransactionDetail transactiondetail = tdService.findTransactionDetailById(id);
+		Transaction transaction = transactiondetail.getTransaction();
+		tdService.deleteTransactionDetail(transactiondetail);
+		if (transactionService.noTransactionDetailsInNullTransaction(transaction)) {
+			transactionService.deleteTransaction(transaction);
+			return "redirect:/transaction/list";
+		}
+		return "redirect:/transactiondetails/detail/" + transactionId;
 	}
 }

@@ -10,10 +10,14 @@ import org.springframework.transaction.annotation.Transactional;
 import JavaCA.model.Transaction;
 import JavaCA.model.TransactionDetail;
 import JavaCA.repo.TransactionDetailRepository;
+import JavaCA.repo.TransactionRepository;
 
 @Service
 @Transactional
 public class TransactionDetailsServiceImpl implements TransactionDetailsService {
+	
+	@Autowired
+	private TransactionRepository transRepo;
 	
 	@Autowired
 	private TransactionDetailRepository transDRepo;
