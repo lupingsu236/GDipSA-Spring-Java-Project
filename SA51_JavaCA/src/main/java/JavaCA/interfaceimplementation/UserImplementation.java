@@ -1,5 +1,6 @@
 package JavaCA.interfaceimplementation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -7,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import JavaCA.model.Brand;
 import JavaCA.model.User;
 import JavaCA.repo.UserRepository;
 
@@ -52,9 +54,15 @@ public class UserImplementation implements UserInterface {
 	}
 
 	@Override
-	public User findByName(String name) {
+	public User findByUsername(String name) {
 		// TODO Auto-generated method stub
 		return urepo.findUserByUsername(name);
+	}
+
+	@Override
+	public ArrayList<User> findAllUsers() {
+		// TODO Auto-generated method stub
+		return (ArrayList<User>)urepo.findAll();
 	}
 	
 }

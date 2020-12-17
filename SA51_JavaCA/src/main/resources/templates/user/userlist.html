@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body})}">
+
+<body>
+	<div class="my-4 container-sm">
+	
+	<div class="row">
+		<div class="col-sm-9"> <h3>Users</h3></div>
+		<div class="col-sm">
+		<a href="#" class="btn btn-info" th:href="@{/user/add/}">Add New Product</a>
+		</div>
+	</div>
+	<br>
+	<div class="row">
+	<table class="table table-hover"> 
+		<thead class="thead-light">
+		<tr> 
+			<th>Id</th>
+			<th>FullName</th>
+			<th>UserName</th>
+			<th>Email</th>
+			<th>RoleType</th>
+			<th>Edit User</th>
+			<th>Delete User</th>
+		</tr>
+		</thead>
+		<tr th:each="u : ${users}">
+			<td th:text="${u.id}" style="vertical-align:middle"></td>
+			<td th:text="${u.fullName}" style="vertical-align:middle"></td>
+			<td th:text="${u.username}" style="vertical-align:middle"></td>
+			<td th:text="${u.email}" style="vertical-align:middle"></td>
+			<td th:text="${u.role}" style="vertical-align:middle"></td>
+
+			<td style="text-align:center; vertical-align:middle">
+			<a href="#" class="btn btn-light" th:href="@{/user/edit/}+${u.id}">
+			<i class="fas fa-ellipsis-h"></i></a>
+			</td>
+			
+			<td style="text-align:center; vertical-align:middle">
+			<a href="#" class="btn btn-light" th:href="@{/user/delete/}+${u.id}">
+			<i class="fas fa-ellipsis-h"></i></a>
+			</td>
+
+
+		</tr>
+	</table>
+	</div>
+	
+	</div>
+
+</body>
+</html>

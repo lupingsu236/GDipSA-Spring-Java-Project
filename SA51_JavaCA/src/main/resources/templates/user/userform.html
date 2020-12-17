@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body})}">
+
+<body>
+
+	<div class="my-4 container-sm">
+	
+	<h2>Userform</h2><br>
+	
+	<form action="" th:object="${user}" th:action="@{/user/save}" method="post">
+		<div class="form-group w-50">
+		<label for="fullName">Fullname:</label>
+		<input type="text" class="form-control" th:field="*{fullName}"> 
+		<p style="color:red" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></p>
+		</div>
+		<div class="form-group w-50">
+		<label for="username">Username:</label>
+		<input type="text" class="form-control" th:field="*{username}"> 
+		<p style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+		</div>
+		<div class="form-group w-50">
+		<label for="password">Password:</label>
+		<input type="text" class="form-control" th:field="*{password}">
+		<p style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+		</div>
+		<div class="form-group w-50">
+		<label for="email">Email:</label>
+		<input type="text" class="form-control" th:field="*{email}"> 
+		<p style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+		</div>
+		<div class="form-group w-50">
+		<label for="role">RoleType:</label>
+		<input type="text" class="form-control" th:field="*{role}"> 
+		<p style="color:red" th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></p>
+		</div>
+
+		<!--
+		<div class="form-group w-50">
+		<label>RoleType:</label>
+		<div th:each="r : ${T(JavaCA.model.RoleType).values()}">
+		<input name="role" type="radio" th:field="*{role}" th:value="${r}">
+        <label th:for="${#ids.prev('role')}" th:text="${r}">role</label>
+		</div>
+		</div>
+		
+		<div class="form-group w-50">
+		<label for="roletype">RoleType:</label>
+		<input type="text" class="form-control" th:field="*{roletype}"> 
+		<p style="color:red" th:if="${#fields.hasErrors('roletype')}" th:errors="*{roletype}"></p>
+		</div>
+		--> 
+		
+		<div class="form-group">
+        <button class="btn btn-success" type="submit" style="margin:10px">Save</button>
+        <a class="btn btn-danger" th:href="@{/user/ulist}" style="margin:10px">Cancel</a>
+		</div>
+		
+	</form>
+	
+	</div>
+	
+</body>
+</html>

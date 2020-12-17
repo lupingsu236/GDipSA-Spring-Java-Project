@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body})}">
+
+<body>
+
+	<div class="my-4 container-sm">
+	
+	<h2>Password is blank</h2><br>	
+		<div class="form-group">
+        <a class="btn btn-danger" th:href="@{/user/ulist}" style="margin:10px">Back to list</a>
+		</div>	
+	</div>
+	
+</body>
+</html>

@@ -7,6 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class User 
@@ -14,8 +17,20 @@ public class User
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	private String fullName, username, password;
-	private RoleType role;
+	
+	
+	@NotBlank
+	private String fullName;
+	@NotBlank
+	private String username;
+
+	private String password;
+	
+	@NotBlank
+	@Email
+	private String email;
+	@NotBlank
+	private String role;
 	@OneToMany(mappedBy = "user")
 	private List<Transaction> transactions;
 	
@@ -24,12 +39,25 @@ public class User
 		
 	}
 
-	public User(String fullName, String username, String password, RoleType role) {
+	public User(@NotNull String fullName, @NotNull String username,@NotNull String password,
+			@NotNull @Email String email, @NotNull String role, List<Transaction> transactions) {
 		super();
 		this.fullName = fullName;
 		this.username = username;
 		this.password = password;
+		this.email = email;
 		this.role = role;
+		this.transactions = transactions;
+	}
+
+
+	public String getEmail() {
+		return email;
+	}
+
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public long getId() {
@@ -64,14 +92,6 @@ public class User
 		this.password = password;
 	}
 
-	public RoleType getRole() {
-		return role;
-	}
-
-	public void setRole(RoleType role) {
-		this.role = role;
-	}
-
 	public List<Transaction> getTransactions() {
 		return transactions;
 	}
@@ -80,10 +100,17 @@ public class User
 		this.transactions = transactions;
 	}
 
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", fullName=" + fullName + ", username=" + username + ", password=" + password
-				+ ", role=" + role + ", transactions=" + transactions + "]";
-	}
-	
+				+ ", email=" + email + ", role=" + role + ", transactions=" + transactions + "]";
+	}	
 }

@@ -1,5 +1,6 @@
 package JavaCA.interfaceimplementation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import JavaCA.model.User;
@@ -11,5 +12,6 @@ public interface UserInterface {
 	public List<User> listAllUser();
 	public void deleteUser(User user);
 	public boolean authenticate(User user);
-	public User findByName(String name);
+	public User findByUsername(String name);
+	public ArrayList<User> findAllUsers();
 }
