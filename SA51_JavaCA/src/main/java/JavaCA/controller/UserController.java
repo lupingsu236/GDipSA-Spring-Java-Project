@@ -26,7 +26,7 @@ public class UserController
 		this.uservice = uimpl;
 	}
 	
-	@RequestMapping(path = {"", "/", "/login"})
+	@RequestMapping(path = {"/", "/login"})
 	public String login(Model model, HttpSession session) 
 	{
 		session.setAttribute("admin", RoleType.ADMIN);
@@ -40,22 +40,25 @@ public class UserController
 	}
 	
 	@RequestMapping(path = "/authenticate")
-	public String authenticate(@ModelAttribute("user") User user, HttpSession session) 
+	public String authenticate(@ModelAttribute("user") User user, HttpSession session, Model model) 
 	{
 		if(uservice.authenticate(user)) 
 		{
 			User u = uservice.findByName(user.getUsername());
 			session.setAttribute("usession", u);
-			return "index";
+			return "redirect:/";
 		}
 		else
+		{
+			model.addAttribute("errorMsg", "Incorrect username/password");
 			return "login";
+		}
 	}
 	
 	@RequestMapping(path = "/logout", method=RequestMethod.GET)
 	public String logout(HttpSession session) 
 	{
 		session.invalidate();
-		return "redirect:/login";
+		return "redirect:/";
 	}
 }
