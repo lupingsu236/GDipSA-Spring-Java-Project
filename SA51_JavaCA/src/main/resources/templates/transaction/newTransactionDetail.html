@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body})}">
+
+<body>
+<div class="my-4 container-sm">
+	<br>
+	<div class="row">
+			<div class="col-sm-9"> <h3>Adding Product To Transaction ID <span th:text="${id}"></span></h3></div>
+	</div>
+	<br>
+	<div class="row">
+		<form action="" th:object="${td}" th:action="@{/transactiondetails/detail/} + ${id}" method="post">
+				<div class="form-group w-200">
+					  <label for="prod">Select Product:</label>
+				      <select th:field="*{product}" class="form-control" id="prod">
+				        	<option th:each = "p : ${pl}" value="${p}"><span th:text="${p.name}"></span></option>
+				      </select>
+				</div>
+				<div class="form-group w-200">
+					  <label for="prod">Select Transaction Type:</label>
+				      <select th:field="*{transactionType}" class="form-control" id="prod">
+					        <option value="${type1}"><span th:text="${type1.toString()}"></span></option>
+					        <option value="${type2}"><span th:text="${type2.toString()}"></span></option>
+				      </select>
+				</div>
+				<div class="form-group w-200">
+					  <label for="quantity">Enter Quantity</label>
+					  <input type="number" step="1" class="form-control" th:field="*{quantityChange}"> 
+				</div>
+				<div class="form-group">
+				<button class="btn btn-success" type="submit" style="margin:10px">Save</button>
+		        <a class="btn btn-danger" th:href="@{/transactiondetails/detail/} + ${id}" style="margin:10px">Cancel</a>
+		        </div>
+		</form>
+	</div>
+</div>
+</body>
+</html>

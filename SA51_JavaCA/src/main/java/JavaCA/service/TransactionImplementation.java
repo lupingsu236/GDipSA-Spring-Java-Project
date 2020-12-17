@@ -1,6 +1,5 @@
 package JavaCA.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -35,20 +34,10 @@ public class TransactionImplementation implements TransactionInterface
 		return transRepo.findById(id).get();
 	}
 	
-	@Override
-	public ArrayList<TransactionDetail> findTransactionDetailsByProductId(long productId) {
-		return (ArrayList<TransactionDetail>) transDRepo.findTransactionDetailsByProductId(productId);
-	}
-	
 	
 	@Override
 	public void saveTransaction(Transaction transaction) {
 		transRepo.save(transaction);		
-	}
-
-	@Override
-	public void saveTransactionDetail(TransactionDetail transactionDetail) {
-		transDRepo.save(transactionDetail);		
 	}
 	
 	@Override
@@ -63,8 +52,15 @@ public class TransactionImplementation implements TransactionInterface
 	}
 
 	@Override
-	public void deleteTransactionDetail(TransactionDetail transactionDetail) {
-		transDRepo.delete(transactionDetail);
+	public List<Transaction> listAllCarTransactions() {
+		// TODO Auto-generated method stub
+		return transRepo.findAllCarTransactions();
+	}
+
+	@Override
+	public List<TransactionDetail> listAllProductTransactions(int id) {
+		// TODO Auto-generated method stub
+		return transDRepo.findAllProductTransactionsByProductId(id);
 	}
 	
 }

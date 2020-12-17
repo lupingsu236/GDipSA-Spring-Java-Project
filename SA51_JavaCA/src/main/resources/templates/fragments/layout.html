@@ -41,9 +41,13 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Parts
                             </a>
-                            <a class="nav-link" th:href="@{/transaction/list}">
+                            <a class="nav-link" th:href="@{/transaction/car}">
                                 <div class="sb-nav-link-icon"><i class="fa fa-car"></i></div>
-                                Transactions
+                                Repair Transactions
+                            </a>
+                            <a class="nav-link" th:href="@{/transaction/list}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-receipt"></i></div>
+                                All Transactions Details
                             </a>
                             <div class="sb-sidenav-menu-heading" th:if="${session.usession.role} == ${session.admin}">Admin</div>
                             <a class="nav-link" th:href="@{link}" th:if="${session.usession.role} == ${session.admin}">
