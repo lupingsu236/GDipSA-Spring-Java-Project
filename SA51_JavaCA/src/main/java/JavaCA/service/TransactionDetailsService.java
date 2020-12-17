@@ -3,6 +3,7 @@ package JavaCA.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import JavaCA.model.Transaction;
 import JavaCA.model.TransactionDetail;
 
 public interface TransactionDetailsService {
@@ -11,4 +12,5 @@ public interface TransactionDetailsService {
 	void saveTransactionDetail(TransactionDetail transactionDetail);
 	void deleteTransactionDetail(TransactionDetail transactionDetail);
 	List<TransactionDetail> findAllTransactionDetails();
+	TransactionDetail findTransactionDetailById(long id);
 }

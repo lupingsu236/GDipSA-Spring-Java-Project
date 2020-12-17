@@ -75,4 +75,16 @@ public class TransactiondetailsController {
 		model.addAttribute("transactiondetail", thisTransaction.getTransactionDetails());
 		return "/transaction/transactiondetail";
 	}
+	
+	@RequestMapping("/edit/{id}")
+	public String editTransactionDetails(@PathVariable("id") int id, Model model) {
+		TransactionDetail td2 = tdService.findTransactionDetailById(id);
+		List<Product> productList = productService.findAllProducts();
+		model.addAttribute("type1", TransactionType.ORDER);
+		model.addAttribute("type2", TransactionType.DAMAGED);
+		model.addAttribute("pl", productList);
+		model.addAttribute("td", td2);
+		model.addAttribute("id", id);
+		return "/transaction/newTransactionDetail";
+	}
 }

@@ -39,4 +39,10 @@ public class TransactionDetailsServiceImpl implements TransactionDetailsService 
 		return transDRepo.findAll();
 	}
 
+	@Override
+	public TransactionDetail findTransactionDetailById(long id) {
+		// TODO Auto-generated method stub
+		return transDRepo.findById(id).get();
+	}
+
 }
