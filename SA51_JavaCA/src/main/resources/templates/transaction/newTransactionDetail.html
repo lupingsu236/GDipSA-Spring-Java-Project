@@ -5,14 +5,17 @@
 <div class="my-4 container-sm">
 	<br>
 	<div class="row">
-			<div class="col-sm-9"> <h3>Adding Product To Transaction ID <span th:text="${id}"></span></h3></div>
+		<h3 th:text="${td.id}? 'Edit Transaction Details' : 'Adding Product To Transaction ID ' + ${tid}">filler</h3>
 	</div>
 	<br>
 	<div class="row">
-		<form action="" th:object="${td}" th:action="@{/transactiondetails/save/} + ${id}" method="post">
+		<form action="" th:object="${td}" th:action="@{/transactiondetails/save/} + ${tid}" method="post">
+				<div class="form-group w-200" th:if="*{id}!=0">
+					<input type="hidden" readonly class="form-control-plaintext" th:field="*{id}">
+				</div>
 				<div class="form-group w-200">
 					  <label for="prod">Select Product:</label>
-				      <select th:field="*{product}" class="form-control" id="prod">
+				      <select th:field="*{product.id}" class="form-control" id="prod">
 				        	<option th:each = "p : ${pl}" th:value="${p.id}" th:text="${p.name}" 
 				        	></option>
 				      </select>
@@ -30,7 +33,7 @@
 				</div>
 				<div class="form-group">
 				<button class="btn btn-success" type="submit" style="margin:10px">Save</button>
-		        <a class="btn btn-danger" th:href="@{/transactiondetails/detail/} + ${id}" style="margin:10px">Cancel</a>
+		        <a class="btn btn-danger" th:href="@{/transactiondetails/detail/} + ${tid}" style="margin:10px">Cancel</a>
 		        </div>
 		</form>
 	</div>

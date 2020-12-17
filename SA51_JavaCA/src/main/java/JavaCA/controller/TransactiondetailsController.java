@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import JavaCA.model.Product;
+import JavaCA.model.RoleType;
 import JavaCA.model.Transaction;
 import JavaCA.model.TransactionDetail;
 import JavaCA.model.TransactionType;
@@ -41,15 +42,15 @@ public class TransactiondetailsController {
 		this.tdService = transDetailImpl;
 	}
 	
-	@RequestMapping("/new/{id}")
-	public String addProductToTransaction(@PathVariable("id") int id, Model model) {
+	@RequestMapping("/new/{tid}")
+	public String addProductToTransaction(@PathVariable("tid") int tid, Model model) {
 		TransactionDetail transactiondetail = new TransactionDetail();
 		List<Product> productList = productService.findAllProducts();
 		model.addAttribute("type1", TransactionType.USAGE);
 		model.addAttribute("type2", TransactionType.DAMAGED);
 		model.addAttribute("pl", productList);
 		model.addAttribute("td", transactiondetail);
-		model.addAttribute("id", id);
+		model.addAttribute("tid", tid);
 		return "/transaction/newTransactionDetail";
 	}
 	
@@ -62,9 +63,9 @@ public class TransactiondetailsController {
 		return "/transaction/transactiondetail";
 	}
 	
-	@PostMapping("/save/{id}")
-	public String saveTransactionDetails(@PathVariable("id") int id, @ModelAttribute("td") TransactionDetail td, Model model) {
-		Transaction t = transactionService.findTransactionById(id);
+	@PostMapping("/save/{tid}")
+	public String saveTransactionDetails(@PathVariable("tid") int tid, @ModelAttribute("td") TransactionDetail td, Model model) {
+		Transaction t = transactionService.findTransactionById(tid);
 		td.setTransaction(t);
 		Product p = productService.findProduct(td.getProduct().getId());
 		td.setProduct(p);
@@ -75,15 +76,16 @@ public class TransactiondetailsController {
 		return "/transaction/transactiondetail";
 	}
 	
-	@RequestMapping("/edit/{id}")
-	public String editTransactionDetails(@PathVariable("id") int id, Model model) {
-		TransactionDetail td2 = tdService.findTransactionDetailById(id);
+	@RequestMapping("/edit/{tdid}")
+	public String editTransactionDetails(@PathVariable("tdid") int tdid, Model model) {
+		TransactionDetail td = tdService.findTransactionDetailById(tdid);
 		List<Product> productList = productService.findAllProducts();
 		model.addAttribute("type1", TransactionType.USAGE);
 		model.addAttribute("type2", TransactionType.DAMAGED);
 		model.addAttribute("pl", productList);
-		model.addAttribute("td", td2);
-		model.addAttribute("id", id);
+		model.addAttribute("td", td);
+		long tid = td.getTransaction().getId();
+		model.addAttribute("tid", tid);
 		return "/transaction/newTransactionDetail";
 	}
 	
