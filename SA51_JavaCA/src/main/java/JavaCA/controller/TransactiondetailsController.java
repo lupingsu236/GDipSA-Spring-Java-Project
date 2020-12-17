@@ -45,7 +45,7 @@ public class TransactiondetailsController {
 	public String addProductToTransaction(@PathVariable("id") int id, Model model) {
 		TransactionDetail transactiondetail = new TransactionDetail();
 		List<Product> productList = productService.findAllProducts();
-		model.addAttribute("type1", TransactionType.ORDER);
+		model.addAttribute("type1", TransactionType.USAGE);
 		model.addAttribute("type2", TransactionType.DAMAGED);
 		model.addAttribute("pl", productList);
 		model.addAttribute("td", transactiondetail);
@@ -79,7 +79,7 @@ public class TransactiondetailsController {
 	public String editTransactionDetails(@PathVariable("id") int id, Model model) {
 		TransactionDetail td2 = tdService.findTransactionDetailById(id);
 		List<Product> productList = productService.findAllProducts();
-		model.addAttribute("type1", TransactionType.ORDER);
+		model.addAttribute("type1", TransactionType.USAGE);
 		model.addAttribute("type2", TransactionType.DAMAGED);
 		model.addAttribute("pl", productList);
 		model.addAttribute("td", td2);

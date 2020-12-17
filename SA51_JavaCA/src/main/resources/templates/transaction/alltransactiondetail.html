@@ -22,6 +22,7 @@
                       <thead>
                           <tr> 
 								<th>Id</th>
+								<th>Date</th>
 								<th>Quantity Change</th>
 								<th>Transaction Type</th>
 								<th>View Product Detail</th>
@@ -32,6 +33,7 @@
 					  <tbody>
 					  		<tr th:each="td : ${transactiondetail}">
 								<td th:utext="${td.id}"></td>
+								<td th:utext="${td.date}"></td>
 								<td th:utext="${td.quantityChange}"></td>
 								<td th:utext="${td.transactionType}"></td>
 								<td>
