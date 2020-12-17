@@ -95,9 +95,9 @@ public class TransactiondetailsController {
 	
 	@RequestMapping("/delete/{id}")
 	public String deleteTransactionDetails(@PathVariable("id") int id) {
-		int transactionId = (int) tdService.findTransactionDetailById(id).getTransaction().getId();
 		TransactionDetail td = tdService.findTransactionDetailById(id);
 		Transaction t = td.getTransaction();
+		int transactionId = (int) t.getId();
 		tdService.deleteTransactionDetail(td);
 		if (transactionService.noTransactionDetailsInNullTransaction(t)) {
 			transactionService.deleteTransaction(t);
