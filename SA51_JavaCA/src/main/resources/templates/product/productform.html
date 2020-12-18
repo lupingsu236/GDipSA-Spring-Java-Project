@@ -9,8 +9,9 @@
 		</div>
 	</div>
 	
-	<form action="" th:object="${p}" th:action="@{/product/save}" method="post">
-	<div class="row mx-3">
+	<div class = "row mx-4">
+	<form action="" th:action="@{/product/save}" method="post">
+	<div class="row" th:object="${p}">
 		<div class="col-sm-6 mr-2">
 			
 			<table class="table table-bordered table-sm"> 
@@ -63,11 +64,6 @@
 				<datalist id="brands">
 				  <option th:each="b: ${brands}" th:value="${b.name}">
 				</datalist>
-				<div th:if="*{id}!=0" class="checkbox">
-				<label><input type="checkbox" th:name="editBrandName" th:value="1">
-				Edit brand name for all products under the same brand</label>
-				</div>
-			</td>
 			</tr>
 			
 			</table>
@@ -108,10 +104,6 @@
 				<datalist id="suppliers">
 			  	<option th:each="s: ${suppliers}" th:value="${s.supplierName}">
 				</datalist>
-				<div th:if="*{id}!=0" class="checkbox">
-				<label><input type="checkbox" th:name="editSupplierName" th:value="1">
-				Edit brand name for all products under the same brand</label>
-				</div>
 				
 			</td>
 			</tr>
@@ -130,16 +122,30 @@
 			</tr>
 			</table>
 		</div>	
-		
-		<div class="row float-right">
-        <button class="btn btn-success" type="submit" style="margin:10px">Save</button>
-        <a th:if="*{id}!=0" class="btn btn-danger" th:href="@{/product/detail/} + *{id}" style="margin:10px">Cancel</a>
-        <a th:if="*{id}==0" class="btn btn-danger" th:href="@{/product}" style="margin:10px">Cancel</a>
 		</div>
+	</div>
 	
+	<div class="row">
+		<div class="col-sm px-4">
+		<div class="row" th:if="${p.id}!=0">
+			<label><input type="checkbox" th:name="editBrandName" th:value="1">
+			Edit brand name for all products under the same brand</label>
+		</div>
+		<div class="row" th:if="${p.id}!=0">
+			<label><input type="checkbox" th:name="editSupplierName" th:value="1">
+			Edit supplier name for all suppliers under the same brand</label>
+		</div>
+		</div>
+		<div class="col-sm">
+		<div class="row float-right">
+	       <button class="btn btn-success" type="submit" style="margin:10px">Save</button> 
+	       <a th:if="${p.id}!=0" class="btn btn-danger" th:href="@{/product/detail/} + ${p.id}" style="margin:10px">Cancel</a>
+	       <a th:if="${p.id}==0"class="btn btn-danger" th:href="@{/product}" style="margin:10px">Cancel</a>
+		</div>
 		</div>
 	</div>
 	</form>
+	</div>
 	
 </body>
 </html>

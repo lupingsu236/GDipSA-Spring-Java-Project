@@ -31,6 +31,7 @@ import JavaCA.service.SupplierServiceImpl;
 import JavaCA.service.TransactionDetailsService;
 import JavaCA.service.TransactionDetailsServiceImpl;
 import JavaCA.service.TransactionImplementation;
+import JavaCA.validator.ProductValidator;
 
 @Controller
 @RequestMapping("/product")
@@ -52,7 +53,9 @@ public class ProductController {
 	}
 	
 	@InitBinder
-	protected void initBinder(WebDataBinder binder) {}
+	protected void initBinder(WebDataBinder binder) {
+		//binder.addValidators(new ProductValidator());
+	}
 	
 	@RequestMapping(value={"","/list"}, method=RequestMethod.GET)
 	public String findAllProducts(Model model) {
@@ -125,18 +128,23 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value="/save", method=RequestMethod.POST) 
-	public String saveProduct(@Valid @ModelAttribute("p") Product p, 
+	public String saveProduct(@Valid @ModelAttribute("p") Product p, BindingResult bindingResult, 
 			@RequestParam(value="editBrandName", required=false) Integer editBrandName,
 			@RequestParam(value="editSupplierName", required=false) Integer editSupplierName,
-			BindingResult bindingResult, Model model, 
-			HttpSession session, RedirectAttributes redirectfrom) {
+			Model model, HttpSession session, RedirectAttributes redirectfrom) {
 		
 		if (bindingResult.hasErrors()) {
-//			model.addAttribute("p", p);
-//			ArrayList<Brand> brands = bservice.findAllBrands();
-//			model.addAttribute("brands", brands);
-//			ArrayList<Supplier> suppliers = suppservice.findAllSuppliers();
-//			model.addAttribute("suppliers", suppliers);
+			//get values for field dropdown
+			ArrayList<String> types = pservice.getTypes();
+			model.addAttribute("types", types);
+			ArrayList<String> categories = pservice.getCategories();
+			model.addAttribute("categories", categories);
+			ArrayList<String> subcategories = pservice.getSubcategories();
+			model.addAttribute("subcategories", subcategories);
+			ArrayList<Brand> brands = bservice.findAllBrands();
+			model.addAttribute("brands", brands);
+			ArrayList<Supplier> suppliers = suppservice.findAllSuppliers();
+			model.addAttribute("suppliers", suppliers);
 			return "/product/productform";
 		}
 		

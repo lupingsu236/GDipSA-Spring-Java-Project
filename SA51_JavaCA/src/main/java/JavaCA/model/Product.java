@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -21,16 +21,14 @@ public class Product
 	private long id;
 	@ManyToOne
 	private Brand brand;
-	@NotNull
-	@Size(min=2, max=50)
+	@NotBlank @Size(min=2, max=50)
 	private String name, type, category, subcategory;
-	@NotNull
-	@Size(min=2, max=200)
+	@NotBlank @Size(min=2, max=200)
 	private String description;
-	@Min(0)
+	@NotBlank @Min(0)
 	@Digits(integer = 8, fraction = 2)
 	private double originalPrice;
-	@Min(0)
+	@NotBlank @Min(0)
 	@Digits(integer = 8, fraction = 0)
 	private int reorderLevel, minOrderQty, quantity;
 	@ManyToOne
