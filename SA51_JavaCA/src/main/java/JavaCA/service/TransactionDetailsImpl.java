@@ -13,7 +13,7 @@ import JavaCA.repo.TransactionDetailRepository;
 
 @Service
 @Transactional
-public class TransactionDetailsServiceImpl implements TransactionDetailsService {
+public class TransactionDetailsImpl implements TransactionDetailsInterface {
 	
 	@Autowired
 	private TransactionDetailRepository transDRepo;

@@ -16,7 +16,7 @@ import JavaCA.model.TransactionDetail;
 import JavaCA.model.TransactionType;
 import JavaCA.service.ProductService;
 import JavaCA.service.ProductServiceImpl;
-import JavaCA.service.TransactionDetailsService;
+import JavaCA.service.TransactionDetailsInterface;
 import JavaCA.service.TransactionImplementation;
 import JavaCA.service.TransactionInterface;
 
@@ -31,10 +31,10 @@ public class TransactiondetailsController {
 	private ProductService productService;
 	
 	@Autowired
-	private TransactionDetailsService tdService;
+	private TransactionDetailsInterface tdService;
 	
 	@Autowired
-	public void setImplementation(TransactionImplementation transImpl, ProductServiceImpl prodImpl, TransactionDetailsService transDetailImpl)
+	public void setImplementation(TransactionImplementation transImpl, ProductServiceImpl prodImpl, TransactionDetailsInterface transDetailImpl)
 	{
 		this.transactionService = transImpl;
 		this.productService = prodImpl;

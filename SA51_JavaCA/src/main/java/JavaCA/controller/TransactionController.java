@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import JavaCA.model.Transaction;
 import JavaCA.model.TransactionDetail;
 import JavaCA.model.User;
-import JavaCA.service.TransactionDetailsService;
+import JavaCA.service.TransactionDetailsInterface;
 import JavaCA.service.TransactionImplementation;
 import JavaCA.service.TransactionInterface;
 
@@ -28,10 +28,10 @@ public class TransactionController
 	private TransactionInterface transactionService;
 	
 	@Autowired
-	private TransactionDetailsService tdService;
+	private TransactionDetailsInterface tdService;
 	
 	@Autowired
-	public void setTransactionImplementation(TransactionImplementation transImpl, TransactionDetailsService transDetailImpl)
+	public void setTransactionImplementation(TransactionImplementation transImpl, TransactionDetailsInterface transDetailImpl)
 	{
 		this.transactionService = transImpl;
 		this.tdService = transDetailImpl;
