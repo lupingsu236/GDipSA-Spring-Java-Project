@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body})}">
+
+<body>
+<div class="my-4 container-sm">
+	<div class="row">
+		<div class="col-sm-9"> 
+			<h3><span th:if="${message == 'product'}">Product</span>
+			<span th:unless="${message == 'product'}">All</span>
+			Transactions</h3>
+		</div>
+	</div>
+	<br>
+	<div class="card mb-4">
+          <div class="card-header">
+              <i class="fas fa-table mr-1"></i>
+              Transaction Details History
+          </div>
+          <div class="card-body">
+              <div class="table-responsive">
+                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                      <thead>
+                          <tr> 
+								<th>Id</th>
+								<th>Date</th>
+								<th>Quantity Change</th>
+								<th>Transaction Type</th>
+								<th>View Product Detail</th>
+								<th>Edit Transaction Detail</th>
+								<th>Delete Transaction Detail</th>
+						  </tr>
+                      </thead>
+					  <tbody>
+					  		<tr th:each="td : ${transactiondetail}">
+								<td th:utext="${td.id}"></td>
+								<td th:utext="${td.date}"></td>
+								<td th:utext="${td.quantityChange}"></td>
+								<td th:utext="${td.transactionType}"></td>
+								<td>
+								<a href="#" class="btn btn-light" th:href="@{/product/detail/}+${td.product.id}"
+								th:utext="${td.product.name}">Product</a>
+								</td>
+								<td>
+								<a href="#" class="btn btn-light" th:href="@{/transactiondetails/edit/} + ${td.id}">Edit</a>
+								</td>
+								<td>
+								<a href="#" class="btn btn-danger" th:href="@{/transactiondetails/delete/} + ${td.id}">Delete</a>
+								</td>
+							</tr>
+					  </tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

@@ -15,6 +15,7 @@ public class TransactionDetail
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private int quantityChange;
+	private Date date;
 	private TransactionType transactionType;
 	@ManyToOne
 	private Transaction transaction;
@@ -23,12 +24,15 @@ public class TransactionDetail
 	
 	public TransactionDetail()
 	{
-		
+		long millis = System.currentTimeMillis();  
+		this.setDate(new Date(millis));
 	}
 
 	public TransactionDetail(int quantityChange, TransactionType transactionType) 
 	{
 		super();
+		long millis = System.currentTimeMillis();  
+		this.setDate(new Date(millis));
 		this.quantityChange = quantityChange;
 		this.transactionType = transactionType;
 	}
@@ -81,6 +85,14 @@ public class TransactionDetail
 	public String toString() {
 		return "TransactionDetail [id=" + id + ", quantityChange=" + quantityChange + ", transactionType="
 				+ transactionType + ", transaction=" + transaction + ", product=" + product + "]";
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 	
 }

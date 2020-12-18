@@ -63,4 +63,13 @@ public class TransactionImplementation implements TransactionInterface
 		return transDRepo.findAllProductTransactionsByProductId(id);
 	}
 	
+	@Override
+	public boolean noTransactionDetailsInNullTransaction(Transaction transaction) {
+		if ((transaction.getCarPlateNo() == "") || (transaction.getCarPlateNo() == null)) {
+			if (transaction.getTransactionDetails().isEmpty()) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

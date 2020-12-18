@@ -29,7 +29,6 @@ public class UserController
 	@RequestMapping(path = {"/", "/login"})
 	public String login(Model model, HttpSession session) 
 	{
-		session.setAttribute("admin", RoleType.ADMIN);
 		if (session.getAttribute("usession") != null) 
 		{
 			return "index";
@@ -46,6 +45,7 @@ public class UserController
 		{
 			User u = uservice.findByName(user.getUsername());
 			session.setAttribute("usession", u);
+			session.setAttribute("admin", RoleType.ADMIN);
 			return "redirect:/";
 		}
 		else
