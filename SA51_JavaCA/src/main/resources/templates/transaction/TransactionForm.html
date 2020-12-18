@@ -11,6 +11,7 @@
 	<div class="row">
 		<form action="" th:object="${t}" th:action="@{/transaction/saveTransaction/}" method="post">
 				<div class="form-group w-100">
+				<input type="hidden" class="form-control" th:field="*{id}">
 				<label for="carPlateNo">Enter Car Plate Number</label>
 				<input type="text" class="form-control" th:field="*{carPlateNo}"> 
 				</div>

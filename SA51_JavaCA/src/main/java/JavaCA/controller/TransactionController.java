@@ -18,7 +18,7 @@ import JavaCA.model.TransactionDetail;
 import JavaCA.model.User;
 import JavaCA.service.TransactionDetailsServiceImpl;
 import JavaCA.service.TransactionDetailsService;
-import JavaCA.service.TransactionServiceImplementation;
+import JavaCA.service.TransactionServiceImpl;
 import JavaCA.service.TransactionService;
 
 @Controller
@@ -32,7 +32,7 @@ public class TransactionController
 	private TransactionDetailsService tdService;
 	
 	@Autowired
-	public void setTransactionImplementation(TransactionServiceImplementation transImpl, TransactionDetailsServiceImpl transDetailImpl)
+	public void setTransactionImplementation(TransactionServiceImpl transImpl, TransactionDetailsServiceImpl transDetailImpl)
 	{
 		this.transactionService = transImpl;
 		this.tdService = transDetailImpl;
@@ -77,22 +77,14 @@ public class TransactionController
 	public String newTransaction(HttpSession session, Model model) {
 		Transaction t = new Transaction();
 		model.addAttribute("t", t);
-		return "/transaction/newTransaction";
+		return "/transaction/TransactionForm";
 	}
 	
 	@GetMapping("/edit/{id}")
 	public String editTransaction(@PathVariable("id") int id, Model model, HttpSession session) {
 		Transaction t = transactionService.findTransactionById(id);
 		model.addAttribute("t", t);
-		return "/transaction/editTransaction";
-	}
-	
-	@PostMapping("/edit/{id}")
-	public String saveEdit(@ModelAttribute("t") Transaction t, @PathVariable("id") int id, Model model, HttpSession session) {
-		Transaction t2 = transactionService.findTransactionById(id);
-		t2.setCarPlateNo(t.getCarPlateNo());
-		transactionService.saveTransaction(t2);
-		return "redirect:/transaction/car";
+		return "/transaction/TransactionForm";
 	}
 	
 	@RequestMapping("/saveTransaction")

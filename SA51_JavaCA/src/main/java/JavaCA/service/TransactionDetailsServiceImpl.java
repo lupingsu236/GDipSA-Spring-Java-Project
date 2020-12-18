@@ -35,21 +35,49 @@ public class TransactionDetailsServiceImpl implements TransactionDetailsService 
 	@Override
 	public boolean saveTransactionDetail(TransactionDetail transactionDetail) {
 		
-		int currentCount = transactionDetail.getProduct().getQuantity();
-		if (transDRepo.existsById(transactionDetail.getId())) {
-			currentCount = currentCount + transDRepo.findById(transactionDetail.getId()).get().getQuantityChange();
-		}
-		int qtyChange = transactionDetail.getQuantityChange();
-		if(transactionDetail.getTransactionType().toString() != "ORDER") {qtyChange = qtyChange * - 1;}
+		boolean sameProduct = true;
 		
-		if ((currentCount + qtyChange) >= 0){
-			Product p = transactionDetail.getProduct();
-			currentCount = currentCount + qtyChange;
-			p.setQuantity(currentCount);
-			prodRepo.save(p);
+		Product currentProduct = transactionDetail.getProduct();
+		int currentProductCount = currentProduct.getQuantity();
+		int currentProductQtyChange = transactionDetail.getQuantityChange();
+			//ORDER is the only way to add to inventory, the rest is negative
+		if(transactionDetail.getTransactionType().toString() != "ORDER") {currentProductQtyChange *= - 1;}
+		
+		Product previousProduct = null;
+		int previousProductCount = 0;
+		int previousProductQtyChange = 0;
+
+			//check if previous transactiondetail record exists and get values
+		if (transDRepo.existsById(transactionDetail.getId())) {
+			previousProduct = transDRepo.findById(transactionDetail.getId()).get().getProduct();
+			previousProductCount = previousProduct.getQuantity();
+			previousProductQtyChange = transDRepo.findById(transactionDetail.getId()).get().getQuantityChange();
+			//ORDER is the only way to add to inventory, the rest is negative
+			if(transDRepo.findById(transactionDetail.getId()).get().getTransactionType().toString() != "ORDER") {previousProductQtyChange *= - 1;}
+			//Checking if product is the same or changed (affects which we reverse)
+			if (currentProduct.getId() != previousProduct.getId()) {sameProduct = false;}
+		}
+		
+		if (!sameProduct) {
+			//if its EDITING on a DIFFERENT product, REVERSE previous product amounts 
+			if ((previousProductCount - previousProductQtyChange) >= 0) {
+				previousProductCount -= previousProductQtyChange;
+				previousProduct.setQuantity(previousProductCount);
+			}
+		}	//if its EDITING the SAME product, REVERSE current product amounts
+		else {currentProductCount -= previousProductQtyChange;}
+		
+			//update current product amounts by adding qty change
+			//put all repo-saving in the same if-method 
+		if ((currentProductCount + currentProductQtyChange) >= 0){
+			currentProductCount +=  currentProductQtyChange;
+			currentProduct.setQuantity(currentProductCount);
+			if (!sameProduct) {prodRepo.save(previousProduct);}
+			prodRepo.save(currentProduct);
 			transDRepo.save(transactionDetail);	
 			return true;
 		}
+		
 		return false;
 	}
 	

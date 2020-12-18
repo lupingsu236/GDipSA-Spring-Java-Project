@@ -23,7 +23,7 @@ import JavaCA.service.ProductService;
 import JavaCA.service.ProductServiceImpl;
 import JavaCA.service.TransactionDetailsServiceImpl;
 import JavaCA.service.TransactionDetailsService;
-import JavaCA.service.TransactionServiceImplementation;
+import JavaCA.service.TransactionServiceImpl;
 import JavaCA.service.TransactionService;
 
 @Controller
@@ -40,7 +40,7 @@ public class TransactiondetailsController {
 	private TransactionDetailsService tdService;
 	
 	@Autowired
-	public void setImplementation(TransactionServiceImplementation transImpl, ProductServiceImpl prodImpl, TransactionDetailsServiceImpl transDetailImpl)
+	public void setImplementation(TransactionServiceImpl transImpl, ProductServiceImpl prodImpl, TransactionDetailsServiceImpl transDetailImpl)
 	{
 		this.transactionService = transImpl;
 		this.productService = prodImpl;
@@ -56,7 +56,7 @@ public class TransactiondetailsController {
 		model.addAttribute("pl", productList);
 		model.addAttribute("td", transactiondetail);
 		model.addAttribute("tid", tid);
-		return "/transaction/newTransactionDetail";
+		return "/transaction/TransactionDetailForm";
 	}
 	
 	@GetMapping("/detail/{tid}")
@@ -96,7 +96,7 @@ public class TransactiondetailsController {
 		model.addAttribute("td", td);
 		long tid = td.getTransaction().getId();
 		model.addAttribute("tid", tid);
-		return "/transaction/newTransactionDetail";
+		return "/transaction/TransactionDetailForm";
 	}
 	
 	@RequestMapping("/delete/{id}")
