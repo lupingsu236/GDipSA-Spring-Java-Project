@@ -2,6 +2,8 @@ package JavaCA.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import JavaCA.model.Product;
+import JavaCA.model.RoleType;
 import JavaCA.model.Transaction;
 import JavaCA.model.TransactionDetail;
 import JavaCA.model.TransactionType;
@@ -41,38 +44,65 @@ public class TransactiondetailsController {
 		this.tdService = transDetailImpl;
 	}
 	
-	@RequestMapping("/new/{id}")
-	public String addProductToTransaction(@PathVariable("id") int id, Model model) {
+	@RequestMapping("/new/{tid}")
+	public String addProductToTransaction(@PathVariable("tid") int tid, Model model) {
 		TransactionDetail transactiondetail = new TransactionDetail();
 		List<Product> productList = productService.findAllProducts();
-		model.addAttribute("type1", TransactionType.ORDER);
+		model.addAttribute("type1", TransactionType.USAGE);
 		model.addAttribute("type2", TransactionType.DAMAGED);
 		model.addAttribute("pl", productList);
 		model.addAttribute("td", transactiondetail);
-		model.addAttribute("id", id);
+		model.addAttribute("tid", tid);
 		return "/transaction/newTransactionDetail";
 	}
 	
-	@GetMapping("/detail/{id}")
-	public String viewTransactionDetails(Model model, @PathVariable("id") int id)
+	@GetMapping("/detail/{tid}")
+	public String viewTransactionDetails(Model model, @PathVariable("tid") int tid, HttpSession session)
 	{
-		Transaction thisTransaction = transactionService.findTransactionById(id);
-		model.addAttribute("transaction", thisTransaction);
-		model.addAttribute("transactiondetail", thisTransaction.getTransactionDetails());
+		Transaction t = transactionService.findTransactionById(tid);
+		if (session.getAttribute("preView") == "all") {return "redirect:/transaction/list";}
+		model.addAttribute("transaction", t);
+		model.addAttribute("transactiondetail", t.getTransactionDetails());
 		return "/transaction/transactiondetail";
 	}
 	
-	@PostMapping("/detail/{id}")
-	public String saveTransactionDetails(@PathVariable("id") int id, @ModelAttribute("td") TransactionDetail td, Model model) {
-		Transaction t = transactionService.findTransactionById(id);
+	@PostMapping("/save/{tid}")
+	public String saveTransactionDetails(@PathVariable("tid") int tid, 
+			@ModelAttribute("td") TransactionDetail td, Model model, HttpSession session) {
+		Transaction t = transactionService.findTransactionById(tid);
 		td.setTransaction(t);
 		Product p = productService.findProduct(td.getProduct().getId());
 		td.setProduct(p);
 		tdService.saveTransactionDetail(td);
-		//---------
-		Transaction thisTransaction = transactionService.findTransactionById(id);
-		model.addAttribute("transaction", thisTransaction);
-		model.addAttribute("transactiondetail", thisTransaction.getTransactionDetails());
+		if (session.getAttribute("preView") == "all") {return "redirect:/transaction/list";}
+		model.addAttribute("transaction", t);
+		model.addAttribute("transactiondetail", t.getTransactionDetails());
 		return "/transaction/transactiondetail";
+	}
+	
+	@RequestMapping("/edit/{tdid}")
+	public String editTransactionDetails(@PathVariable("tdid") int tdid, Model model) {
+		TransactionDetail td = tdService.findTransactionDetailById(tdid);
+		List<Product> productList = productService.findAllProducts();
+		model.addAttribute("type1", TransactionType.USAGE);
+		model.addAttribute("type2", TransactionType.DAMAGED);
+		model.addAttribute("pl", productList);
+		model.addAttribute("td", td);
+		long tid = td.getTransaction().getId();
+		model.addAttribute("tid", tid);
+		return "/transaction/newTransactionDetail";
+	}
+	
+	@RequestMapping("/delete/{id}")
+	public String deleteTransactionDetails(@PathVariable("id") int id) {
+		TransactionDetail td = tdService.findTransactionDetailById(id);
+		Transaction t = td.getTransaction();
+		int transactionId = (int) t.getId();
+		tdService.deleteTransactionDetail(td);
+		if (transactionService.noTransactionDetailsInNullTransaction(t)) {
+			transactionService.deleteTransaction(t);
+			return "redirect:/transaction/list";
+		}
+		return "redirect:/transactiondetails/detail/" + transactionId;
 	}
 }

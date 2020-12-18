@@ -42,6 +42,7 @@ public class TransactionController
 	{
 		List<Transaction> carjobs = transactionService.listAllCarTransactions();
 		model.addAttribute("transactions", carjobs);
+		session.setAttribute("preView", "car");
 		return "/transaction/transactions";
 	}
 	
@@ -50,11 +51,12 @@ public class TransactionController
 	{
 		List<TransactionDetail> td = tdService.findAllTransactionDetails();
 		model.addAttribute("transactiondetail", td);
+		session.setAttribute("preView", "all");
 		return "/transaction/alltransactiondetail";
 	}
 	
 	@RequestMapping("/list/{productid}")
-	public String viewAllProductTransactions(@PathVariable("productid") int id, Model model, HttpSession session)
+	public String viewAllProductTransactions(@PathVariable("productid") int id, Model model)
 	{
 		List<TransactionDetail> td = transactionService.listAllProductTransactions(id);
 		model.addAttribute("transactiondetail", td);
