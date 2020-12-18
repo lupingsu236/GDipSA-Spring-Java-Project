@@ -14,5 +14,7 @@ public interface ProductService {
 	ArrayList<String> getCategories();
 	ArrayList<String> getSubcategories();
 	ArrayList<Product> searchProducts(Product p);
+	ArrayList<Product> searchProductsBelowReorderLevel(Product p);
+
 
 }

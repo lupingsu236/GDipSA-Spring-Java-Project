@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import JavaCA.model.Brand;
 import JavaCA.model.Product;
@@ -56,7 +57,7 @@ public class ProductController {
 	@RequestMapping(value={"","/list"}, method=RequestMethod.GET)
 	public String findAllProducts(Model model) {
 		
-		//adding model and attributes for search
+		//adding model and get values for search parameters dropdown
 		Product p = new Product(); 
 		model.addAttribute("p", p);
 		ArrayList<String> types = pservice.getTypes();
@@ -69,7 +70,7 @@ public class ProductController {
 		model.addAttribute("brands", brands);
 		ArrayList<Supplier> suppliers = suppservice.findAllSuppliers();
 		model.addAttribute("suppliers", suppliers);
-		
+
 		//for product listing
 		ArrayList<Product> products = pservice.findAllProducts();
 		model.addAttribute("products", products);
@@ -88,6 +89,14 @@ public class ProductController {
 	public String createProduct(Model model) {
 		Product p = new Product(); 
 		model.addAttribute("p", p);
+		
+		//get values for field dropdown
+		ArrayList<String> types = pservice.getTypes();
+		model.addAttribute("types", types);
+		ArrayList<String> categories = pservice.getCategories();
+		model.addAttribute("categories", categories);
+		ArrayList<String> subcategories = pservice.getSubcategories();
+		model.addAttribute("subcategories", subcategories);
 		ArrayList<Brand> brands = bservice.findAllBrands();
 		model.addAttribute("brands", brands);
 		ArrayList<Supplier> suppliers = suppservice.findAllSuppliers();
@@ -97,8 +106,17 @@ public class ProductController {
 	
 	@RequestMapping(value="/edit/{id}", method=RequestMethod.GET)
 	public String editProduct(@PathVariable long id, Model model) {
+		//get current product details and attach to model
 		Product p = pservice.findProduct(id);
+		
+		//get values for field dropdown
 		model.addAttribute("p", p);
+		ArrayList<String> types = pservice.getTypes();
+		model.addAttribute("types", types);
+		ArrayList<String> categories = pservice.getCategories();
+		model.addAttribute("categories", categories);
+		ArrayList<String> subcategories = pservice.getSubcategories();
+		model.addAttribute("subcategories", subcategories);
 		ArrayList<Brand> brands = bservice.findAllBrands();
 		model.addAttribute("brands", brands);
 		ArrayList<Supplier> suppliers = suppservice.findAllSuppliers();
@@ -107,16 +125,18 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value="/save", method=RequestMethod.POST) 
-	public String saveProduct(@ModelAttribute("p") @Valid Product p, 
+	public String saveProduct(@Valid @ModelAttribute("p") Product p, 
 			@RequestParam(value="editBrandName", required=false) Integer editBrandName,
 			@RequestParam(value="editSupplierName", required=false) Integer editSupplierName,
-			BindingResult bindingResult, Model model, HttpSession session) {
+			BindingResult bindingResult, Model model, 
+			HttpSession session, RedirectAttributes redirectfrom) {
 		
 		if (bindingResult.hasErrors()) {
-			ArrayList<Brand> brands = bservice.findAllBrands();
-			model.addAttribute("brands", brands);
-			ArrayList<Supplier> suppliers = suppservice.findAllSuppliers();
-			model.addAttribute("suppliers", suppliers);
+//			model.addAttribute("p", p);
+//			ArrayList<Brand> brands = bservice.findAllBrands();
+//			model.addAttribute("brands", brands);
+//			ArrayList<Supplier> suppliers = suppservice.findAllSuppliers();
+//			model.addAttribute("suppliers", suppliers);
 			return "/product/productform";
 		}
 		
@@ -179,12 +199,14 @@ public class ProductController {
 			}
 		}
 			
+		//add redirect attribute for alert
+		redirectfrom.addFlashAttribute("from", "save");
 		return "redirect:/product";
 	}
 	
 	
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.GET)
-	public String deleteProduct(@PathVariable long id, Model model) {
+	public String deleteProduct(@PathVariable long id, Model model, RedirectAttributes redirectfrom) {
 		Product p = pservice.findProduct(id);
 		
 		//check for existing transactionDetails to delete 
@@ -198,19 +220,40 @@ public class ProductController {
 			
 		}
 		
-		//if no remaining products of the same brand/supplier, delete them?
-		
 		pservice.deleteProduct(p);
+		
+		//add redirect attribute for alert
+		redirectfrom.addFlashAttribute("from", "delete");
 		
 		return "redirect:/product";
 	}
 	
 	
 	@RequestMapping(value="/search", method=RequestMethod.POST) 
-	public String searchProduct(@ModelAttribute("p") Product p, Model model) {
-		
+	public String searchProduct(@ModelAttribute("p") Product p, Model model, 
+			@RequestParam(value="belowReorderLevel", required=false) Integer belowReorderLevel) {
+
+		//get search results and attach to model
+		if(belowReorderLevel==null) {
 		ArrayList<Product> products = pservice.searchProducts(p);
 		model.addAttribute("products", products);
+		}
+		else {
+			ArrayList<Product> products = pservice.searchProductsBelowReorderLevel(p);
+			model.addAttribute("products", products);
+		}
+		
+		//get values for search parameters dropdown
+		ArrayList<String> types = pservice.getTypes();
+		model.addAttribute("types", types);
+		ArrayList<String> categories = pservice.getCategories();
+		model.addAttribute("categories", categories);
+		ArrayList<String> subcategories = pservice.getSubcategories();
+		model.addAttribute("subcategories", subcategories);
+		ArrayList<Brand> brands = bservice.findAllBrands();
+		model.addAttribute("brands", brands);
+		ArrayList<Supplier> suppliers = suppservice.findAllSuppliers();
+		model.addAttribute("suppliers", suppliers);
 		
 		return "product/productlist";
 	}

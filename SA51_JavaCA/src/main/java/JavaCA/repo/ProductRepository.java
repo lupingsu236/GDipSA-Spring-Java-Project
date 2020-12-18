@@ -26,6 +26,23 @@ public interface ProductRepository extends JpaRepository<Product, Long>
 	List<String> getSubcategories();
 	
 	@Query("SELECT p FROM Product p JOIN p.brand JOIN p.supplier "
-			+ "WHERE p.name LIKE '%" + ":pdt.name" + "%'")
-	List<Product> searchProducts(@Param("pdt") Product p);
+			+ "WHERE p.name LIKE %:#{#pdt.name}% "
+			+ "AND p.description LIKE %:#{#pdt.description}% "
+			+ "AND p.type LIKE %:#{#pdt.type}% "
+			+ "AND p.category LIKE %:#{#pdt.category}% "
+			+ "AND p.subcategory LIKE %:#{#pdt.subcategory}% "
+			+ "AND p.brand.name LIKE %:#{#pdt.brand.name}% "
+			+ "AND p.supplier.supplierName LIKE %:#{#pdt.supplier.supplierName}% ")
+	List<Product> searchProducts(@Param("pdt") Product pdt);
+	
+	@Query("SELECT p FROM Product p JOIN p.brand JOIN p.supplier "
+			+ "WHERE p.name LIKE %:#{#pdt.name}% "
+			+ "AND p.description LIKE %:#{#pdt.description}% "
+			+ "AND p.type LIKE %:#{#pdt.type}% "
+			+ "AND p.category LIKE %:#{#pdt.category}% "
+			+ "AND p.subcategory LIKE %:#{#pdt.subcategory}% "
+			+ "AND p.brand.name LIKE %:#{#pdt.brand.name}% "
+			+ "AND p.supplier.supplierName LIKE %:#{#pdt.supplier.supplierName}% "
+			+ "AND p.quantity < p.reorderLevel ")
+	List<Product> searchProductsBelowReorderLevel(@Param("pdt") Product pdt);
 }

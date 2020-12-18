@@ -63,5 +63,10 @@ public class ProductServiceImpl implements ProductService {
 	public ArrayList<Product> searchProducts(Product p) {
 		return (ArrayList<Product>) prepo.searchProducts(p);
 	}
+	
+	@Override
+	public ArrayList<Product> searchProductsBelowReorderLevel(Product p) {
+		return (ArrayList<Product>) prepo.searchProductsBelowReorderLevel(p);
+	}
 
 }
