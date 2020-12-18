@@ -36,6 +36,9 @@ public class TransactionDetailsImpl implements TransactionDetailsInterface {
 	public boolean saveTransactionDetail(TransactionDetail transactionDetail) {
 		
 		int currentCount = transactionDetail.getProduct().getQuantity();
+		if (transDRepo.existsById(transactionDetail.getId())) {
+			currentCount = currentCount + transDRepo.findById(transactionDetail.getId()).get().getQuantityChange();
+		}
 		int qtyChange = transactionDetail.getQuantityChange();
 		if(transactionDetail.getTransactionType().toString() != "ORDER") {qtyChange = qtyChange * - 1;}
 		
