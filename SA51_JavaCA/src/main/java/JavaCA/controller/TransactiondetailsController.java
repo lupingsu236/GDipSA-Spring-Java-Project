@@ -19,6 +19,7 @@ import JavaCA.model.RoleType;
 import JavaCA.model.Transaction;
 import JavaCA.model.TransactionDetail;
 import JavaCA.model.TransactionType;
+import JavaCA.model.User;
 import JavaCA.service.ProductService;
 import JavaCA.service.ProductServiceImpl;
 import JavaCA.service.TransactionDetailsServiceImpl;
@@ -90,8 +91,16 @@ public class TransactiondetailsController {
 	public String editTransactionDetails(@PathVariable("tdid") int tdid, Model model) {
 		TransactionDetail td = tdService.findTransactionDetailById(tdid);
 		List<Product> productList = productService.findAllProducts();
-		model.addAttribute("type1", TransactionType.USAGE);
-		model.addAttribute("type2", TransactionType.DAMAGED);
+		
+		if((td.getTransactionType().toString() == "ORDER")||(td.getTransactionType().toString() == "RETURN")) {
+			model.addAttribute("type1", TransactionType.ORDER);
+			model.addAttribute("type2", TransactionType.RETURN);
+		}
+		else {
+			model.addAttribute("type1", TransactionType.USAGE);
+			model.addAttribute("type2", TransactionType.DAMAGED);
+		}
+		
 		model.addAttribute("pl", productList);
 		model.addAttribute("td", td);
 		long tid = td.getTransaction().getId();
