@@ -6,7 +6,7 @@ import java.util.List;
 import JavaCA.model.Transaction;
 import JavaCA.model.TransactionDetail;
 
-public interface TransactionDetailsService {
+public interface TransactionDetailsInterface {
 
 	ArrayList<TransactionDetail> findTransactionDetailsByProductId(long productId);
 	boolean saveTransactionDetail(TransactionDetail transactionDetail);

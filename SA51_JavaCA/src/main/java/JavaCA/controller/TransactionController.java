@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import JavaCA.model.Transaction;
 import JavaCA.model.TransactionDetail;
 import JavaCA.model.User;
-import JavaCA.service.TransactionDetailsService;
+import JavaCA.service.TransactionDetailsImpl;
+import JavaCA.service.TransactionDetailsInterface;
 import JavaCA.service.TransactionImplementation;
 import JavaCA.service.TransactionInterface;
 
@@ -28,10 +29,10 @@ public class TransactionController
 	private TransactionInterface transactionService;
 	
 	@Autowired
-	private TransactionDetailsService tdService;
+	private TransactionDetailsInterface tdService;
 	
 	@Autowired
-	public void setTransactionImplementation(TransactionImplementation transImpl, TransactionDetailsService transDetailImpl)
+	public void setTransactionImplementation(TransactionImplementation transImpl, TransactionDetailsImpl transDetailImpl)
 	{
 		this.transactionService = transImpl;
 		this.tdService = transDetailImpl;
@@ -47,10 +48,11 @@ public class TransactionController
 	}
 	
 	@RequestMapping("/list")
-	public String viewAllTransactions(Model model, HttpSession session)
+	public String viewAllTransactions(Model model, HttpSession session, @ModelAttribute("success") String success)
 	{
 		List<TransactionDetail> td = tdService.findAllTransactionDetails();
 		model.addAttribute("transactiondetail", td);
+		model.addAttribute("success", success);
 		session.setAttribute("preView", "all");
 		return "/transaction/alltransactiondetail";
 	}

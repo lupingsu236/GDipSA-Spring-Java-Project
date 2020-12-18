@@ -16,7 +16,7 @@ import JavaCA.repo.TransactionRepository;
 
 @Service
 @Transactional
-public class TransactionDetailsServiceImpl implements TransactionDetailsService {
+public class TransactionDetailsImpl implements TransactionDetailsInterface {
 	
 	@Autowired
 	private TransactionRepository transRepo;
