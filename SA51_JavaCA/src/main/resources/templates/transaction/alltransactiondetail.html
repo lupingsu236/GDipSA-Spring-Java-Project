@@ -35,7 +35,6 @@
                   <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                       <thead>
                           <tr> 
-								<th>Id</th>
 								<th>Date</th>
 								<th>Quantity Change</th>
 								<th>Transaction Type</th>
@@ -46,7 +45,6 @@
                       </thead>
 					  <tbody>
 					  		<tr th:each="td : ${transactiondetail}">
-								<td th:utext="${td.id}"></td>
 								<td th:utext="${td.date}"></td>
 								<td th:utext="${td.quantityChange}"></td>
 								<td th:utext="${td.transactionType}"></td>

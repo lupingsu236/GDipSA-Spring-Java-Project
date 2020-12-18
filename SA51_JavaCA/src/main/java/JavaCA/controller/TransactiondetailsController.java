@@ -21,26 +21,26 @@ import JavaCA.model.TransactionDetail;
 import JavaCA.model.TransactionType;
 import JavaCA.service.ProductService;
 import JavaCA.service.ProductServiceImpl;
-import JavaCA.service.TransactionDetailsImpl;
-import JavaCA.service.TransactionDetailsInterface;
-import JavaCA.service.TransactionImplementation;
-import JavaCA.service.TransactionInterface;
+import JavaCA.service.TransactionDetailsServiceImpl;
+import JavaCA.service.TransactionDetailsService;
+import JavaCA.service.TransactionServiceImplementation;
+import JavaCA.service.TransactionService;
 
 @Controller
 @RequestMapping("/transactiondetails")
 public class TransactiondetailsController {
 	
 	@Autowired
-	private TransactionInterface transactionService;
+	private TransactionService transactionService;
 	
 	@Autowired
 	private ProductService productService;
 	
 	@Autowired
-	private TransactionDetailsInterface tdService;
+	private TransactionDetailsService tdService;
 	
 	@Autowired
-	public void setImplementation(TransactionImplementation transImpl, ProductServiceImpl prodImpl, TransactionDetailsImpl transDetailImpl)
+	public void setImplementation(TransactionServiceImplementation transImpl, ProductServiceImpl prodImpl, TransactionDetailsServiceImpl transDetailImpl)
 	{
 		this.transactionService = transImpl;
 		this.productService = prodImpl;

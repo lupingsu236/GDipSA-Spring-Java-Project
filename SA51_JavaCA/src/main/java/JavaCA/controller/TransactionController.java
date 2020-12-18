@@ -16,23 +16,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import JavaCA.model.Transaction;
 import JavaCA.model.TransactionDetail;
 import JavaCA.model.User;
-import JavaCA.service.TransactionDetailsImpl;
-import JavaCA.service.TransactionDetailsInterface;
-import JavaCA.service.TransactionImplementation;
-import JavaCA.service.TransactionInterface;
+import JavaCA.service.TransactionDetailsServiceImpl;
+import JavaCA.service.TransactionDetailsService;
+import JavaCA.service.TransactionServiceImplementation;
+import JavaCA.service.TransactionService;
 
 @Controller
 @RequestMapping("/transaction")
 public class TransactionController 
 {
 	@Autowired
-	private TransactionInterface transactionService;
+	private TransactionService transactionService;
 	
 	@Autowired
-	private TransactionDetailsInterface tdService;
+	private TransactionDetailsService tdService;
 	
 	@Autowired
-	public void setTransactionImplementation(TransactionImplementation transImpl, TransactionDetailsImpl transDetailImpl)
+	public void setTransactionImplementation(TransactionServiceImplementation transImpl, TransactionDetailsServiceImpl transDetailImpl)
 	{
 		this.transactionService = transImpl;
 		this.tdService = transDetailImpl;
