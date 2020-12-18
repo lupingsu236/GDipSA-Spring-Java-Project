@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>Parts4you</title>
+<link th:href="@{/css/styles.css}" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="my-4 container-sm">
+	
+	<div class="row">
+		<div class="col-sm-9"> <h3>Usage Report</h3></div>
+		<div class="col-sm">
+		</div>
+	</div>
+	<br>
+	<div class="row" th:if="${not #lists.isEmpty(transactiondetails)}">
+    	<table class="table table-bordered table-sm"> 
+			<thead class="thead-light">
+				<tr> <th colspan=2>Product Details</th></tr>
+			</thead>
+			<tr><td>Id</td> <td th:text="${product.id}"></td></tr>
+			<tr><td>Name</td> <td th:text="${product.name}"></td></tr>
+			<tr><td>Description</td> <td th:text="${product.description}"></td></tr>
+			<tr><td>Type</td> <td th:text="${product.type}"></td></tr>
+			<tr><td>Category</td> <td th:text="${product.category}"></td></tr>
+			<tr><td>Sub-category</td> <td th:text="${product.subcategory}"></td></tr>
+			<tr><td>Brand Name</td> <td th:text="${product.brand.name}"></td></tr>
+			<tr><td>Current Quantity</td> <td th:text="${product.quantity}"></td></tr>
+			<tr><td>Reorder Level</td> <td th:text="${product.reorderLevel}"></td></tr>
+			<tr><td>Minimum Order Quantity</td> <td th:text="${product.minOrderQty}"></td></tr>
+			<tr><td>Supplier Name</td> <td th:text="${product.supplier.supplierName}"></td></tr>
+			<tr><td>Original Price</td> <td th:text="${#numbers.formatCurrency(product.originalPrice)}"></td></tr>
+			<tr><td>Wholesale Price</td> <td th:text="${#numbers.formatCurrency(product.getWholesalePrice())}"></td></tr>
+			<tr><td>Partner Price</td> <td th:text="${#numbers.formatCurrency(product.getPartnerPrice())}"></td></tr>
+			<tr><td>Retail Price</td> <td th:text="${#numbers.formatCurrency(product.getRetailPrice())}"></td></tr>
+		</table>
+	</div>
+	<br>
+	<div class="card mb-4" th:if="${not #lists.isEmpty(transactiondetails)}">
+          <div class="card-header">
+              <i class="fas fa-table mr-1"></i>
+              Usage of this product
+          </div>
+          <div class="card-body">
+              <div class="table-responsive">
+                  <table class="table table-bordered" width="100%" cellspacing="0">
+                      <thead>
+                          <tr>
+								<th>Id</th>
+								<th>Quantity Change</th>
+								<th>Transaction Type</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+					  		<tr th:each="td : ${transactiondetails}">
+					  			<td th:utext="${td.id}"></td>
+								<td th:utext="${td.quantityChange}"></td>
+								<td th:utext="${td.transactionType}"></td>
+							</tr>
+					  </tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</body>
+</html>

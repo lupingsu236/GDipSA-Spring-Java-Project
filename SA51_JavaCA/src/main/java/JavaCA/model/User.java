@@ -18,6 +18,7 @@ public class User
 	private RoleType role;
 	@OneToMany(mappedBy = "user")
 	private List<Transaction> transactions;
+	private boolean isActive;
 	
 	public User()
 	{
