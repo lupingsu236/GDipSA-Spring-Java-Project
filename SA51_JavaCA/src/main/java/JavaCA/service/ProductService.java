@@ -10,5 +10,9 @@ public interface ProductService {
 	Product findProduct(long id);
 	void saveProduct(Product p);
 	void deleteProduct(Product p);
+	ArrayList<String> getTypes();
+	ArrayList<String> getCategories();
+	ArrayList<String> getSubcategories();
+	ArrayList<Product> searchProducts(Product p);
 
 }

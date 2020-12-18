@@ -55,8 +55,25 @@ public class ProductController {
 	
 	@RequestMapping(value={"","/list"}, method=RequestMethod.GET)
 	public String findAllProducts(Model model) {
+		
+		//adding model and attributes for search
+		Product p = new Product(); 
+		model.addAttribute("p", p);
+		ArrayList<String> types = pservice.getTypes();
+		model.addAttribute("types", types);
+		ArrayList<String> categories = pservice.getCategories();
+		model.addAttribute("categories", categories);
+		ArrayList<String> subcategories = pservice.getSubcategories();
+		model.addAttribute("subcategories", subcategories);
+		ArrayList<Brand> brands = bservice.findAllBrands();
+		model.addAttribute("brands", brands);
+		ArrayList<Supplier> suppliers = suppservice.findAllSuppliers();
+		model.addAttribute("suppliers", suppliers);
+		
+		//for product listing
 		ArrayList<Product> products = pservice.findAllProducts();
 		model.addAttribute("products", products);
+		
 		return "/product/productlist";
 	}
 	
@@ -188,5 +205,14 @@ public class ProductController {
 		return "redirect:/product";
 	}
 	
+	
+	@RequestMapping(value="/search", method=RequestMethod.POST) 
+	public String searchProduct(@ModelAttribute("p") Product p, Model model) {
+		
+		ArrayList<Product> products = pservice.searchProducts(p);
+		model.addAttribute("products", products);
+		
+		return "product/productlist";
+	}
 }
 	
