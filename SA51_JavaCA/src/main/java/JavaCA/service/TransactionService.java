@@ -12,6 +12,6 @@ public interface TransactionService
 	List<TransactionDetail> listAllProductTransactions(int id);
 	Transaction findTransactionById(long id);
 	void saveTransaction(Transaction transaction);
-	void deleteTransaction(Transaction transaction);
+	boolean deleteTransaction(Transaction transaction);
 	boolean noTransactionDetailsInNullTransaction(Transaction transaction);
 }

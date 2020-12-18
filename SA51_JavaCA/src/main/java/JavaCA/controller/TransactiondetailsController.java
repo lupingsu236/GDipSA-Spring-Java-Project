@@ -109,15 +109,15 @@ public class TransactiondetailsController {
 	}
 	
 	@RequestMapping("/delete/{id}")
-	public String deleteTransactionDetails(@PathVariable("id") int id) {
+	public String deleteTransactionDetails(@PathVariable("id") int id,  RedirectAttributes redirectModel) {
 		TransactionDetail td = tdService.findTransactionDetailById(id);
 		Transaction t = td.getTransaction();
-		int transactionId = (int) t.getId();
-		tdService.deleteTransactionDetail(td);
+		String success = String.valueOf(tdService.deleteTransactionDetail(td));
+		redirectModel.addFlashAttribute("success", success);
 		if (transactionService.noTransactionDetailsInNullTransaction(t)) {
 			transactionService.deleteTransaction(t);
 			return "redirect:/transaction/list";
 		}
-		return "redirect:/transactiondetails/detail/" + transactionId;
+		return "redirect:/transactiondetails/detail/" + t.getId();
 	}
 }

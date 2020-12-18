@@ -41,7 +41,7 @@ public class TransactionServiceImpl implements TransactionService
 	}
 	
 	@Override
-	public void deleteTransaction(Transaction transaction)
+	public boolean deleteTransaction(Transaction transaction)
 	{
 		List<TransactionDetail> transDForThisTransaction = transaction.getTransactionDetails();
 		for (TransactionDetail td:transDForThisTransaction)
@@ -49,6 +49,7 @@ public class TransactionServiceImpl implements TransactionService
 			transDRepo.delete(td);
 		}
 		transRepo.delete(transaction);
+		return true;
 	}
 
 	@Override

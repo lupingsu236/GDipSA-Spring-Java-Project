@@ -50,10 +50,11 @@ public class TransactionController
 	}
 	
 	@RequestMapping("/car")
-	public String viewAllCarTransactions(Model model, HttpSession session)
+	public String viewAllCarTransactions(Model model, HttpSession session, @ModelAttribute("success") String success)
 	{
 		List<Transaction> carjobs = transactionService.listAllCarTransactions();
 		model.addAttribute("transactions", carjobs);
+		model.addAttribute("success", success);
 		session.setAttribute("preView", "car");
 		return "/transaction/transactions";
 	}
@@ -80,10 +81,12 @@ public class TransactionController
 	}
 	
 	@RequestMapping("/delete/{id}")
-	public String deleteTransactionAndTransactionDetails(@PathVariable("id") int id)
+	public String deleteTransactionAndTransactionDetails(@PathVariable("id") int id,  RedirectAttributes redirectModel)
 	{
-		transactionService.deleteTransaction(transactionService.findTransactionById(id));
-		return "forward:/transaction/car";
+		
+		String success = String.valueOf(transactionService.deleteTransaction(transactionService.findTransactionById(id)));
+		redirectModel.addFlashAttribute("success", success);
+		return "redirect:/transaction/car";
 	}
 	
 	@RequestMapping("/new")
