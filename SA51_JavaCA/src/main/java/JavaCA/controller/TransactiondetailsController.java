@@ -12,32 +12,33 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import JavaCA.model.Product;
-import JavaCA.model.RoleType;
 import JavaCA.model.Transaction;
 import JavaCA.model.TransactionDetail;
 import JavaCA.model.TransactionType;
 import JavaCA.service.ProductService;
 import JavaCA.service.ProductServiceImpl;
-import JavaCA.service.TransactionDetailsInterface;
-import JavaCA.service.TransactionImplementation;
-import JavaCA.service.TransactionInterface;
+import JavaCA.service.TransactionDetailsService;
+import JavaCA.service.TransactionDetailsServiceImpl;
+import JavaCA.service.TransactionService;
+import JavaCA.service.TransactionServiceImplementation;
 
 @Controller
 @RequestMapping("/transactiondetails")
 public class TransactiondetailsController {
 	
 	@Autowired
-	private TransactionInterface transactionService;
+	private TransactionService transactionService;
 	
 	@Autowired
 	private ProductService productService;
 	
 	@Autowired
-	private TransactionDetailsInterface tdService;
+	private TransactionDetailsService tdService;
 	
 	@Autowired
-	public void setImplementation(TransactionImplementation transImpl, ProductServiceImpl prodImpl, TransactionDetailsInterface transDetailImpl)
+	public void setImplementation(TransactionServiceImplementation transImpl, ProductServiceImpl prodImpl, TransactionDetailsServiceImpl transDetailImpl)
 	{
 		this.transactionService = transImpl;
 		this.productService = prodImpl;
