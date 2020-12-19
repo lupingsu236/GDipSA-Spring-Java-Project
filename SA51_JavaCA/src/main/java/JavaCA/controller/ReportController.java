@@ -13,20 +13,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import JavaCA.model.Product;
 import JavaCA.model.TransactionDetail;
-import JavaCA.service.ProductService;
 import JavaCA.service.ProductServiceImpl;
-import JavaCA.service.TransactionDetailsService;
-import JavaCA.service.TransactionDetailsServiceImpl;
+import JavaCA.service.TransactionDetailsImpl;
+import JavaCA.service.TransactionDetailsInterface;
 
 @Controller
 @RequestMapping("/report")
 public class ReportController 
 {
-	private ProductService pservice;
-	private TransactionDetailsService tdservice;
+	private ProductServiceImpl pservice;
+	private TransactionDetailsInterface tdservice;
 		
 	@Autowired
-	public void setServices(ProductServiceImpl pservice, TransactionDetailsServiceImpl tdservice) 
+	public void setServices(ProductServiceImpl pservice, TransactionDetailsImpl tdservice) 
 	{
 		this.pservice = pservice;
 		this.tdservice = tdservice;

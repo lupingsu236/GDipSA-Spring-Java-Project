@@ -25,29 +25,26 @@ import JavaCA.model.Transaction;
 import JavaCA.model.TransactionDetail;
 import JavaCA.model.TransactionType;
 import JavaCA.model.User;
-import JavaCA.service.BrandService;
 import JavaCA.service.BrandServiceImpl;
-import JavaCA.service.ProductService;
 import JavaCA.service.ProductServiceImpl;
-import JavaCA.service.SupplierService;
 import JavaCA.service.SupplierServiceImpl;
-import JavaCA.service.TransactionDetailsService;
-import JavaCA.service.TransactionDetailsServiceImpl;
-import JavaCA.service.TransactionService;
-import JavaCA.service.TransactionServiceImplementation;
+import JavaCA.service.TransactionDetailsInterface;
+import JavaCA.service.TransactionDetailsImpl;
+import JavaCA.service.TransactionImplementation;
+import JavaCA.validator.ProductValidator;
 
 @Controller
 @RequestMapping("/product")
 public class ProductController {
-	private ProductService pservice;
-	private BrandService bservice;
-	private SupplierService suppservice;
-	private TransactionService tservice;
-	private TransactionDetailsService tdservice;
+	private ProductServiceImpl pservice;
+	private BrandServiceImpl bservice;
+	private SupplierServiceImpl suppservice;
+	private TransactionImplementation tservice;
+	private TransactionDetailsInterface tdservice;
 	
 	@Autowired
 	public void setServices(ProductServiceImpl pservice, BrandServiceImpl bservice, 
-			SupplierServiceImpl suppservice, TransactionServiceImplementation tservice, TransactionDetailsServiceImpl tdservice) {
+			SupplierServiceImpl suppservice, TransactionImplementation tservice, TransactionDetailsImpl tdservice) {
 		this.pservice = pservice;
 		this.bservice = bservice;
 		this.suppservice = suppservice;
