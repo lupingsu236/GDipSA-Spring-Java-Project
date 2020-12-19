@@ -13,8 +13,10 @@
 		<p style="color:red" th:if="${errorMsgId != null}" th:utext="${errorMsgId}"></p></fieldset>
 		<fieldset>From Date:</fieldset>
 		<fieldset><input type="text" name="fromDate" th:value="${fromDate}"></fieldset>
+		<fieldset><span style="font-style: italic; color: gray; font-size:small">You may leave this field empty if you want to include all past records.</span></fieldset>
 		<fieldset>To Date:</fieldset>
 		<fieldset><input type="text" name="toDate" th:value="${toDate}"></fieldset>
+		<fieldset><span style="font-style: italic; color: gray; font-size:small">You may leave this field empty if you want to include all future records.</span></fieldset>
 		<fieldset>
 			<br>
 			<button type="submit">Generate report</button>
