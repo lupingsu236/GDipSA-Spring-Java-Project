@@ -43,10 +43,16 @@ public class ReportController
 	public String searchUsageReportForProduct(RedirectAttributes model, @RequestParam long id, @RequestParam String fromDate, 
 						   @RequestParam String toDate)
 	{
+		if (pservice.findProduct(id) == null)
+		{
+			model.addFlashAttribute("errorMsgId", "Please input a valid product id");
+			return "redirect:/report/usage";
+		}
 		if (!fromDate.isBlank())
 			model.addFlashAttribute("fromDate", Date.valueOf(fromDate));
 		if (!toDate.isBlank())
 			model.addFlashAttribute("toDate", Date.valueOf(toDate));
+		model.addFlashAttribute("search", true);
 		return "redirect:/report/usage/" + id;
 	}
 	
