@@ -92,17 +92,21 @@ public class UserController{
 		
 		if(user.getRoletype().equalsIgnoreCase("admin")) {
 			user.setRole(RoleType.ADMIN);
+			user.setRoletype("admin");
 		}else if(user.getRoletype().equalsIgnoreCase("mechanic")){
 			user.setRole(RoleType.MECHANIC);
+			user.setRoletype("mechanic");
 		}else {
 			model.addAttribute("Errmsgrole","The roletype only includes admin and mechanic.");
 			return "/user/usereditform";
 		}
 		
 		if(user.getActive().equalsIgnoreCase("active")) {
-			user.setActivetype(ActiveType.ACTIVE);;
+			user.setActivetype(ActiveType.ACTIVE);
+			user.setActive("active");
 		}else if(user.getActive().equalsIgnoreCase("inactive")){
 			user.setActivetype(ActiveType.INACTIVE);
+			user.setActive("inactive");
 		}else if(user.getActive()=="") {
 			model.addAttribute("Errmsgstate1","The state is blank.");
 			return "/user/usereditform";
