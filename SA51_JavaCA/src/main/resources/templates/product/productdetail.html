@@ -51,7 +51,10 @@
 			<thead class="thead-light">
 			<tr> <th colspan=2>Inventory</th></tr>
 			</thead>
-			<tr><td>Current Quantity</td> <td th:text="${p.quantity}"></td></tr>
+			<tr><td>Current Quantity</td> 
+			<td th:if="${p.quantity >= p.reorderLevel}" th:text="${p.quantity}"></td>
+			<td th:if="${p.quantity < p.reorderLevel}" th:text="${p.quantity}" style="color:red"></td>
+			</tr>
 			<tr><td>Reorder Level</td> <td th:text="${p.reorderLevel}"></td></tr>
 			<tr><td>Minimum Order Quantity</td> <td th:text="${p.minOrderQty}"></td></tr>
 			<tr><td>Supplier Id</td> <td th:text="${p.supplier.id}"></td></tr>
