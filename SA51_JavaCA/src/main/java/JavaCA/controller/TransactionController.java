@@ -134,6 +134,7 @@ public class TransactionController
 	}
 	
 	@RequestMapping("/saveTransaction")
+	//to force update
 	public String saveTransaction(@ModelAttribute("t") Transaction t, Model model, HttpSession session) {
 		User u = (User)session.getAttribute("usession");
 		t.setUser(u);

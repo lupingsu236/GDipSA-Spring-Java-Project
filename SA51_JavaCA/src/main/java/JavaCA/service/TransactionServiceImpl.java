@@ -66,6 +66,7 @@ public class TransactionServiceImpl implements TransactionService
 	
 	@Override
 	public boolean noTransactionDetailsInNullTransaction(Transaction transaction) {
+		//to force update
 		if ((transaction.getCarPlateNo() == "") || (transaction.getCarPlateNo() == null)) {
 			if (transaction.getTransactionDetails().isEmpty()) {
 				return true;
