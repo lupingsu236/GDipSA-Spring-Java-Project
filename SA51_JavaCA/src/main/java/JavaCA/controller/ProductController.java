@@ -25,26 +25,29 @@ import JavaCA.model.Transaction;
 import JavaCA.model.TransactionDetail;
 import JavaCA.model.TransactionType;
 import JavaCA.model.User;
+import JavaCA.service.BrandService;
 import JavaCA.service.BrandServiceImpl;
+import JavaCA.service.ProductService;
 import JavaCA.service.ProductServiceImpl;
+import JavaCA.service.SupplierService;
 import JavaCA.service.SupplierServiceImpl;
 import JavaCA.service.TransactionDetailsService;
 import JavaCA.service.TransactionDetailsServiceImpl;
-import JavaCA.service.TransactionImplementation;
-import JavaCA.validator.ProductValidator;
+import JavaCA.service.TransactionService;
+import JavaCA.service.TransactionServiceImpl;
 
 @Controller
 @RequestMapping("/product")
 public class ProductController {
-	private ProductServiceImpl pservice;
-	private BrandServiceImpl bservice;
-	private SupplierServiceImpl suppservice;
-	private TransactionImplementation tservice;
+	private ProductService pservice;
+	private BrandService bservice;
+	private SupplierService suppservice;
+	private TransactionService tservice;
 	private TransactionDetailsService tdservice;
 	
 	@Autowired
 	public void setServices(ProductServiceImpl pservice, BrandServiceImpl bservice, 
-			SupplierServiceImpl suppservice, TransactionImplementation tservice, TransactionDetailsServiceImpl tdservice) {
+			SupplierServiceImpl suppservice, TransactionServiceImpl tservice, TransactionDetailsServiceImpl tdservice) {
 		this.pservice = pservice;
 		this.bservice = bservice;
 		this.suppservice = suppservice;
@@ -156,12 +159,12 @@ public class ProductController {
 		if (product!=null)
 		{
 			//if user requests to edit brand name for all products 
-			if(editBrandName==1) {
+			if(editBrandName!=null) {
 				bservice.editBrandName(product.getBrand().getId(), p.getBrand().getName());
 			}			
 			
 			//if user requests to edit supplier name for all products
-			if(editSupplierName==1) {
+			if(editSupplierName!=null) {
 				suppservice.editSupplierName(product.getSupplier().getId(), p.getSupplier().getSupplierName());
 			}
 			
