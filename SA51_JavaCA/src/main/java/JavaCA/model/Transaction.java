@@ -27,7 +27,7 @@ public class Transaction
 	}
 
 	public Transaction(String carPlateNo) {
-		this();
+		super();
 		this.carPlateNo = carPlateNo;
 	}
 
