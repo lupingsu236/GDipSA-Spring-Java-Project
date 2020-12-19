@@ -67,7 +67,7 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-parachute-box"></i></div>
                                 Manage Suppliers
                             </a>
-                            <a class="nav-link" th:href="@{link}" th:if="${session.usession.role} == ${session.admin}">
+                            <a class="nav-link" th:href="@{/report/usage}" th:if="${session.usession.role} == ${session.admin}">
                                 <div class="sb-nav-link-icon"><i class="far fa-file-alt" ></i></div>
                                 Generate Report
                             </a>

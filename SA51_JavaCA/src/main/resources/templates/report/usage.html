@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body})}">
+
+<body>
+	<div class="my-4 container-sm">
+	
+	<div class="row">
+		<div class="col-sm-9"> <h3>Usage Report</h3></div>
+		<div class="col-sm">
+		<form action="" th:action="@{/report/nonsense/}" method="get">
+		<fieldset>Product Id: <input type="text" name="id" th:value="${id}">
+		</fieldset>
+		<fieldset>
+			<button type="submit">Generate report</button>
+		</fieldset>
+		</form>
+		</div>
+	</div>
+	<br>
+	<div class="row" th:if="${not #lists.isEmpty(transactiondetails)}">
+    	<table class="table table-bordered table-sm"> 
+			<thead class="thead-light">
+				<tr> <th colspan=2>Product Details</th></tr>
+			</thead>
+			<tr><td>Id</td> <td th:text="${product.id}"></td></tr>
+			<tr><td>Name</td> <td th:text="${product.name}"></td></tr>
+			<tr><td>Description</td> <td th:text="${product.description}"></td></tr>
+			<tr><td>Type</td> <td th:text="${product.type}"></td></tr>
+			<tr><td>Category</td> <td th:text="${product.category}"></td></tr>
+			<tr><td>Sub-category</td> <td th:text="${product.subcategory}"></td></tr>
+			<tr><td>Brand Name</td> <td th:text="${product.brand.name}"></td></tr>
+			<tr><td>Current Quantity</td> <td th:text="${product.quantity}"></td></tr>
+			<tr><td>Reorder Level</td> <td th:text="${product.reorderLevel}"></td></tr>
+			<tr><td>Minimum Order Quantity</td> <td th:text="${product.minOrderQty}"></td></tr>
+			<tr><td>Supplier Name</td> <td th:text="${product.supplier.supplierName}"></td></tr>
+			<tr><td>Original Price</td> <td th:text="${#numbers.formatCurrency(product.originalPrice)}"></td></tr>
+			<tr><td>Wholesale Price</td> <td th:text="${#numbers.formatCurrency(product.getWholesalePrice())}"></td></tr>
+			<tr><td>Partner Price</td> <td th:text="${#numbers.formatCurrency(product.getPartnerPrice())}"></td></tr>
+			<tr><td>Retail Price</td> <td th:text="${#numbers.formatCurrency(product.getRetailPrice())}"></td></tr>
+		</table>
+	</div>
+	<br>
+	<div class="card mb-4" th:if="${not #lists.isEmpty(transactiondetails)}">
+          <div class="card-header">
+              <i class="fas fa-table mr-1"></i>
+              Usage of this product
+          </div>
+          <div class="card-body">
+              <div class="table-responsive">
+                  <table class="table table-bordered" width="100%" cellspacing="0">
+                      <thead>
+                          <tr>
+								<th>Id</th>
+								<th>Quantity Change</th>
+								<th>Transaction Type</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+					  		<tr th:each="td : ${transactiondetails}">
+					  			<td th:utext="${td.id}"></td>
+								<td th:utext="${td.quantityChange}"></td>
+								<td th:utext="${td.transactionType}"></td>
+							</tr>
+					  </tbody>
+				</table>
+				<a class="btn btn-primary" th:href="@{/report/usage/} + ${product.id} + '/print'" th:if="${not #lists.isEmpty(transactiondetails)}">Print</a>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
