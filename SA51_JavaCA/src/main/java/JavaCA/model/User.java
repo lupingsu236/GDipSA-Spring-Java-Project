@@ -18,43 +18,66 @@ public class User
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
-	
 	@NotBlank
 	private String fullName;
 	@NotBlank
 	private String username;
-
-	private String password;
 	
+	private String password;
+
+	@NotBlank
+	private String roletype;
 	@NotBlank
 	@Email
 	private String email;
-	@NotBlank
-	private String role;
+	private RoleType role;
+	
+	private String active;
+	private ActiveType activetype;
 	@OneToMany(mappedBy = "user")
 	private List<Transaction> transactions;
 	
-	public User()
-	{
-		
+	public User(){}
+
+	public String getActive() {
+		return active;
 	}
 
-	public User(@NotNull String fullName, @NotNull String username,@NotNull String password,
-			@NotNull @Email String email, @NotNull String role, List<Transaction> transactions) {
+	public void setActive(String active) {
+		this.active = active;
+	}
+
+	public User(@NotBlank String fullName, @NotBlank String username, String password, @NotBlank @Email String email,
+			RoleType role, ActiveType activetype) {
 		super();
 		this.fullName = fullName;
 		this.username = username;
 		this.password = password;
 		this.email = email;
 		this.role = role;
-		this.transactions = transactions;
+		this.activetype=activetype;
 	}
 
+	public ActiveType getActivetype() {
+		return activetype;
+	}
+
+	public void setActivetype(ActiveType activetype) {
+		this.activetype = activetype;
+	}
 
 	public String getEmail() {
 		return email;
 	}
 
+
+	public String getRoletype() {
+		return roletype;
+	}
+
+	public void setRoletype(String roletype) {
+		this.roletype = roletype;
+	}
 
 	public void setEmail(String email) {
 		this.email = email;
@@ -101,17 +124,16 @@ public class User
 		this.transactions = transactions;
 	}
 
-	public String getRole() {
+
+	public RoleType getRole() {
 		return role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(RoleType role) {
 		this.role = role;
 	}
-
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", fullName=" + fullName + ", username=" + username + ", password=" + password
-				+ ", email=" + email + ", role=" + role + ", transactions=" + transactions + "]";
-	}	
+	
+	public String getRoleName() {
+		return this.getRole().toString();
+	}
 }

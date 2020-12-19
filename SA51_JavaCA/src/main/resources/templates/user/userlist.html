@@ -20,8 +20,8 @@
 			<th>UserName</th>
 			<th>Email</th>
 			<th>RoleType</th>
+			<th>State</th>
 			<th>Edit User</th>
-			<th>Delete User</th>
 		</tr>
 		</thead>
 		<tr th:each="u : ${users}">
@@ -30,17 +30,14 @@
 			<td th:text="${u.username}" style="vertical-align:middle"></td>
 			<td th:text="${u.email}" style="vertical-align:middle"></td>
 			<td th:text="${u.role}" style="vertical-align:middle"></td>
-
+			<td th:text="${u.activetype}" style="vertical-align:middle"></td>
+			
 			<td style="text-align:center; vertical-align:middle">
 			<a href="#" class="btn btn-light" th:href="@{/user/edit/}+${u.id}">
 			<i class="fas fa-ellipsis-h"></i></a>
 			</td>
 			
-			<td style="text-align:center; vertical-align:middle">
-			<a href="#" class="btn btn-light" th:href="@{/user/delete/}+${u.id}">
-			<i class="fas fa-ellipsis-h"></i></a>
-			</td>
-
+			
 
 		</tr>
 	</table>
