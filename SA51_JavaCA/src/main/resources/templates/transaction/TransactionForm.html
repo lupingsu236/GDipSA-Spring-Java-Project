@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body})}">
-
+<!-- For update -->
 <body>
 <div class="my-4 container-sm">
 	<br>
@@ -9,8 +9,9 @@
 	</div>
 	
 	<div class="row">
-		<form action="" th:object="${t}" th:action="@{/transaction/edit/} + ${t.id}" method="post">
+		<form action="" th:object="${t}" th:action="@{/transaction/saveTransaction/}" method="post">
 				<div class="form-group w-100">
+				<input type="hidden" class="form-control" th:field="*{id}">
 				<label for="carPlateNo">Enter Car Plate Number</label>
 				<input type="text" class="form-control" th:field="*{carPlateNo}"> 
 				</div>
