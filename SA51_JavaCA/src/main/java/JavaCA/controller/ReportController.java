@@ -1,6 +1,8 @@
 package JavaCA.controller;
 
+import java.sql.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,9 +39,14 @@ public class ReportController
 		return "report/usage";
 	}
 	
-	@RequestMapping(value={"/nonsense"}, method=RequestMethod.GET)
-	public String nonsense(@RequestParam long id)
+	@RequestMapping(value={"/search"}, method=RequestMethod.POST)
+	public String searchUsageReportForProduct(RedirectAttributes model, @RequestParam long id, @RequestParam String fromDate, 
+						   @RequestParam String toDate)
 	{
+		if (!fromDate.isBlank())
+			model.addFlashAttribute("fromDate", Date.valueOf(fromDate));
+		if (!toDate.isBlank())
+			model.addFlashAttribute("toDate", Date.valueOf(toDate));
 		return "redirect:/report/usage/" + id;
 	}
 	
@@ -48,7 +55,39 @@ public class ReportController
 	{
 		String output = "report/usage";
 		List<TransactionDetail> transactionDetailsForThisProduct = tdservice.findTransactionDetailsByProductId(id);
-		model.addAttribute("transactiondetails", transactionDetailsForThisProduct);
+		if (model.getAttribute("fromDate") == null && model.getAttribute("toDate") == null)
+		{
+			model.addAttribute("transactiondetails", transactionDetailsForThisProduct);
+		}
+		else
+		{
+			if(model.getAttribute("fromDate") != null && model.getAttribute("toDate") != null)
+			{
+				Date fromDate = (Date) model.getAttribute("fromDate");
+				Date toDate = (Date) model.getAttribute("toDate");
+				transactionDetailsForThisProduct = transactionDetailsForThisProduct.stream().filter(x -> 
+																	x.getDate().compareTo(toDate) <= 0
+																	&& x.getDate().compareTo(fromDate) >= 0)
+														   			.collect(Collectors.toList());
+				model.addAttribute("transactiondetails", transactionDetailsForThisProduct);
+			}
+			else if (model.getAttribute("fromDate") != null)
+			{
+				Date fromDate = (Date) model.getAttribute("fromDate");
+				transactionDetailsForThisProduct = transactionDetailsForThisProduct.stream().filter(x -> 
+																	x.getDate().compareTo(fromDate) >= 0)
+																	.collect(Collectors.toList());
+				model.addAttribute("transactiondetails", transactionDetailsForThisProduct);
+			}
+			else
+			{
+				Date toDate = (Date) model.getAttribute("toDate");
+				transactionDetailsForThisProduct = transactionDetailsForThisProduct.stream().filter(x -> 
+																	x.getDate().compareTo(toDate) <= 0)
+																	.collect(Collectors.toList());
+				model.addAttribute("transactiondetails", transactionDetailsForThisProduct);
+			}
+		}
 		model.addAttribute("product", pservice.findProduct(id));
 		if (model.containsAttribute("print"))
 			output = "report/usagereportprint";
