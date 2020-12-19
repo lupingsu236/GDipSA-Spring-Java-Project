@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import JavaCA.model.Product;
 import JavaCA.model.RoleType;
 import JavaCA.model.Transaction;
@@ -21,17 +19,16 @@ import JavaCA.model.TransactionDetail;
 import JavaCA.model.TransactionType;
 import JavaCA.service.ProductService;
 import JavaCA.service.ProductServiceImpl;
-import JavaCA.service.TransactionDetailsServiceImpl;
 import JavaCA.service.TransactionDetailsService;
-import JavaCA.service.TransactionServiceImplementation;
-import JavaCA.service.TransactionService;
+import JavaCA.service.TransactionImplementation;
+import JavaCA.service.TransactionInterface;
 
 @Controller
 @RequestMapping("/transactiondetails")
 public class TransactiondetailsController {
 	
 	@Autowired
-	private TransactionService transactionService;
+	private TransactionInterface transactionService;
 	
 	@Autowired
 	private ProductService productService;
@@ -40,7 +37,7 @@ public class TransactiondetailsController {
 	private TransactionDetailsService tdService;
 	
 	@Autowired
-	public void setImplementation(TransactionServiceImplementation transImpl, ProductServiceImpl prodImpl, TransactionDetailsServiceImpl transDetailImpl)
+	public void setImplementation(TransactionImplementation transImpl, ProductServiceImpl prodImpl, TransactionDetailsService transDetailImpl)
 	{
 		this.transactionService = transImpl;
 		this.productService = prodImpl;
@@ -60,30 +57,27 @@ public class TransactiondetailsController {
 	}
 	
 	@GetMapping("/detail/{tid}")
-	public String viewTransactionDetails(@PathVariable("tid") int tid, RedirectAttributes redirectModel,
-			@ModelAttribute("success") String success, HttpSession session, Model model)
+	public String viewTransactionDetails(Model model, @PathVariable("tid") int tid, HttpSession session)
 	{
 		Transaction t = transactionService.findTransactionById(tid);
-		if (session.getAttribute("preView") == "all") {
-			redirectModel.addFlashAttribute("success", success);
-			return "redirect:/transaction/list";
-			}
-		model.addAttribute("success", success);
+		if (session.getAttribute("preView") == "all") {return "redirect:/transaction/list";}
 		model.addAttribute("transaction", t);
 		model.addAttribute("transactiondetail", t.getTransactionDetails());
 		return "/transaction/transactiondetail";
 	}
 	
 	@PostMapping("/save/{tid}")
-	public String saveTransactionDetails(@PathVariable("tid") int tid, RedirectAttributes redirectModel,
-			@ModelAttribute("td") TransactionDetail td, HttpSession session) {
+	public String saveTransactionDetails(@PathVariable("tid") int tid, 
+			@ModelAttribute("td") TransactionDetail td, Model model, HttpSession session) {
 		Transaction t = transactionService.findTransactionById(tid);
 		td.setTransaction(t);
 		Product p = productService.findProduct(td.getProduct().getId());
 		td.setProduct(p);
-		String success = String.valueOf(tdService.saveTransactionDetail(td));
-		redirectModel.addFlashAttribute("success", success);
-		return "redirect:/transactiondetails/detail/" + t.getId();
+		tdService.saveTransactionDetail(td);
+		if (session.getAttribute("preView") == "all") {return "redirect:/transaction/list";}
+		model.addAttribute("transaction", t);
+		model.addAttribute("transactiondetail", t.getTransactionDetails());
+		return "/transaction/transactiondetail";
 	}
 	
 	@RequestMapping("/edit/{tdid}")

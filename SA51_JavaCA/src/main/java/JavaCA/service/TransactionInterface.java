@@ -5,7 +5,7 @@ import java.util.List;
 import JavaCA.model.Transaction;
 import JavaCA.model.TransactionDetail;
 
-public interface TransactionService 
+public interface TransactionInterface 
 {
 	List<Transaction> listAllTransactions();
 	List<Transaction> listAllCarTransactions();
