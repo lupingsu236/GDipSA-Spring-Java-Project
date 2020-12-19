@@ -11,6 +11,7 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -25,11 +26,9 @@ public class Product
 	private String name, type, category, subcategory;
 	@NotBlank @Size(min=2, max=200)
 	private String description;
-	@NotBlank @Min(0)
-	@Digits(integer = 8, fraction = 2)
+	@Min(0) @Digits(integer = 8, fraction = 2)
 	private double originalPrice;
-	@NotBlank @Min(0)
-	@Digits(integer = 8, fraction = 0)
+	@Min(0) @Digits(integer = 8, fraction = 0)
 	private int reorderLevel, minOrderQty, quantity;
 	@ManyToOne
 	private Supplier supplier;
