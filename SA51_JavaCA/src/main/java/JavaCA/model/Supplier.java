@@ -17,7 +17,7 @@ public class Supplier
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	@NotNull @NotBlank
+	@NotBlank
 	@Size(min=2, max=50)
 	private String supplierName;
 	@OneToMany(mappedBy = "supplier")

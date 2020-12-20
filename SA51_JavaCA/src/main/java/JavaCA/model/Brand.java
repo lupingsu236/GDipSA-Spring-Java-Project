@@ -17,7 +17,7 @@ public class Brand
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	@NotNull @NotBlank
+	@NotBlank
 	@Size(min=2, max=50)
 	private String name;
 	@OneToMany(mappedBy = "brand")
@@ -51,6 +51,14 @@ public class Brand
 	public void setName(String name) 
 	{
 		this.name = name;
+	}
+
+	public List<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(List<Product> products) {
+		this.products = products;
 	}
 
 	@Override

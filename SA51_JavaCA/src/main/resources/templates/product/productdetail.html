@@ -40,7 +40,8 @@
 		<tr><td>Category</td> <td th:text="${p.category}"></td></tr>
 		<tr><td>Sub-category</td> <td th:text="${p.subcategory}"></td></tr>
 		<tr><td>Brand Id</td> <td th:text="${p.brand.id}"></td></tr>
-		<tr><td>Brand Name</td> <td th:text="${p.brand.name}"></td></tr>
+		<tr><td>Brand Name <br>(<a th:href="@{/brand}">View all brands</a>)</td> 
+		<td th:text="${p.brand.name}"></td></tr>
 		</table>
 		</div>
 		</div>
@@ -58,7 +59,8 @@
 			<tr><td>Reorder Level</td> <td th:text="${p.reorderLevel}"></td></tr>
 			<tr><td>Minimum Order Quantity</td> <td th:text="${p.minOrderQty}"></td></tr>
 			<tr><td>Supplier Id</td> <td th:text="${p.supplier.id}"></td></tr>
-			<tr><td>Supplier Name</td> <td th:text="${p.supplier.supplierName}"></td></tr>
+			<tr><td>Supplier Name <br>(<a th:href="@{/supplier}">View all suppliers</a>)</td> 
+			<td th:text="${p.supplier.supplierName}"></td></tr>
 			</table>
 		</div>
 		

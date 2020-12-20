@@ -47,4 +47,10 @@ public class SupplierServiceImpl implements SupplierService {
 		supplier.setSupplierName(newSupplierName);
 		saveSupplier(supplier);
 	}
+
+	@Override
+	public void deleteSupplier(Supplier supplier) {
+		srepo.delete(supplier);
+		
+	}
 }

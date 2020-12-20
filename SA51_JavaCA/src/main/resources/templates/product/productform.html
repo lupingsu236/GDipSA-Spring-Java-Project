@@ -64,6 +64,7 @@
 				<datalist id="brands">
 				  <option th:each="b: ${brands}" th:value="${b.name}">
 				</datalist>
+				<p style="color:red" th:text="${errMsgBrand}"></p>
 			</tr>
 			
 			</table>
@@ -81,19 +82,19 @@
 			<span th:if="*{id}==0" style="font-style:italic; color:gray; font-size:small;"> 
 			Set as 0 if initial order has yet to be made</span>
 			</td> 
-			<td th:if="*{id}==0"><input type="text" class="form-control" th:field="*{quantity}"> 
+			<td th:if="*{id}==0"><input type="number" class="form-control" th:field="*{quantity}"> 
 				<p style="color:red" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></p></td>
 			<td th:if="*{id}!=0"><input readonly type="text" class="form-control-plaintext" th:field="*{quantity}"></td>
 			<td th:if="*{id}!=0"><a class="btn btn-info" th:href="@{/transaction/stockentry/} + *{id}">Edit</a></td>
 			</tr>
 			
 			<tr><td class="pt-2">Reorder Level:</td> 
-			<td colspan=2><input type="text" class="form-control" th:field="*{reorderLevel}"> 
+			<td colspan=2><input type="number" class="form-control" th:field="*{reorderLevel}"> 
 			<p style="color:red" th:if="${#fields.hasErrors('reorderLevel')}" th:errors="*{reorderLevel}"></p></td>
 			</tr>
 			
 			<tr><td class="pt-2">Minimum Order Quantity:</td> 
-			<td colspan=2><input type="text" class="form-control" th:field="*{minOrderQty}"> 
+			<td colspan=2><input type="number" class="form-control" th:field="*{minOrderQty}"> 
 			<p style="color:red" th:if="${#fields.hasErrors('minOrderQty')}" th:errors="*{minOrderQty}"></p></td>
 			</tr>
 			
@@ -104,7 +105,7 @@
 				<datalist id="suppliers">
 			  	<option th:each="s: ${suppliers}" th:value="${s.supplierName}">
 				</datalist>
-				
+			<p style="color:red" th:text="${errMsgSupplier}"></p>
 			</td>
 			</tr>
 			</table>
