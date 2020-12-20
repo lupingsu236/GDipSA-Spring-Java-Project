@@ -36,7 +36,7 @@ public class ReportController
 	@RequestMapping(value={"/usage"}, method=RequestMethod.GET)
 	public String usageReportForProduct(Model model)
 	{
-		model.addAttribute("product", new Product());
+		//model.addAttribute("product", new Product());
 		return "report/usage";
 	}
 	
@@ -118,5 +118,15 @@ public class ReportController
 	{
 		model.addFlashAttribute("print", true);
 		return "redirect:/report/usage/" + id;
+	}
+	
+	@RequestMapping(value={"/reorder"}, method=RequestMethod.GET)
+	public String reorderReport(Model model)
+	{
+		List<Product> productsThatRequireReorder = pservice.findAllProducts().stream()
+												   .filter(x -> x.getQuantity() <= x.getReorderLevel())
+												   .collect(Collectors.toList());
+		model.addAttribute("productsThatRequireReorder", productsThatRequireReorder);
+		return "report/reorder";
 	}
 }

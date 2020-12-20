@@ -69,7 +69,11 @@
                             </a>
                             <a class="nav-link" th:href="@{/report/usage}" th:if="${session.usession.role} == ${session.admin}">
                                 <div class="sb-nav-link-icon"><i class="far fa-file-alt" ></i></div>
-                                Generate Report
+                                Generate Usage Report
+                            </a>
+                            <a class="nav-link" th:href="@{/report/reorder}" th:if="${session.usession.role} == ${session.admin}">
+                                <div class="sb-nav-link-icon"><i class="far fa-file" ></i></div>
+                                Generate Reorder Report
                             </a>
                         </div>
                     </div>

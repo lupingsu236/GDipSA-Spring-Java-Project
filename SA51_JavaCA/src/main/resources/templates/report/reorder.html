@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body})}">
+
+<body>
+	<div class="my-4 container-sm">
+	<div class="row">
+		<div class="col-sm-9"><h3>Reorder Report</h3></div>
+	</div>
+	<br>
+	<div class="card mb-4">
+          <div class="card-header">
+              <i class="fas fa-table mr-1"></i>
+              Products that need to be reordered
+          </div>
+          <div class="card-body">
+              <div class="table-responsive">
+                  <table class="table table-bordered" width="100%" cellspacing="0">
+                      <thead>
+                          <tr>
+								<th>Id</th>
+								<th>Name</th>
+								<th>Brand Id</th>
+								<th>Brand</th>
+								<th>Supplier Id</th>
+								<th>Name of Supplier</th>
+								<th>Quantity</th>
+								<th>Reorder Level</th>
+								<th>Minimum order quantity</th>
+								<th>Quantity to order</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+					  		<tr th:each="p : ${productsThatRequireReorder}">
+					  			<td th:utext="${p.id}"></td>
+					  			<td th:utext="${p.name}"></td>
+								<td th:utext="${p.brand.id}"></td>
+								<td th:utext="${p.brand.name}"></td>
+								<td th:utext="${p.supplier.id}"></td>
+								<td th:utext="${p.supplier.supplierName}"></td>
+								<td th:utext="${p.quantity}"></td>
+								<td th:utext="${p.reorderLevel}"></td>
+								<td th:utext="${p.minOrderQty}"></td>
+								<td th:utext="${p.reorderLevel} - ${p.quantity} + ${p.minOrderQty}"></td>
+							</tr>
+							<tr th:if="${#lists.isEmpty(productsThatRequireReorder)}">
+							<td style="text-align:center" colspan="10" th:if="${#lists.isEmpty(productsThatRequireReorder)}" th:utext="'No products require reorder as of now'">
+							</td>
+							</tr>
+					  </tbody>
+				</table>
+				<a class="btn btn-primary" th:href="@{/report/usage/} + ${product.id} + '/print'" th:if="${not #lists.isEmpty(transactiondetails)}">Print</a>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
