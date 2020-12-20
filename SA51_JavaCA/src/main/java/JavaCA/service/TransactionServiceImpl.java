@@ -36,8 +36,9 @@ public class TransactionServiceImpl implements TransactionService
 	
 	
 	@Override
-	public void saveTransaction(Transaction transaction) {
-		transRepo.save(transaction);		
+	public boolean saveTransaction(Transaction transaction) {
+		transRepo.save(transaction);	
+		return true;
 	}
 	
 	@Override

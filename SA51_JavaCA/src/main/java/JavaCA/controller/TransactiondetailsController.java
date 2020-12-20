@@ -65,7 +65,7 @@ public class TransactiondetailsController {
 			@ModelAttribute("success") String success, HttpSession session, Model model)
 	{
 		Transaction t = transactionService.findTransactionById(tid);
-		if (session.getAttribute("preView") == "all") {
+		if (session.getAttribute("preView") == "alltd") {
 			redirectModel.addFlashAttribute("success", success);
 			return "redirect:/transaction/list";
 			}

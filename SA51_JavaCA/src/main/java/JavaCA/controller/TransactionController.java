@@ -59,13 +59,23 @@ public class TransactionController
 		return "/transaction/transactions";
 	}
 	
-	@RequestMapping("/list")
+	@RequestMapping("/all")
 	public String viewAllTransactions(Model model, HttpSession session, @ModelAttribute("success") String success)
+	{
+		List<Transaction> all = transactionService.listAllTransactions();
+		model.addAttribute("transactions", all);
+		model.addAttribute("success", success);
+		session.setAttribute("preView", "all");
+		return "/transaction/transactions";
+	}
+	
+	@RequestMapping("/list")
+	public String viewAllTransactionsDetails(Model model, HttpSession session, @ModelAttribute("success") String success)
 	{
 		List<TransactionDetail> td = tdService.findAllTransactionDetails();
 		model.addAttribute("transactiondetail", td);
 		model.addAttribute("success", success);
-		session.setAttribute("preView", "all");
+		session.setAttribute("preView", "alltd");
 		return "/transaction/alltransactiondetail";
 	}
 	
@@ -81,11 +91,12 @@ public class TransactionController
 	}
 	
 	@RequestMapping("/delete/{id}")
-	public String deleteTransactionAndTransactionDetails(@PathVariable("id") int id,  RedirectAttributes redirectModel)
+	public String deleteTransactionAndTransactionDetails(@PathVariable("id") int id,  RedirectAttributes redirectModel, HttpSession session)
 	{
 		
 		String success = String.valueOf(transactionService.deleteTransaction(transactionService.findTransactionById(id)));
 		redirectModel.addFlashAttribute("success", success);
+		if (session.getAttribute("preView") == "all") {return "redirect:/transaction/all";}
 		return "redirect:/transaction/car";
 	}
 	
@@ -134,10 +145,14 @@ public class TransactionController
 	}
 	
 	@RequestMapping("/saveTransaction")
-	public String saveTransaction(@ModelAttribute("t") Transaction t, Model model, HttpSession session) {
+	public String saveTransaction(@ModelAttribute("t") Transaction t, Model model, HttpSession session, RedirectAttributes redirectModel) {
 		User u = (User)session.getAttribute("usession");
 		t.setUser(u);
-		transactionService.saveTransaction(t);
+		String success = String.valueOf(transactionService.saveTransaction(t));
+		if (session.getAttribute("preView") == "all") {
+			redirectModel.addFlashAttribute("success", success);
+			return "redirect:/transaction/all";
+			}
 		return "redirect:/transaction/car";
 	}
 }
