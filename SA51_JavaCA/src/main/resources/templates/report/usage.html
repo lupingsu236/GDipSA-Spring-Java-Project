@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body})}">
+
+<body>
+	<div class="my-4 container-sm">
+	
+	<div class="row">
+		<div class="col-sm-9"> <h3>Usage Report</h3></div>
+		<div class="col-sm">
+		<form action="" th:action="@{/report/search/}" method="post">
+		<fieldset>Product Id:</fieldset>
+		<fieldset> <input type="text" name="id" th:value="${id}">
+		<p style="color:red" th:if="${errorMsgId != null}" th:utext="${errorMsgId}"></p></fieldset>
+		<fieldset>From Date:</fieldset>
+		<fieldset><input type="text" name="fromDate" th:value="${fromDate}" placeholder="yyyy-MM-dd">
+		<p style="color:red" th:if="${errorMsgFromDate != null}" th:utext="${errorMsgFromDate}"></p></fieldset>
+		<fieldset><span style="font-style: italic; color: gray; font-size:small">You may leave this field empty if you want to include all past records.</span></fieldset>
+		<fieldset>To Date:</fieldset>
+		<fieldset><input type="text" name="toDate" th:value="${toDate}" placeholder="yyyy-MM-dd">
+		<p style="color:red" th:if="${errorMsgToDate != null}" th:utext="${errorMsgToDate}"></p></fieldset>
+		<fieldset><span style="font-style: italic; color: gray; font-size:small">You may leave this field empty if you want to include all records up to today.</span></fieldset>
+		<fieldset>
+			<br>
+			<button type="submit">Generate report</button>
+		</fieldset>
+		</form>
+		</div>
+	</div>
+	<br>
+	<div class="row" th:if="${search}">
+    	<table class="table table-bordered table-sm"> 
+			<thead class="thead-light">
+				<tr> <th colspan=2>Product Details</th></tr>
+			</thead>
+			<tr><td>Id</td> <td th:text="${product.id}"></td></tr>
+			<tr><td>Name</td> <td th:text="${product.name}"></td></tr>
+			<tr><td>Description</td> <td th:text="${product.description}"></td></tr>
+			<tr><td>Type</td> <td th:text="${product.type}"></td></tr>
+			<tr><td>Category</td> <td th:text="${product.category}"></td></tr>
+			<tr><td>Sub-category</td> <td th:text="${product.subcategory}"></td></tr>
+			<tr><td>Brand Name</td> <td th:text="${product.brand.name}"></td></tr>
+			<tr><td>Current Quantity</td> <td th:text="${product.quantity}"></td></tr>
+			<tr><td>Reorder Level</td> <td th:text="${product.reorderLevel}"></td></tr>
+			<tr><td>Minimum Order Quantity</td> <td th:text="${product.minOrderQty}"></td></tr>
+			<tr><td>Supplier Name</td> <td th:text="${product.supplier.supplierName}"></td></tr>
+			<tr><td>Original Price</td> <td th:text="${#numbers.formatCurrency(product.originalPrice)}"></td></tr>
+			<tr><td>Wholesale Price</td> <td th:text="${#numbers.formatCurrency(product.getWholesalePrice())}"></td></tr>
+			<tr><td>Partner Price</td> <td th:text="${#numbers.formatCurrency(product.getPartnerPrice())}"></td></tr>
+			<tr><td>Retail Price</td> <td th:text="${#numbers.formatCurrency(product.getRetailPrice())}"></td></tr>
+		</table>
+	</div>
+	<br>
+	<div class="card mb-4" th:if="${search}">
+          <div class="card-header">
+              <i class="fas fa-table mr-1"></i>
+              Usage of this product
+          </div>
+          <div class="card-body">
+              <div class="table-responsive">
+                  <table class="table table-bordered" width="100%" cellspacing="0">
+                      <thead>
+                          <tr>
+								<th>Id</th>
+								<th>Quantity Change</th>
+								<th>Transaction Type</th>
+								<th>Date of transaction</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+					  		<tr th:each="td : ${transactiondetails}">
+					  			<td th:utext="${td.id}"></td>
+								<td th:utext="${td.quantityChange}"></td>
+								<td th:utext="${td.transactionType}"></td>
+								<td th:utext="${td.date}"></td>
+							</tr>
+							<tr th:if="${#lists.isEmpty(transactiondetails)}">
+							<td style="text-align:center;font-weight:bold" colspan="4" th:if="${#lists.isEmpty(transactiondetails)}" th:utext="'No matching records found'">
+							</td>
+							</tr>
+					  </tbody>
+				</table>
+				<a class="btn btn-primary" th:href="@{/report/usage/} + ${product.id} + '/print'" th:if="${not #lists.isEmpty(transactiondetails)}">Print</a>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

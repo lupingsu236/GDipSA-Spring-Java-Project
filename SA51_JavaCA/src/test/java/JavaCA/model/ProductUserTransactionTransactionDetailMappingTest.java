@@ -52,12 +52,12 @@ class ProductUserTransactionTransactionDetailMappingTest
 		t1.setUser(user);
 		transactionRepo.save(t1);
 		// Create the transaction detail and set product and transaction before persisting
-		TransactionDetail td1 = new TransactionDetail(-1, TransactionType.USAGE);
+		TransactionDetail td1 = new TransactionDetail(1, TransactionType.USAGE);
 		td1.setProduct(product);
 		td1.setTransaction(t1);
 		transactionDetailRepo.save(td1);
 		// update the quantity of the product in the db
-		product.setQuantity(product.getQuantity() + td1.getQuantityChange());
+		product.setQuantity(product.getQuantity() - td1.getQuantityChange());
 		productRepo.save(product);
 		
 		User lup = new User("Su Luping", "sulp", "password", RoleType.ADMIN);

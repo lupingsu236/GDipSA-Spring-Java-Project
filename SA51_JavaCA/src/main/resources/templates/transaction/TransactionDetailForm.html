@@ -2,6 +2,16 @@
 <html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body})}">
 <!-- For update -->
 <body>
+
+<script>
+    function noBlankInteger() {
+    	if (document.getElementById("qtychange").value == ""){
+    		document.getElementById("qtychange").value = new Number("0");
+    	}
+    }
+</script>
+
+
 <div class="my-4 container-sm">
 	<br>
 	<div class="row">
@@ -9,7 +19,7 @@
 	</div>
 	<br>
 	<div class="row">
-		<form action="" th:object="${td}" th:action="@{/transactiondetails/save/} + ${tid}" method="post">
+		<form action="" onsubmit="noBlankInteger();" th:object="${td}" th:action="@{/transactiondetails/save/} + ${tid}" method="post">
 				<div class="form-group w-200" th:if="*{id}!=0">
 					<input type="hidden" readonly class="form-control-plaintext" th:field="*{id}">
 				</div>
@@ -29,7 +39,7 @@
 				</div>
 				<div class="form-group w-200">
 					  <label for="quantity">Enter Quantity</label>
-					  <input type="number" step="1" class="form-control" th:field="*{quantityChange}"> <!--  th:value="${td.quantityChange} ?: '0' -->
+					  <input id="qtychange" type="number" min="0" step="1" class="form-control" th:field="*{quantityChange}">	
 				</div>
 				<div class="form-group">
 				<button class="btn btn-success" type="submit" style="margin:10px">Save</button>

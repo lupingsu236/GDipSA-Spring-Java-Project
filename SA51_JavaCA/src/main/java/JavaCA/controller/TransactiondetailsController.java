@@ -109,7 +109,6 @@ public class TransactiondetailsController {
 	}
 	
 	@RequestMapping("/delete/{id}")
-	//to force update
 	public String deleteTransactionDetails(@PathVariable("id") int id,  RedirectAttributes redirectModel) {
 		TransactionDetail td = tdService.findTransactionDetailById(id);
 		Transaction t = td.getTransaction();
