@@ -1,6 +1,7 @@
 package JavaCA.controller;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,14 +45,25 @@ public class ReportController
 						   @RequestParam String toDate)
 	{
 		if (pservice.findProduct(id) == null)
+			model.addFlashAttribute("errorMsgId", "There is no product with this Id");
+		else
+			model.addFlashAttribute("id", id);
+		if (!TransactionDetailsService.isValidDateFormat(fromDate))
+			model.addFlashAttribute("errorMsgFromDate", "Input must be in the format of yyyy-MM-dd");
+		else
 		{
-			model.addFlashAttribute("errorMsgId", "Please input a valid product id");
-			return "redirect:/report/usage";
+			if (!fromDate.isBlank())
+				model.addFlashAttribute("fromDate", Date.valueOf(fromDate));
 		}
-		if (!fromDate.isBlank())
-			model.addFlashAttribute("fromDate", Date.valueOf(fromDate));
-		if (!toDate.isBlank())
-			model.addFlashAttribute("toDate", Date.valueOf(toDate));
+		if (!TransactionDetailsService.isValidDateFormat(toDate))
+			model.addFlashAttribute("errorMsgToDate", "Input must be in the format of yyyy-MM-dd");
+		else
+		{
+			if (!toDate.isBlank())
+				model.addFlashAttribute("toDate", Date.valueOf(toDate));
+		}
+		if (pservice.findProduct(id) == null || !TransactionDetailsService.isValidDateFormat(fromDate) || !TransactionDetailsService.isValidDateFormat(toDate))
+			return "redirect:/report/usage/";
 		model.addFlashAttribute("search", true);
 		return "redirect:/report/usage/" + id;
 	}
@@ -97,6 +109,7 @@ public class ReportController
 		model.addAttribute("product", pservice.findProduct(id));
 		if (model.containsAttribute("print"))
 			output = "report/usagereportprint";
+			model.addAttribute("timeOfReport", Date.valueOf(LocalDate.now()));
 		return output;
 	}
 	
