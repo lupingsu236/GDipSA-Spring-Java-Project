@@ -15,7 +15,7 @@ public class TransactionDetail
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	@Min(1)
+	@Min(0)
 	private int quantityChange;
 	private Date date;
 	private TransactionType transactionType;

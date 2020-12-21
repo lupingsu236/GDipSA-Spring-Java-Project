@@ -17,7 +17,8 @@
 				</div>
 				<div class="form-group">
 				<button class="btn btn-success" type="submit" style="margin:10px">Save</button>
-		        <a class="btn btn-danger" th:href="@{/transaction/car}" style="margin:10px">Cancel</a>
+		        <a th:unless="${preView == 'all'}" class="btn btn-danger" th:href="@{/transaction/car}" style="margin:10px">Cancel</a>
+		        <a th:if="${preView == 'all'}" class="btn btn-danger" th:href="@{/transaction/all}" style="margin:10px">Cancel</a>
 		        </div>
 		</form>
 	</div>
