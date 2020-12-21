@@ -18,6 +18,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import JavaCA.model.Product;
 import JavaCA.model.Supplier;
 import JavaCA.model.TransactionDetail;
+import JavaCA.service.EmailService;
+import JavaCA.service.EmailServiceImpl;
 import JavaCA.service.ProductService;
 import JavaCA.service.ProductServiceImpl;
 import JavaCA.service.SupplierService;

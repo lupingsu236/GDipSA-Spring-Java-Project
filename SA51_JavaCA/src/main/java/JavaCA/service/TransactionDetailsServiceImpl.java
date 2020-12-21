@@ -26,6 +26,13 @@ public class TransactionDetailsServiceImpl implements TransactionDetailsService 
 	
 	@Autowired
 	private ProductRepository prodRepo;
+	private EmailService eservice;
+	
+	@Autowired
+	public void setServices(EmailServiceImpl eservice) 
+	{
+		this.eservice = eservice;
+	}
 	
 	@Override
 	public ArrayList<TransactionDetail> findTransactionDetailsByProductId(long productId) {
@@ -75,6 +82,7 @@ public class TransactionDetailsServiceImpl implements TransactionDetailsService 
 			if (!sameProduct) {prodRepo.save(previousProduct);}
 			prodRepo.save(currentProduct);
 			transDRepo.save(transactionDetail);	
+			eservice.sendReorderEmailReminderForThisProduct(currentProduct);
 			return true;
 		}
 		
@@ -94,6 +102,7 @@ public class TransactionDetailsServiceImpl implements TransactionDetailsService 
 			p.setQuantity(currentCount);
 			prodRepo.save(p);
 			transDRepo.delete(transactionDetail);
+			eservice.sendReorderEmailReminderForThisProduct(p);
 			return true;
 		}
 		return false;
