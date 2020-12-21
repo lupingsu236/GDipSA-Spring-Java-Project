@@ -66,7 +66,16 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value="/change/{id}",method=RequestMethod.GET)
-	public String tochange(Model model,@PathVariable("id") Long id) {
+	public String tochange(Model model,@PathVariable("id") long id, HttpSession session) {
+		
+		//only current user that is login can change his password 
+		//prevents bypassing via url
+		User currentUser = (User) session.getAttribute("usession");
+		if (currentUser.getId()!=id)
+		{
+			return "redirect:/";
+		}
+		
 		Password password = new Password();
 		model.addAttribute("password", password);
 		return "/login/changepsd";
@@ -74,23 +83,24 @@ public class LoginController {
 	
 	@PostMapping(value = "/changePsd/{id}")
 	public String changePSD(@ModelAttribute("password") Password password, Model model, 
-			@PathVariable(value="id") Long id, HttpSession session) {
+			@PathVariable(value="id") long id) {
 		
 		User user = uservice.findById(id); 
 		
 		if(!password.getOldpassword().equals(user.getPassword())) {
-			model.addAttribute("Errmsgpsd1","The old password is not correct.");
+			model.addAttribute("errMsg_oldPass","The old password is incorrect.");
 			return "login/changepsd";
 		}
-		
-		else if(password.getNewpassword()=="") {
-			model.addAttribute("Errmsgpsd2","Password is blank.");
-			return "login /changepsd";
+			
+		if(password.getNewpassword().length()<6)
+		{
+			model.addAttribute("errMsg_length", "Password must be at least 6 characters long!");
+			return "/login/changepsd";
 		}
 		
-		else if(!password.getNewpassword().equals(password.getConpassword())) {
-			model.addAttribute("Errmsgpsd3","New password is not confirmed.");
-			return "login/changepsd";
+		if(!password.getNewpassword().equals(password.getConpassword())) {
+			model.addAttribute("errMsg_noMatch","Passwords do not match!");
+			return "/login/changepsd";
 		}
 		
 		user.setPassword(password.getNewpassword());
