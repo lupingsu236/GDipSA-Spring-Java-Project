@@ -1,5 +1,6 @@
 package JavaCA.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -7,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import JavaCA.model.RoleType;
 import JavaCA.model.User;
 import JavaCA.repo.UserRepository;
 
@@ -60,6 +62,14 @@ public class UserImplementation implements UserInterface {
 	@Override
 	public User findByUsername(String username) {
 		return urepo.findUserByUsername(username);
+	}
+
+	@Override
+	public ArrayList<String> getRoleTypes() {
+		ArrayList<String> roleTypes = new ArrayList<>();
+		roleTypes.add(RoleType.ADMIN.toString());
+		roleTypes.add(RoleType.MECHANIC.toString());
+		return roleTypes;
 	}
 	
 }

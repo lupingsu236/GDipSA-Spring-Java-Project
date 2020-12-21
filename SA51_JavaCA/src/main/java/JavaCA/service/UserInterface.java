@@ -1,17 +1,19 @@
 package JavaCA.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import JavaCA.model.User;
 
 public interface UserInterface {
 	
-	public void createUser(User user);
-	public void updateUser(User user);
-	public List<User> listAllUser();
-	public void deleteUser(User user);
-	public boolean authenticate(User user);
-	public User findByName(String name);
-	public User findById(long id);
-	public User findByUsername(String username);
+	void createUser(User user);
+	void updateUser(User user);
+	List<User> listAllUser();
+	void deleteUser(User user);
+	boolean authenticate(User user);
+	User findByName(String name);
+	User findById(long id);
+	User findByUsername(String username);
+	ArrayList<String> getRoleTypes();
 }

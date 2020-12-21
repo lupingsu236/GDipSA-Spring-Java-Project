@@ -40,12 +40,14 @@ public class UserController{
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public String createUser(Model model) {
 		model.addAttribute("user", new User());
+		model.addAttribute("roletypes", uservice.getRoleTypes());
 		return "/user/userform";
 	}
 	
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public String saveUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Model model) {
 		if(bindingResult.hasErrors()) {
+			model.addAttribute("roletypes", uservice.getRoleTypes());
 			return "/user/userform";
 		}
 		
@@ -54,83 +56,40 @@ public class UserController{
 			model.addAttribute("Errmsgname","The username has been used.");
 			return "/user/userform";
 		}
-		
-		if(user.getPassword()=="") {
-			model.addAttribute("Errmsgpsd","The password is blank.");
-			return "/user/userform";
-		}
-		
-		if(user.getRoletype().equalsIgnoreCase("admin")) {
-			user.setRole(RoleType.ADMIN);
-		}else if(user.getRoletype().equalsIgnoreCase("mechanic")){
-			user.setRole(RoleType.MECHANIC);
-		}else {
-			model.addAttribute("Errmsgrole","The roletype only includes admin and mechanic.");
-			return "/user/userform";
-		}		
+			
 		user.setActivetype(ActiveType.ACTIVE);
-		user.setActive("active");
 		uservice.createUser(user);
 		return "redirect:/user/list";
 				
 	}
 	
-	@PostMapping(value="/user/saveedit/{id}")
+	@PostMapping(value="/saveedit/{id}")
 	public String saveeditUser(@ModelAttribute("user") @Valid User user, 
-			@PathVariable("id") long id,BindingResult bindingResult,Model model) {
+			@PathVariable("id") long id, BindingResult bindingResult, Model model) {
 		if(bindingResult.hasErrors()) {
+			model.addAttribute("roletypes", uservice.getRoleTypes());
 			return "/user/usereditform";
 		}		
-		
-		if(user.getRoletype().equalsIgnoreCase("admin")) {
-			user.setRole(RoleType.ADMIN);
-			user.setRoletype("admin");
-		}
-		else if(user.getRoletype().equalsIgnoreCase("mechanic")){
-			user.setRole(RoleType.MECHANIC);
-			user.setRoletype("mechanic");
-		}
-		else {
-			model.addAttribute("Errmsgrole","The roletype only includes admin and mechanic.");
-			return "/user/usereditform";
-		}
-		
-		if(user.getActive().equalsIgnoreCase("active")) {
-			user.setActivetype(ActiveType.ACTIVE);
-			user.setActive("active");
-		}
-		else if(user.getActive().equalsIgnoreCase("inactive")){
-			user.setActivetype(ActiveType.INACTIVE);
-			user.setActive("inactive");
-		}else if(user.getActive()=="") {
-			model.addAttribute("Errmsgstate1","The state is blank.");
-			return "/user/usereditform";
-		}
-		else {
-			model.addAttribute("Errmsgstate2","The state only includes active and inactive.");
-			return "/user/usereditform";
-		}
-		
+	
 		User u = uservice.findById(id);
 		u.setEmail(user.getEmail());
 		u.setFullName(user.getFullName());
 		u.setUsername(user.getUsername());
 		u.setRole(user.getRole());
-		u.setActive(user.getActive());
 		u.setActivetype(user.getActivetype());
 		
 		User ucheck = uservice.findByUsername(u.getUsername());
 		if(ucheck==u||ucheck==null) {
 			uservice.updateUser(u);
-			return "redirect:/user/list";
+			return "redirect:/user";
 		}
 		else {
-			model.addAttribute("Errmsgname","The username has been used.");
+			model.addAttribute("errMsg_username","The username has been used.");
 			return "/user/usereditform";
 		}		
 	}
 	
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@RequestMapping(value = {"", "/list"}, method = RequestMethod.GET)
 	public String listUsers(Model model) {
 		ArrayList<User> users = (ArrayList<User>) uservice.listAllUser();
 		model.addAttribute("users", users);
@@ -138,9 +97,9 @@ public class UserController{
 	}
 	
 	@RequestMapping(value="/edit/{id}", method = RequestMethod.GET)
-	public String editUser(Model model,@PathVariable("id") Long id) {
+	public String editUser(Model model,@PathVariable("id") long id) {
 		model.addAttribute("user", uservice.findById(id));
-		model.addAttribute("oldpsd", uservice.findById(id).getPassword());
+		model.addAttribute("roletypes", uservice.getRoleTypes());
 		return "/user/usereditform";
 	}
 

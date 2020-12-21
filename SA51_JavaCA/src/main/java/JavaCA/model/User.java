@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 public class User 
@@ -22,33 +22,22 @@ public class User
 	private String fullName;
 	@NotBlank
 	private String username;
-	
+	@Size(min=6)
 	private String password;
 
-	@NotBlank
-	private String roletype;
 	@NotBlank
 	@Email
 	private String email;
 	private RoleType role;
-	
-	private String active;
 	private ActiveType activetype;
+	
 	@OneToMany(mappedBy = "user")
 	private List<Transaction> transactions;
 	
 	public User(){}
 
-	public String getActive() {
-		return active;
-	}
-
-	public void setActive(String active) {
-		this.active = active;
-	}
-
 	public User(@NotBlank String fullName, @NotBlank String username, String password, @NotBlank @Email String email,
-			RoleType role, ActiveType activetype, String active,@NotBlank String roletype) {
+			RoleType role, ActiveType activetype) {
 		super();
 		this.fullName = fullName;
 		this.username = username;
@@ -56,8 +45,6 @@ public class User
 		this.email = email;
 		this.role = role;
 		this.activetype=activetype;
-		this.active=active;
-		this.roletype=roletype;
 	}
 
 	public ActiveType getActivetype() {
@@ -70,15 +57,6 @@ public class User
 
 	public String getEmail() {
 		return email;
-	}
-
-
-	public String getRoletype() {
-		return roletype;
-	}
-
-	public void setRoletype(String roletype) {
-		this.roletype = roletype;
 	}
 
 	public void setEmail(String email) {
