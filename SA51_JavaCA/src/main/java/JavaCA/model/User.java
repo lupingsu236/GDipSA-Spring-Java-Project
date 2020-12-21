@@ -48,7 +48,7 @@ public class User
 	}
 
 	public User(@NotBlank String fullName, @NotBlank String username, String password, @NotBlank @Email String email,
-			RoleType role, ActiveType activetype) {
+			RoleType role, ActiveType activetype, String active,@NotBlank String roletype) {
 		super();
 		this.fullName = fullName;
 		this.username = username;
@@ -56,6 +56,8 @@ public class User
 		this.email = email;
 		this.role = role;
 		this.activetype=activetype;
+		this.active=active;
+		this.roletype=roletype;
 	}
 
 	public ActiveType getActivetype() {
