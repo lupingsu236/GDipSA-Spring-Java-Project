@@ -116,7 +116,7 @@ class ProductUserTransactionTransactionDetailMappingTest
 		
 		// Creation of Transaction detail
 		// First create and persist the user (assuming the user is not already persisted)
-		User user = new User("Liau Han Yang, Jonathan", "liauhyj", "password", "liau@gmail.com",RoleType.MECHANIC, ActiveType.ACTIVE,"mechanic","active");
+		User user = new User("Liau Han Yang, Jonathan", "liauhyj", "password", "liau@gmail.com",RoleType.MECHANIC, ActiveType.ACTIVE,"active","mechanice");
 		userRepo.save(user);
 		// Create the transaction and set the user before persisting (assuming this is a new transaction)
 //		Transaction t1 = new Transaction("SJA1234H");
@@ -131,7 +131,7 @@ class ProductUserTransactionTransactionDetailMappingTest
 //		product.setQuantity(product.getQuantity() - td1.getQuantityChange());
 //		productRepo.save(product);
 		
-		User lup = new User("Su Luping", "sulp", "password","sulp@gmail.com", RoleType.ADMIN,ActiveType.ACTIVE,"admin","active");
+		User lup = new User("Su Luping", "sulp", "password","sulp@gmail.com", RoleType.ADMIN,ActiveType.ACTIVE,"active","admin");
 		userRepo.save(lup);
 	}
 
