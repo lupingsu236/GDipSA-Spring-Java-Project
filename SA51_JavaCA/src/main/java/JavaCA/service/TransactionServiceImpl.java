@@ -14,7 +14,7 @@ import JavaCA.repo.TransactionRepository;
 
 @Service
 @Transactional
-public class TransactionImplementation implements TransactionInterface
+public class TransactionServiceImpl implements TransactionService
 {
 	@Autowired
 	private TransactionRepository transRepo;
@@ -36,12 +36,13 @@ public class TransactionImplementation implements TransactionInterface
 	
 	
 	@Override
-	public void saveTransaction(Transaction transaction) {
-		transRepo.save(transaction);		
+	public boolean saveTransaction(Transaction transaction) {
+		transRepo.save(transaction);	
+		return true;
 	}
 	
 	@Override
-	public void deleteTransaction(Transaction transaction)
+	public boolean deleteTransaction(Transaction transaction)
 	{
 		List<TransactionDetail> transDForThisTransaction = transaction.getTransactionDetails();
 		for (TransactionDetail td:transDForThisTransaction)
@@ -49,6 +50,7 @@ public class TransactionImplementation implements TransactionInterface
 			transDRepo.delete(td);
 		}
 		transRepo.delete(transaction);
+		return true;
 	}
 
 	@Override
@@ -63,4 +65,14 @@ public class TransactionImplementation implements TransactionInterface
 		return transDRepo.findAllProductTransactionsByProductId(id);
 	}
 	
+	@Override
+	public boolean noTransactionDetailsInNullTransaction(Transaction transaction) {
+		//to force update
+		if ((transaction.getCarPlateNo() == "") || (transaction.getCarPlateNo() == null)) {
+			if (transaction.getTransactionDetails().isEmpty()) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

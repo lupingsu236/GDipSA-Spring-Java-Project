@@ -2,52 +2,166 @@
 <html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body})}">
 
 <body>
-	<div class="my-4 container-sm">
+
+<br>
+<div th:if="${from}!=null" th:switch="${from}" class="alert alert-success alert-dismissible fade show" role="alert">
+  <span th:case="'delete'">Product has been successfully deleted!</span>
+  <span th:case="'save'">Product has been successfully saved!</span>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+
+<div class="my-4 container-sm">
 	
 	<div class="row">
-		<div class="col-sm-9"> <h3>Products</h3></div>
+		<div class="col-sm-7"> <h3>Products</h3></div>
+		<div class="col-sm">
+		<a class="btn btn-info" data-toggle="collapse" href="#advancedSearch" role="button" aria-expanded="false" aria-controls="advancedSearch">
+   		Advanced Search </a>
+ 		</div>
 		<div class="col-sm">
 		<a href="#" class="btn btn-info" th:href="@{/product/new/}" th:if="${session.usession.role} == ${session.admin}">Add New Product</a>
 		</div>
 	</div>
+	
 	<br>
 	<div class="row">
-	<table class="table table-hover"> 
-		<thead class="thead-light">
-		<tr> 
-			<th>Id</th>
-			<th>Name</th>
-			<th>Description</th>
-			<th>Brand</th>
-			<th>Type</th>
-			<th>Category</th>
-			<th style="text-align:center">Quantity</th>
-			<th style="text-align:center">Details</th>
-			<th style="text-align:center">View Transactions</th>
-		</tr>
-		</thead>
-		<tr th:each="p : ${products}">
-			<td th:text="${p.id}" style="vertical-align:middle"></td>
-			<td th:text="${p.name}" style="vertical-align:middle"></td>
-			<td th:text="${p.description}" style="vertical-align:middle"></td>
-			<td th:text="${p.brand.name}" style="vertical-align:middle"></td>
-			<td th:text="${p.type}" style="vertical-align:middle"></td>
-			<td th:text="${p.category}" style="vertical-align:middle"></td>
-			<td th:text="${p.quantity}" style="text-align:center; vertical-align:middle"></td>
-			<td style="text-align:center; vertical-align:middle">
-			<a href="#" class="btn btn-light" th:href="@{/product/detail/}+${p.id}">
-			<i class="fas fa-ellipsis-h"></i></a>
-			</td>
-			<td style="text-align:center; vertical-align:middle">
-			<a href="#" class="btn btn-light" th:href="@{/transaction/list/}+${p.id}">
-			<i class="fas fa-history"></i></a>
-			</td>
+	<div class="collapse" id="advancedSearch">
+		<div class="card card-body">
+    	<form action="" th:object="${p}" th:action="@{/product/search}" method="post">
+    		<table class="table table-borderless">
+    			<tr>
+    			<td colspan=4><p style="font-weight:bold;">Search by:</p></td>
+    			</tr>
+    			<tr>
+    			<td class="pt-3">Name:</td>
+    			<td><input type="text" class="form-control" th:field="*{name}"></td>
+    			<td class="pt-3">Type:</td>
+    			<td><input list="types" class="form-control" th:field="*{type}">	
+					<datalist id="types">
+				 	 <option th:each="t: ${types}" th:value="${t}">
+					</datalist>
+				</td>
+    			
+    			</tr>
+    			
+    			<tr>
+    			<td class="pt-3">Description:</td>
+    			<td><input type="text" class="form-control" th:field="*{description}"></td>
+    			<td class="pt-3">Brand:</td>
+    			<td><input list="brands" class="form-control" th:field="*{brand.name}">	
+					<datalist id="brands">
+					  <option th:each="b: ${brands}" th:value="${b.name}">
+					</datalist>
+				</td>
+				
+				</tr>
+				
+				<tr><td class="pt-3">Category:</td>
+    			<td><input list="categories" class="form-control" th:field="*{category}">	
+					<datalist id="categories">
+				 	 <option th:each="cat: ${categories}" th:value="${cat}">
+					</datalist>
+				</td>
+				<td class="pt-3">Supplier:</td>
+    			<td><input list="suppliers" class="form-control input-lg" th:field="*{supplier.supplierName}">	
+					<datalist id="suppliers">
+		  			  <option th:each="s: ${suppliers}" th:value="${s.supplierName}">
+					</datalist>
+				</td>
+				</tr>
+				
+				<tr><td class="pt-3">Sub-category:</td>
+    			<td><input list="subcategories" class="form-control" th:field="*{subcategory}">	
+					<datalist id="subcategories">
+				 	 <option th:each="subcat: ${subcategories}" th:value="${subcat}">
+					</datalist>
+				</td>
+				<td colspan="2"><label><input type="checkbox" th:name="belowReorderLevel" th:value="1">
+				Search for products below reorder level</label>
+				</td>
+				</tr>
+				
+				<tr>
+				<td></td><td></td><td></td>
+				<td><button class="btn btn-success" type="submit" style="margin:10px">Search</button></td>
+				</tr>
+		
+    		</table>
 
-		</tr>
-	</table>
+
+    	</form>
+    	</div>
 	</div>
+	</div>
+
+	<br>
 	
-	</div>
-
+	<div class = "row">
+	<div class="card mb-4">
+          <div class="card-header">
+              <i class="fas fa-table mr-1"></i>
+              Products
+          </div>
+          <div class="card-body">
+              <div class="table-responsive">
+                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                      <thead>
+                          <tr>
+                             	<th>Id</th>
+								<th>Name</th>
+								<th>Description</th>
+								<th>Brand</th>
+								<th>Type</th>
+								<th>Category</th>
+								<th style="text-align:center">Quantity</th>
+								<th style="text-align:center">Details</th>
+								<th style="text-align:center">View Transactions</th>
+                          </tr>
+                      </thead>
+                      <tfoot>
+                          <tr>
+                                <th>Id</th>
+								<th>Name</th>
+								<th>Description</th>
+								<th>Brand</th>
+								<th>Type</th>
+								<th>Category</th>
+								<th style="text-align:center">Quantity</th>
+								<th style="text-align:center">Details</th>
+								<th style="text-align:center">View Transactions</th>
+                          </tr>
+                      </tfoot>
+                      <tbody>
+                            <tr th:each="p : ${products}">
+							<td th:text="${p.id}" style="vertical-align:middle"></td>
+							<td th:text="${p.name}" style="vertical-align:middle"></td>
+							<td th:text="${p.description}" style="vertical-align:middle"></td>
+							<td th:text="${p.brand.name}" style="vertical-align:middle"></td>
+							<td th:text="${p.type}" style="vertical-align:middle"></td>
+							<td th:text="${p.category}" style="vertical-align:middle"></td>
+							<td th:if="${p.quantity >= p.reorderLevel}" th:text="${p.quantity}" style="text-align:center; vertical-align:middle"></td>
+							<td th:if="${p.quantity < p.reorderLevel}" th:text="${p.quantity}" style="text-align:center; vertical-align:middle; color:red"></td>
+							<td style="text-align:center; vertical-align:middle">
+							<a href="#" class="btn btn-light" th:href="@{/product/detail/}+${p.id}">
+							<i class="fas fa-ellipsis-h"></i></a>
+							</td>
+							<td style="text-align:center; vertical-align:middle">
+							<a href="#" class="btn btn-light" th:href="@{/transaction/list/}+${p.id}">
+							<i class="fas fa-history"></i></a>
+							</td>
+						
+							</tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+      </div>
+</div>
+      
+	
 </body>
 </html>

@@ -44,4 +44,29 @@ public class ProductServiceImpl implements ProductService {
 		
 	}
 
+	@Override
+	public ArrayList<String> getTypes() {
+		return (ArrayList<String>) prepo.getTypes();
+	}
+
+	@Override
+	public ArrayList<String> getCategories() {
+		return (ArrayList<String>) prepo.getCategories();
+	}
+
+	@Override
+	public ArrayList<String> getSubcategories() {
+		return (ArrayList<String>) prepo.getSubcategories();
+	}
+
+	@Override
+	public ArrayList<Product> searchProducts(Product p) {
+		return (ArrayList<Product>) prepo.searchProducts(p);
+	}
+	
+	@Override
+	public ArrayList<Product> searchProductsBelowReorderLevel(Product p) {
+		return (ArrayList<Product>) prepo.searchProductsBelowReorderLevel(p);
+	}
+
 }

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body})}">
-
+<!-- For update -->
 <body>
 	<div class="my-4 container-sm">
 	
@@ -23,7 +23,6 @@
                       <thead>
                           <tr>
 								<th>Transaction Id</th>
-								<th>Date Added</th>
 								<th>Car Plate No.</th>
 								<th>Name of User</th>
 								<th>View Transaction Details</th>
@@ -44,7 +43,6 @@
 					  <tbody>
 					  		<tr th:each="t : ${transactions}">
 								<td th:utext="${t.id}"></td>
-								<td th:utext="${t.date}"></td>
 								<td th:utext="${t.carPlateNo}"></td>
 								<td th:utext="${t.user.fullName}"></td>
 								<td>
