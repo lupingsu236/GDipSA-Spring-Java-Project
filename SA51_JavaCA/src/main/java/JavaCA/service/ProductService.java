@@ -19,7 +19,7 @@ public interface ProductService {
 	ArrayList<Product> searchProductsBelowReorderLevel(Product p);
 	ArrayList<Product> findProductsByBrandId(long bid);
 	ArrayList<Product> findProductsBySupplierId(long sid);
-	Map<String, List> getDropdownValues();
+	Map<String, List<?>> getDropdownValues();
 
 
 }

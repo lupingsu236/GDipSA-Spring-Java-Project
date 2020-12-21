@@ -93,8 +93,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Map<String, List> getDropdownValues() {
-		Map<String, List> values = new HashMap<>();
+	public Map<String, List<?>> getDropdownValues() {
+		Map<String, List<?>> values = new HashMap<>();
 		values.put("types", getTypes());
 		values.put("categories", getCategories());
 		values.put("subcategories", getSubcategories());
