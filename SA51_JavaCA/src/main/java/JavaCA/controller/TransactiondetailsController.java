@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -76,8 +77,8 @@ public class TransactiondetailsController {
 	}
 	
 	@PostMapping("/save/{tid}")
-	public String saveTransactionDetails(@PathVariable("tid") int tid, RedirectAttributes redirectModel,
-			@ModelAttribute("td") TransactionDetail td, HttpSession session) {
+	public String saveTransactionDetails(@PathVariable("tid") int tid, @Valid @ModelAttribute("td") TransactionDetail td,
+				BindingResult bindingResult, RedirectAttributes redirectModel, HttpSession session) {
 		Transaction t = transactionService.findTransactionById(tid);
 		td.setTransaction(t);
 		Product p = productService.findProduct(td.getProduct().getId());

@@ -8,12 +8,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.validator.constraints.Range;
+
 @Entity
 public class TransactionDetail 
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	@Range(min = 1, message = "Minimum quantity change is 1")
 	private int quantityChange;
 	private Date date;
 	private TransactionType transactionType;
