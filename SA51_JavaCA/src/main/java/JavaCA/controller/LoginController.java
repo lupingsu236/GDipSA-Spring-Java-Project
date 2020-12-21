@@ -3,6 +3,7 @@ package JavaCA.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -15,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import JavaCA.model.Password;
 import JavaCA.model.RoleType;
 import JavaCA.model.User;
-import JavaCA.repo.UserRepository;
 import JavaCA.service.UserImplementation;
 import JavaCA.service.UserInterface;
 
+@Controller
 public class LoginController {
 	
 	@Autowired
@@ -41,7 +42,7 @@ public class LoginController {
 			return "index";
 		}
 		model.addAttribute("user", new User());
-		return "login/login";
+		return "login";
 	}
 	
 	@RequestMapping(path = "/authenticate")
@@ -54,7 +55,7 @@ public class LoginController {
 		}
 		else {
 			model.addAttribute("errorMsg", "Incorrect username/password");
-			return "login/login";
+			return "login";
 		}			
 	}
 	
@@ -67,7 +68,7 @@ public class LoginController {
 	@RequestMapping(value="/change/{id}",method=RequestMethod.GET)
 	public String tochange(Model model,@PathVariable("id") Long id) {
 		Password password = new Password();
-		User u = uservice.findById(id);
+		//User u = uservice.findById(id);
 		model.addAttribute("password", password);
 		//session.setAttribute("usession",u);
 		return "/login/changepsd";
