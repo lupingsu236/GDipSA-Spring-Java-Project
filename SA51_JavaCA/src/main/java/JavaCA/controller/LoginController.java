@@ -42,7 +42,7 @@ public class LoginController {
 			return "index";
 		}
 		model.addAttribute("user", new User());
-		return "login";
+		return "login/login";
 	}
 	
 	@RequestMapping(path = "/authenticate")
@@ -55,7 +55,7 @@ public class LoginController {
 		}
 		else {
 			model.addAttribute("errorMsg", "Incorrect username/password");
-			return "login";
+			return "login/login";
 		}			
 	}
 	
@@ -68,9 +68,7 @@ public class LoginController {
 	@RequestMapping(value="/change/{id}",method=RequestMethod.GET)
 	public String tochange(Model model,@PathVariable("id") Long id) {
 		Password password = new Password();
-		//User u = uservice.findById(id);
 		model.addAttribute("password", password);
-		//session.setAttribute("usession",u);
 		return "/login/changepsd";
 	}
 	
