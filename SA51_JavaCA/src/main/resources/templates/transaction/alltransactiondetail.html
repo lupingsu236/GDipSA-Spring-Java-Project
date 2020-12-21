@@ -10,10 +10,10 @@ function myFunction() {
 	  start = Date.parse(startDate);
 	  endDate = new Date(document.getElementById("endDate").value);
 	  end = Date.parse(endDate);
+	  table = document.getElementById("dataTable");
+	  tr = table.getElementsByTagName("tr");
 	  
 	  if(!end) {
-		  table = document.getElementById("dataTable");
-		  tr = table.getElementsByTagName("tr");
 		  for (i = 1; i < tr.length; i++) {
 		    td = tr[i].getElementsByTagName("td")[0];
 		    if (td) {
@@ -27,8 +27,6 @@ function myFunction() {
 		  }
 	  }
 	  else if (!start) {
-		  table = document.getElementById("dataTable");
-		  tr = table.getElementsByTagName("tr");
 		  for (i = 1; i < tr.length; i++) {
 		    td = tr[i].getElementsByTagName("td")[0];
 		    if (td) {
@@ -42,12 +40,6 @@ function myFunction() {
 		  }
 	  }
 	  else {
-		  startDate = new Date(document.getElementById("startDate").value);
-		  start = Date.parse(startDate);
-		  endDate = new Date(document.getElementById("endDate").value);
-		  end = Date.parse(endDate);
-		  table = document.getElementById("dataTable");
-		  tr = table.getElementsByTagName("tr");
 		  for (i = 1; i < tr.length; i++) {
 		    td = tr[i].getElementsByTagName("td")[0];
 		    if (td) {

@@ -122,9 +122,11 @@ public class TransactionController
 	public String newStockEntryTransaction(Model model) {
 		TransactionDetail td = new TransactionDetail();
 		List<Product> productList = productService.findAllProducts();
+		List<Transaction> transactionList = transactionService.listAllNonCarTransactions();
 		model.addAttribute("type1", TransactionType.ORDER);
 		model.addAttribute("type2", TransactionType.RETURN);
 		model.addAttribute("pl", productList);
+		model.addAttribute("tl", transactionList);
 		model.addAttribute("td", td);
 		return "/transaction/StockUsageForm";
 	}
@@ -132,8 +134,12 @@ public class TransactionController
 	@PostMapping("/newStockEntry")
 	public String saveNewStockEntryTransaction(@ModelAttribute("td") TransactionDetail td, 
 			RedirectAttributes redirectModel, HttpSession session) {
-		//New transaction
-		Transaction t = new Transaction();
+		//New transaction if no selected transaction
+		Transaction t;
+		if(td.getTransaction().getId() == -1) {
+			t = new Transaction();
+		}
+		else {t = transactionService.findTransactionById(td.getTransaction().getId());}
 		t.setUser((User)session.getAttribute("usession"));
 		List<TransactionDetail> tdList = new ArrayList<TransactionDetail>();
 		tdList.add(td);
