@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Min;
 
 @Entity
 public class TransactionDetail 
@@ -14,6 +15,7 @@ public class TransactionDetail
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	@Min(0)
 	private int quantityChange;
 	private Date date;
 	private TransactionType transactionType;
