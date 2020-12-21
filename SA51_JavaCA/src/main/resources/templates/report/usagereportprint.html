@@ -21,7 +21,7 @@
 		</div>
 	</div>
 	<br>
-	<div class="row" th:if="${not #lists.isEmpty(transactiondetails)}">
+	<div class="row" th:if="${search}">
     	<table class="table table-bordered table-sm"> 
 			<thead class="thead-light">
 				<tr> <th colspan=2>Product Details</th></tr>
@@ -44,7 +44,7 @@
 		</table>
 	</div>
 	<br>
-	<div class="card mb-4" th:if="${not #lists.isEmpty(transactiondetails)}">
+	<div class="card mb-4" th:if="${search}">
           <div class="card-header">
               <i class="fas fa-table mr-1"></i>
               Usage of this product
@@ -64,6 +64,10 @@
 					  			<td th:utext="${td.id}"></td>
 								<td th:utext="${td.quantityChange}"></td>
 								<td th:utext="${td.transactionType}"></td>
+							</tr>
+							<tr th:if="${#lists.isEmpty(transactiondetails)}">
+								<td style="text-align:center;font-weight:bold" colspan="4" th:if="${#lists.isEmpty(transactiondetails)}" th:utext="'No matching records found'">
+								</td>
 							</tr>
 					  </tbody>
 				</table>

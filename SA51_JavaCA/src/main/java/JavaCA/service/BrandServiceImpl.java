@@ -48,6 +48,11 @@ public class BrandServiceImpl implements BrandService {
 		
 	}
 
+	@Override
+	public void deleteBrand(Brand brand) {
+		brepo.delete(brand);		
+	}
+
 	
 	
 

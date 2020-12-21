@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body})}">
+
+<body>
+
+<br>
+<div th:if="${from}=='delete'" class="alert alert-success alert-dismissible fade show" role="alert">
+  Supplier has been successfully deleted!
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div th:if="${from}=='save'" class="alert alert-success alert-dismissible fade show" role="alert">
+  Supplier has been successfully saved!
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div th:if="${from}=='delete_error'" class="alert alert-danger alert-dismissible fade show" role="alert">
+  Supplier cannot be deleted as there are existing products!
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+
+<div class="my-4 container-sm">
+	
+	<div class="row">
+		<div class="col-sm-8"> <h3>Supplier</h3></div>
+		<div class="col-sm">
+		<a href="#" class="btn btn-info" th:href="@{/supplier/new/}" th:if="${session.usession.role} == ${session.admin}">Add New Supplier</a>
+		</div>
+	</div>
+
+	<br>
+	
+	<div class = "row my-4">
+	<div class="card mb-4">
+          <div class="card-header">
+              <i class="fas fa-table mr-1"></i>
+              Suppliers
+          </div>
+          <div class="card-body">
+              <div class="table-responsive">
+                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                      <thead>
+                          <tr>
+                             	<th>Id</th>
+								<th>Name</th>
+								<th style="text-align:center">No. of Products</th>
+								<th style="text-align:center">View Products</th>
+								<th style="text-align:center" th:if="${session.usession.role} == ${session.admin}">Edit Supplier</th>
+								<th style="text-align:center" 
+								th:if="${session.usession.role} == ${session.admin}">Delete Supplier</th>
+                          </tr>
+                      </thead>
+                      <tfoot>
+                          <tr>
+                                <th>Id</th>
+								<th>Name</th>
+								<th style="text-align:center">No. of Products</th>
+								<th style="text-align:center">View Products</th>
+								<th style="text-align:center" 
+								th:if="${session.usession.role} == ${session.admin}">Edit Supplier</th>
+								<th style="text-align:center" 
+								th:if="${session.usession.role} == ${session.admin}">Delete Supplier</th>
+                          </tr>
+                      </tfoot>
+                      <tbody>
+                            <tr th:each="s : ${suppliers}">
+							<td th:text="${s.id}" style="vertical-align:middle"></td>
+							<td th:text="${s.supplierName}" style="vertical-align:middle"></td>
+							<td th:text="${s.products.size()}" style=" text-align:center; vertical-align:middle"></td>
+							<td style="text-align:center; vertical-align:middle">
+							<a href="#" class="btn btn-light" th:href="@{/product/search/}+'?sid='+${s.id}">
+							<i class="fas fa-ellipsis-h"></i></a>
+							</td>
+							<td th:if="${session.usession.role} == ${session.admin}" style="text-align:center; vertical-align:middle">
+							<a href="#" class="btn btn-info" th:href="@{/supplier/edit/}+${s.id}">
+							<i class="fas fa-edit"></i></a>
+							</td>
+							<td th:if="${session.usession.role} == ${session.admin}" style="text-align:center; vertical-align:middle">
+							<a th:if="${s.products.size()}==0" href="#" class="btn btn-danger" th:href="@{/supplier/delete/}+${s.id}" 
+							onclick="return confirm('Are you sure you want to delete the supplier?')">
+							<i class="fas fa-trash-alt"></i></a>
+							<span th:if="${s.products.size()}!=0" style="font-style: italic">Cannot be deleted</span>
+							</td>
+						
+							</tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+      </div>
+</div>
+      
+	
+</body>
+</html>
