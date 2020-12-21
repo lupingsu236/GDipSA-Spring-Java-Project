@@ -114,8 +114,10 @@ public class ReportController
 		}
 		model.addAttribute("product", pservice.findProduct(id));
 		if (model.containsAttribute("print"))
+		{
 			output = "report/usagereportprint";
 			model.addAttribute("timeOfReport", Date.valueOf(LocalDate.now()));
+		}
 		return output;
 	}
 	
@@ -150,8 +152,10 @@ public class ReportController
 		model.addAttribute("productsThatRequireReorder", listOfListsOfProduct);
 		model.addAttribute("grandTotal", grandTotal);
 		if (model.containsAttribute("print"))
+		{
 			output = "report/reorderreportprint";
 			model.addAttribute("timeOfReport", Date.valueOf(LocalDate.now()));
+		}
 		return output;
 	}
 	
