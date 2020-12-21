@@ -21,5 +21,19 @@ public interface ProductService {
 	ArrayList<Product> findProductsBySupplierId(long sid);
 	Map<String, List<?>> getDropdownValues();
 
-
+	public static boolean isProductIdNumeric(String s)
+	{
+		boolean output = true;
+		if (s.isBlank())
+			output = false;
+		try
+		{
+			int parsedString = Integer.parseInt(s);
+		}
+		catch(NumberFormatException e)
+		{
+			output = false;
+		}
+		return output;
+	}	
 }

@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import JavaCA.model.Product;
 import JavaCA.model.Supplier;
 import JavaCA.model.TransactionDetail;
+import JavaCA.service.ProductService;
 import JavaCA.service.ProductServiceImpl;
 import JavaCA.service.SupplierService;
 import JavaCA.service.SupplierServiceImpl;
@@ -47,13 +48,13 @@ public class ReportController
 	}
 	
 	@RequestMapping(value={"/search"}, method=RequestMethod.POST)
-	public String searchUsageReportForProduct(RedirectAttributes model, @RequestParam long id, @RequestParam String fromDate, 
+	public String searchUsageReportForProduct(RedirectAttributes model, @RequestParam String id, @RequestParam String fromDate, 
 						   @RequestParam String toDate)
 	{
-		if (pservice.findProduct(id) == null)
-			model.addFlashAttribute("errorMsgId", "There is no product with this Id");
+		if (!ProductService.isProductIdNumeric(id) || pservice.findProduct(Integer.parseInt(id)) == null)
+			model.addFlashAttribute("errorMsgId", "This is not a valid product id");
 		else
-			model.addFlashAttribute("id", id);
+			model.addFlashAttribute("id", Integer.parseInt(id));
 		if (!TransactionDetailsService.isValidDateFormat(fromDate))
 			model.addFlashAttribute("errorMsgFromDate", "Input must be in the format of yyyy-MM-dd");
 		else
@@ -68,7 +69,7 @@ public class ReportController
 			if (!toDate.isBlank())
 				model.addFlashAttribute("toDate", Date.valueOf(toDate));
 		}
-		if (pservice.findProduct(id) == null || !TransactionDetailsService.isValidDateFormat(fromDate) || !TransactionDetailsService.isValidDateFormat(toDate))
+		if (!ProductService.isProductIdNumeric(id) || pservice.findProduct(Integer.parseInt(id)) == null || !TransactionDetailsService.isValidDateFormat(fromDate) || !TransactionDetailsService.isValidDateFormat(toDate))
 			return "redirect:/report/usage/";
 		model.addFlashAttribute("search", true);
 		return "redirect:/report/usage/" + id;
