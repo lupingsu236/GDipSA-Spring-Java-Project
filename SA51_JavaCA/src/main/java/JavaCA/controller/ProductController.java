@@ -1,6 +1,7 @@
 package JavaCA.controller;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -56,26 +57,14 @@ public class ProductController {
 	}
 	
 	@InitBinder
-	protected void initBinder(WebDataBinder binder) {
-		//binder.addValidators(new ProductValidator());
-	}
+	protected void initBinder(WebDataBinder binder) {}
 	
 	@RequestMapping(value={"","/list"}, method=RequestMethod.GET)
 	public String findAllProducts(Model model) {
 		
 		//adding model and get values for search parameters dropdown
-		Product p = new Product(); 
-		model.addAttribute("p", p);
-		ArrayList<String> types = pservice.getTypes();
-		model.addAttribute("types", types);
-		ArrayList<String> categories = pservice.getCategories();
-		model.addAttribute("categories", categories);
-		ArrayList<String> subcategories = pservice.getSubcategories();
-		model.addAttribute("subcategories", subcategories);
-		ArrayList<Brand> brands = bservice.findAllBrands();
-		model.addAttribute("brands", brands);
-		ArrayList<Supplier> suppliers = suppservice.findAllSuppliers();
-		model.addAttribute("suppliers", suppliers);
+		model.addAttribute("p", new Product());
+		model.addAllAttributes(pservice.getDropdownValues());
 
 		//for product listing
 		ArrayList<Product> products = pservice.findAllProducts();
@@ -93,20 +82,9 @@ public class ProductController {
 	
 	@RequestMapping(value="/new", method=RequestMethod.GET)
 	public String createProduct(Model model) {
-		Product p = new Product(); 
-		model.addAttribute("p", p);
-		
-		//get values for field dropdown
-		ArrayList<String> types = pservice.getTypes();
-		model.addAttribute("types", types);
-		ArrayList<String> categories = pservice.getCategories();
-		model.addAttribute("categories", categories);
-		ArrayList<String> subcategories = pservice.getSubcategories();
-		model.addAttribute("subcategories", subcategories);
-		ArrayList<Brand> brands = bservice.findAllBrands();
-		model.addAttribute("brands", brands);
-		ArrayList<Supplier> suppliers = suppservice.findAllSuppliers();
-		model.addAttribute("suppliers", suppliers);
+		//adding model and get values for field dropdown
+		model.addAttribute("p", new Product());
+		model.addAllAttributes(pservice.getDropdownValues());
 		return "/product/productform";
 	}
 	
@@ -114,19 +92,10 @@ public class ProductController {
 	public String editProduct(@PathVariable long id, Model model) {
 		//get current product details and attach to model
 		Product p = pservice.findProduct(id);
+		model.addAttribute("p", p);
 		
 		//get values for field dropdown
-		model.addAttribute("p", p);
-		ArrayList<String> types = pservice.getTypes();
-		model.addAttribute("types", types);
-		ArrayList<String> categories = pservice.getCategories();
-		model.addAttribute("categories", categories);
-		ArrayList<String> subcategories = pservice.getSubcategories();
-		model.addAttribute("subcategories", subcategories);
-		ArrayList<Brand> brands = bservice.findAllBrands();
-		model.addAttribute("brands", brands);
-		ArrayList<Supplier> suppliers = suppservice.findAllSuppliers();
-		model.addAttribute("suppliers", suppliers);
+		model.addAllAttributes(pservice.getDropdownValues());
 		return "/product/productform";
 	}
 	
@@ -136,20 +105,22 @@ public class ProductController {
 			@RequestParam(value="editSupplierName", required=false) Integer editSupplierName,
 			Model model, HttpSession session, RedirectAttributes redirectfrom) {
 		
-		if (bindingResult.hasErrors()) {
+		//form validation check
+		if (bindingResult.hasErrors() || 
+				p.getBrand().getName().length()<2 || p.getBrand().getName().length()>50 ||
+				p.getSupplier().getSupplierName().length()<2 || p.getSupplier().getSupplierName().length()>50) {
+			if(p.getBrand().getName().length()<2 || p.getBrand().getName().length()>50) {
+				model.addAttribute("errMsgBrand", "Brand name must be between 2 and 50 chars!");
+			}
+			if(p.getSupplier().getSupplierName().length()<2 || p.getSupplier().getSupplierName().length()>50) {
+				model.addAttribute("errMsgSupplier",  "Supplier name must be between 2 and 50 chars!");
+			}
+			
 			//get values for field dropdown
-			ArrayList<String> types = pservice.getTypes();
-			model.addAttribute("types", types);
-			ArrayList<String> categories = pservice.getCategories();
-			model.addAttribute("categories", categories);
-			ArrayList<String> subcategories = pservice.getSubcategories();
-			model.addAttribute("subcategories", subcategories);
-			ArrayList<Brand> brands = bservice.findAllBrands();
-			model.addAttribute("brands", brands);
-			ArrayList<Supplier> suppliers = suppservice.findAllSuppliers();
-			model.addAttribute("suppliers", suppliers);
+			model.addAllAttributes(pservice.getDropdownValues());
 			return "/product/productform";
 		}
+		
 		
 		//search if product exist
 		Product product = pservice.findProduct(p.getId());
@@ -243,7 +214,7 @@ public class ProductController {
 	@RequestMapping(value="/search", method=RequestMethod.POST) 
 	public String searchProduct(@ModelAttribute("p") Product p, Model model, 
 			@RequestParam(value="belowReorderLevel", required=false) Integer belowReorderLevel) {
-
+		
 		//get search results and attach to model
 		if(belowReorderLevel==null) {
 		ArrayList<Product> products = pservice.searchProducts(p);
@@ -255,16 +226,30 @@ public class ProductController {
 		}
 		
 		//get values for search parameters dropdown
-		ArrayList<String> types = pservice.getTypes();
-		model.addAttribute("types", types);
-		ArrayList<String> categories = pservice.getCategories();
-		model.addAttribute("categories", categories);
-		ArrayList<String> subcategories = pservice.getSubcategories();
-		model.addAttribute("subcategories", subcategories);
-		ArrayList<Brand> brands = bservice.findAllBrands();
-		model.addAttribute("brands", brands);
-		ArrayList<Supplier> suppliers = suppservice.findAllSuppliers();
-		model.addAttribute("suppliers", suppliers);
+		model.addAllAttributes(pservice.getDropdownValues());
+		
+		return "product/productlist";
+	}
+	
+	
+	@RequestMapping(value="/search", method=RequestMethod.GET) 
+	public String searchProduct(@RequestParam(value="sid", required=false) Optional<Long> sid,
+			@RequestParam(value="bid", required=false) Optional<Long> bid, Model model) {
+
+		ArrayList<Product> products = new ArrayList<>();
+		
+		if (bid.isPresent()) 
+			products = pservice.findProductsByBrandId(bid.get());
+		else if (sid.isPresent()) 
+			products = pservice.findProductsBySupplierId(sid.get());
+		else 
+			products = pservice.findAllProducts();
+			
+		model.addAttribute("products", products);
+
+		//adding model and get values for search parameters dropdown
+		model.addAttribute("p", new Product());
+		model.addAllAttributes(pservice.getDropdownValues());
 		
 		return "product/productlist";
 	}

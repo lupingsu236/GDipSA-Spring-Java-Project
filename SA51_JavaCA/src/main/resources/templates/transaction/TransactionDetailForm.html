@@ -40,6 +40,7 @@
 				<div class="form-group w-200">
 					  <label for="quantity">Enter Quantity</label>
 					  <input id="qtychange" type="number" min="0" step="1" class="form-control" th:field="*{quantityChange}">	
+					  <p style="color:red" th:if="${#fields.hasErrors('quantityChange')}" th:errors="*{quantityChange}"></p>
 				</div>
 				<div class="form-group">
 				<button class="btn btn-success" type="submit" style="margin:10px">Save</button>

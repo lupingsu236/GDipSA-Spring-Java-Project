@@ -45,4 +45,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>
 			+ "AND p.supplier.supplierName LIKE %:#{#pdt.supplier.supplierName}% "
 			+ "AND p.quantity < p.reorderLevel ")
 	List<Product> searchProductsBelowReorderLevel(@Param("pdt") Product pdt);
+	
+	List<Product> findProductsByBrandId(long bid);
+	List<Product> findProductsBySupplierId(long bid);
 }

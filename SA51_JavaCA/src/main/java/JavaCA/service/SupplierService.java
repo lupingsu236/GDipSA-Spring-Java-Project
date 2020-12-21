@@ -10,4 +10,5 @@ public interface SupplierService {
 	Supplier findSupplier(long id);
 	void saveSupplier(Supplier supplier);
 	void editSupplierName(long supplierId, String newSupplierName);
+	void deleteSupplier(Supplier supplier);
 }

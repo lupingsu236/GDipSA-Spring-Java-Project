@@ -90,7 +90,7 @@ public class TransactionDetailsServiceImpl implements TransactionDetailsService 
 		
 		if ((currentCount - qtyChange) >= 0){
 			Product p = transactionDetail.getProduct();
-			currentCount = currentCount - qtyChange;
+			currentCount -= qtyChange;
 			p.setQuantity(currentCount);
 			prodRepo.save(p);
 			transDRepo.delete(transactionDetail);

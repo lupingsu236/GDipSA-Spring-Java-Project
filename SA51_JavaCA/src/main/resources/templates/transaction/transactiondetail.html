@@ -41,7 +41,8 @@
 	</table>
 	<div class="row">
 		<div class="col-sm">
-		<a th:href="@{/transaction/car}" class="btn btn-dark">View Transactions</a>
+		<a th:unless="${preView == 'all'}" th:href="@{/transaction/car}" class="btn btn-dark">View Transactions</a>
+		<a th:if="${preView == 'all'}" th:href="@{/transaction/all}" class="btn btn-dark">View Transactions</a>
 		</div>
 	</div>
 
