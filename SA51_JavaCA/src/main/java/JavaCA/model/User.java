@@ -7,9 +7,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Entity
 public class User 
@@ -17,70 +14,22 @@ public class User
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	
-	@NotBlank
-	private String fullName;
-	@NotBlank
-	private String username;
-	
-	private String password;
-
-	@NotBlank
-	private String roletype;
-	@NotBlank
-	@Email
-	private String email;
+	private String fullName, username, password;
 	private RoleType role;
-	
-	private String active;
-	private ActiveType activetype;
 	@OneToMany(mappedBy = "user")
 	private List<Transaction> transactions;
 	
-	public User(){}
-
-	public String getActive() {
-		return active;
+	public User()
+	{
+		
 	}
 
-	public void setActive(String active) {
-		this.active = active;
-	}
-
-	public User(@NotBlank String fullName, @NotBlank String username, String password, @NotBlank @Email String email,
-			RoleType role, ActiveType activetype) {
+	public User(String fullName, String username, String password, RoleType role) {
 		super();
 		this.fullName = fullName;
 		this.username = username;
 		this.password = password;
-		this.email = email;
 		this.role = role;
-		this.activetype=activetype;
-	}
-
-	public ActiveType getActivetype() {
-		return activetype;
-	}
-
-	public void setActivetype(ActiveType activetype) {
-		this.activetype = activetype;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-
-	public String getRoletype() {
-		return roletype;
-	}
-
-	public void setRoletype(String roletype) {
-		this.roletype = roletype;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public long getId() {
@@ -115,6 +64,17 @@ public class User
 		this.password = password;
 	}
 
+	public RoleType getRole() {
+		return role;
+	}
+	
+	public String getRoleName() {
+		return this.getRole().toString();
+	}
+
+	public void setRole(RoleType role) {
+		this.role = role;
+	}
 
 	public List<Transaction> getTransactions() {
 		return transactions;
@@ -124,16 +84,10 @@ public class User
 		this.transactions = transactions;
 	}
 
-
-	public RoleType getRole() {
-		return role;
-	}
-
-	public void setRole(RoleType role) {
-		this.role = role;
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", fullName=" + fullName + ", username=" + username + ", password=" + password
+				+ ", role=" + role + ", transactions=" + transactions + "]";
 	}
 	
-	public String getRoleName() {
-		return this.getRole().toString();
-	}
 }
