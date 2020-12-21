@@ -2,7 +2,6 @@ package JavaCA.controller;
 
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import JavaCA.model.ActiveType;
-import JavaCA.model.Password;
 import JavaCA.model.RoleType;
 import JavaCA.model.User;
-import JavaCA.repo.UserRepository;
 import JavaCA.service.UserImplementation;
 import JavaCA.service.UserInterface;
 
@@ -140,7 +137,7 @@ public class UserController{
 		return "/user/userlist";
 	}
 	
-	@RequestMapping(value="/user/edit/{id}", method = RequestMethod.GET)
+	@RequestMapping(value="/edit/{id}", method = RequestMethod.GET)
 	public String editUser(Model model,@PathVariable("id") Long id) {
 		model.addAttribute("user", uservice.findById(id));
 		model.addAttribute("oldpsd", uservice.findById(id).getPassword());
