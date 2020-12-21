@@ -64,6 +64,7 @@
 				<datalist id="brands">
 				  <option th:each="b: ${brands}" th:value="${b.name}">
 				</datalist>
+				<p style="color:red" th:text="${errMsgBrand}"></p>
 			</tr>
 			
 			</table>
@@ -104,7 +105,7 @@
 				<datalist id="suppliers">
 			  	<option th:each="s: ${suppliers}" th:value="${s.supplierName}">
 				</datalist>
-				
+			<p style="color:red" th:text="${errMsgSupplier}"></p>
 			</td>
 			</tr>
 			</table>

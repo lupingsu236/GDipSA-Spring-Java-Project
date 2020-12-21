@@ -12,4 +12,6 @@ public interface UserInterface {
 	public void deleteUser(User user);
 	public boolean authenticate(User user);
 	public User findByName(String name);
+	public User findById(long id);
+	public User findByUsername(String username);
 }

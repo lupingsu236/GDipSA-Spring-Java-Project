@@ -2,6 +2,7 @@ package JavaCA.controller;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,8 +16,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import JavaCA.model.Product;
+import JavaCA.model.Supplier;
 import JavaCA.model.TransactionDetail;
+import JavaCA.service.EmailService;
+import JavaCA.service.EmailServiceImpl;
+import JavaCA.service.ProductService;
 import JavaCA.service.ProductServiceImpl;
+import JavaCA.service.SupplierService;
+import JavaCA.service.SupplierServiceImpl;
 import JavaCA.service.TransactionDetailsService;
 
 @Controller
@@ -25,29 +32,31 @@ public class ReportController
 {
 	private ProductServiceImpl pservice;
 	private TransactionDetailsService tdservice;
+	private SupplierService sservice;
 		
 	@Autowired
-	public void setServices(ProductServiceImpl pservice, TransactionDetailsService tdservice) 
+	public void setServices(ProductServiceImpl pservice, TransactionDetailsService tdservice, SupplierServiceImpl sservice) 
 	{
 		this.pservice = pservice;
 		this.tdservice = tdservice;
+		this.sservice = sservice;
 	}
 	
 	@RequestMapping(value={"/usage"}, method=RequestMethod.GET)
 	public String usageReportForProduct(Model model)
 	{
-		model.addAttribute("product", new Product());
+		//model.addAttribute("product", new Product());
 		return "report/usage";
 	}
 	
 	@RequestMapping(value={"/search"}, method=RequestMethod.POST)
-	public String searchUsageReportForProduct(RedirectAttributes model, @RequestParam long id, @RequestParam String fromDate, 
+	public String searchUsageReportForProduct(RedirectAttributes model, @RequestParam String id, @RequestParam String fromDate, 
 						   @RequestParam String toDate)
 	{
-		if (pservice.findProduct(id) == null)
-			model.addFlashAttribute("errorMsgId", "There is no product with this Id");
+		if (!ProductService.isProductIdNumeric(id) || pservice.findProduct(Integer.parseInt(id)) == null)
+			model.addFlashAttribute("errorMsgId", "This is not a valid product id");
 		else
-			model.addFlashAttribute("id", id);
+			model.addFlashAttribute("id", Integer.parseInt(id));
 		if (!TransactionDetailsService.isValidDateFormat(fromDate))
 			model.addFlashAttribute("errorMsgFromDate", "Input must be in the format of yyyy-MM-dd");
 		else
@@ -62,7 +71,7 @@ public class ReportController
 			if (!toDate.isBlank())
 				model.addFlashAttribute("toDate", Date.valueOf(toDate));
 		}
-		if (pservice.findProduct(id) == null || !TransactionDetailsService.isValidDateFormat(fromDate) || !TransactionDetailsService.isValidDateFormat(toDate))
+		if (!ProductService.isProductIdNumeric(id) || pservice.findProduct(Integer.parseInt(id)) == null || !TransactionDetailsService.isValidDateFormat(fromDate) || !TransactionDetailsService.isValidDateFormat(toDate))
 			return "redirect:/report/usage/";
 		model.addFlashAttribute("search", true);
 		return "redirect:/report/usage/" + id;
@@ -118,5 +127,41 @@ public class ReportController
 	{
 		model.addFlashAttribute("print", true);
 		return "redirect:/report/usage/" + id;
+	}
+	
+	@RequestMapping(value={"/reorder"}, method=RequestMethod.GET)
+	public String reorderReport(Model model)
+	{
+		String output = "report/reorder";
+		double grandTotal = 0;
+		List<List<Product>> listOfListsOfProduct = new ArrayList<>();
+		List<Supplier> suppliers = sservice.findAllSuppliers();
+		for (Supplier s:suppliers)
+		{
+			List<Product> productsThatRequireReorderBySupplier = pservice.findAllProducts().stream()
+					   .filter(x -> x.getQuantity() <= x.getReorderLevel())
+					   .filter(x -> x.getSupplier().getId() == s.getId())
+					   .collect(Collectors.toList());
+			if (productsThatRequireReorderBySupplier.size() > 0)
+			{
+				listOfListsOfProduct.add(productsThatRequireReorderBySupplier);
+				grandTotal = grandTotal + productsThatRequireReorderBySupplier.stream()
+				.mapToDouble(x -> x.getOriginalPrice() * (x.getReorderLevel() - x.getQuantity() + x.getMinOrderQty()))
+				.sum();
+			}
+		}
+		model.addAttribute("productsThatRequireReorder", listOfListsOfProduct);
+		model.addAttribute("grandTotal", grandTotal);
+		if (model.containsAttribute("print"))
+			output = "report/reorderreportprint";
+			model.addAttribute("timeOfReport", Date.valueOf(LocalDate.now()));
+		return output;
+	}
+	
+	@RequestMapping(value={"/reorder/print"}, method=RequestMethod.GET)
+	public String printReorderReport(RedirectAttributes model)
+	{
+		model.addFlashAttribute("print", true);
+		return "redirect:/report/reorder/";
 	}
 }

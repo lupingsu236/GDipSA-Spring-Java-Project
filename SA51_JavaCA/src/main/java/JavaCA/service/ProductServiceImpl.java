@@ -1,6 +1,9 @@
 package JavaCA.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -14,11 +17,21 @@ import JavaCA.repo.ProductRepository;
 @Transactional
 public class ProductServiceImpl implements ProductService {
 	private ProductRepository prepo; 
+	private BrandService bservice;
+	private SupplierService suppservice;
 	
 	@Autowired
 	public void setProductRepo(ProductRepository prepo) {
 		this.prepo = prepo;
 	}
+	
+	@Autowired
+	public void setServices(BrandServiceImpl bservice, SupplierServiceImpl suppservice) {
+		this.bservice = bservice;
+		this.suppservice = suppservice;
+	}
+	
+	
 
 	@Override
 	public ArrayList<Product> findAllProducts() {
@@ -68,5 +81,27 @@ public class ProductServiceImpl implements ProductService {
 	public ArrayList<Product> searchProductsBelowReorderLevel(Product p) {
 		return (ArrayList<Product>) prepo.searchProductsBelowReorderLevel(p);
 	}
+
+	@Override
+	public ArrayList<Product> findProductsByBrandId(long bid) {
+		return (ArrayList<Product>) prepo.findProductsByBrandId(bid);
+	}
+	
+	@Override
+	public ArrayList<Product> findProductsBySupplierId(long sid) {
+		return (ArrayList<Product>) prepo.findProductsBySupplierId(sid);
+	}
+
+	@Override
+	public Map<String, List<?>> getDropdownValues() {
+		Map<String, List<?>> values = new HashMap<>();
+		values.put("types", getTypes());
+		values.put("categories", getCategories());
+		values.put("subcategories", getSubcategories());
+		values.put("brands", bservice.findAllBrands());
+		values.put("suppliers", suppservice.findAllSuppliers());
+		return values;
+	}
+
 
 }
