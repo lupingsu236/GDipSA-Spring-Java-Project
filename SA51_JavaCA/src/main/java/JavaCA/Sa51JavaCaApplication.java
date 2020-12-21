@@ -9,5 +9,4 @@ public class Sa51JavaCaApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(Sa51JavaCaApplication.class, args);
 	}
-
 }
