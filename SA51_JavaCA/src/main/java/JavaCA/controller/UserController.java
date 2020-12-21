@@ -79,7 +79,7 @@ public class UserController{
 		user.setActivetype(ActiveType.ACTIVE);
 		user.setActive("active");
 		uservice.createUser(user);
-		return "redirect:/user/ulist";
+		return "redirect:/user/list";
 				
 	}
 	
@@ -126,7 +126,7 @@ public class UserController{
 		User ucheck=urepo.findUserByUsername(u.getUsername());
 		if(ucheck==u||ucheck==null) {
 			urepo.save(u);
-			return "redirect:/user/ulist";
+			return "redirect:/user/list";
 		}
 		else {
 			model.addAttribute("Errmsgname","The username has been used.");
@@ -134,7 +134,7 @@ public class UserController{
 		}		
 	}
 	
-	@RequestMapping(value={"","/user/ulist"},method=RequestMethod.GET)
+	@RequestMapping(value={"","/user/list"},method=RequestMethod.GET)
 	public String listUsers(Model model) {
 		ArrayList<User> users=(ArrayList<User>) uservice.listAllUser();
 		model.addAttribute("users",users);

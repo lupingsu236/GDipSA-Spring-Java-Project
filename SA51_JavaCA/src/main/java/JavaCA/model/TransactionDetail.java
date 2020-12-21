@@ -39,6 +39,14 @@ public class TransactionDetail
 		this.transactionType = transactionType;
 	}
 
+	
+	public TransactionDetail(@Min(1) int quantityChange, Date date, TransactionType transactionType) {
+		super();
+		this.quantityChange = quantityChange;
+		this.date = date;
+		this.transactionType = transactionType;
+	}
+
 	public long getId() {
 		return id;
 	}
