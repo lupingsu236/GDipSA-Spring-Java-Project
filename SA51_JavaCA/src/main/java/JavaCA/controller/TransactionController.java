@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,6 +44,10 @@ public class TransactionController
 	@Autowired
 	private ProductService productService;
 	
+	@InitBinder
+	protected void initBinder(WebDataBinder binder) {
+	}
+	
 	@Autowired
 	public void setTransactionImplementation(TransactionServiceImpl transImpl, ProductServiceImpl prodImpl,
 			TransactionDetailsServiceImpl transDetailImpl)
@@ -55,8 +63,8 @@ public class TransactionController
 		List<Transaction> carjobs = transactionService.listAllCarTransactions();
 		model.addAttribute("transactions", carjobs);
 		model.addAttribute("success", success);
-		model.addAttribute("preView", "car");
 		session.setAttribute("preView", "car");
+		model.addAttribute("preView", session.getAttribute("preView"));
 		return "/transaction/transactions";
 	}
 	
@@ -66,8 +74,8 @@ public class TransactionController
 		List<Transaction> all = transactionService.listAllTransactions();
 		model.addAttribute("transactions", all);
 		model.addAttribute("success", success);
-		model.addAttribute("preView", "all");
 		session.setAttribute("preView", "all");
+		model.addAttribute("preView", session.getAttribute("preView"));
 		return "/transaction/transactions";
 	}
 	
@@ -106,6 +114,7 @@ public class TransactionController
 	public String newTransaction(HttpSession session, Model model) {
 		Transaction t = new Transaction();
 		model.addAttribute("t", t);
+		model.addAttribute("preView", session.getAttribute("preView"));
 		return "/transaction/TransactionForm";
 	}
 	
@@ -148,7 +157,12 @@ public class TransactionController
 	}
 	
 	@RequestMapping("/saveTransaction")
-	public String saveTransaction(@ModelAttribute("t") Transaction t, Model model, HttpSession session, RedirectAttributes redirectModel) {
+	public String saveTransaction(@Valid @ModelAttribute("t") Transaction t, BindingResult bd, 
+			Model model, HttpSession session, RedirectAttributes redirectModel) {
+		if (bd.hasErrors()) {
+			model.addAttribute("preView", session.getAttribute("preView"));
+			return "/transaction/TransactionForm";
+		}
 		User u = (User)session.getAttribute("usession");
 		t.setUser(u);
 		String success = String.valueOf(transactionService.saveTransaction(t));
