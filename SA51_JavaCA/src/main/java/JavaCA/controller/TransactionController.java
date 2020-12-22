@@ -59,23 +59,6 @@ public class TransactionController
 	protected void initBinder(WebDataBinder binder) {
 	}
 	
-	
-	@RequestMapping("/car")
-	public String viewAllCarTransactions(Model model, @ModelAttribute("success") String success)
-	{	
-		//check if user has logged in, otherwise redirect
-		if(!uservice.verifyLogin(session)) {
-			return "redirect:/";
-		}
-		
-		List<Transaction> carjobs = transactionService.listAllCarTransactions();
-		model.addAttribute("transactions", carjobs);
-		model.addAttribute("success", success);
-		session.setAttribute("preView", "car");
-		model.addAttribute("preView", session.getAttribute("preView"));
-		return "/transaction/transactions";
-	}
-	
 	@RequestMapping("/all")
 	public String viewAllTransactions(Model model, @ModelAttribute("success") String success, HttpSession session)
 	{
@@ -83,12 +66,14 @@ public class TransactionController
 		if(!uservice.verifyLogin(session)) {
 			return "redirect:/";
 		}
-		
+		//List all transactions
 		List<Transaction> all = transactionService.listAllTransactions();
 		model.addAttribute("transactions", all);
+		//Receives success/failure from redirectattributes model, send to view for notification
 		model.addAttribute("success", success);
-		session.setAttribute("preView", "all");
-		model.addAttribute("preView", session.getAttribute("preView"));
+		//Remember page to return to this page upon cancellation of form
+		session.setAttribute("preView", "allt");
+		//View changes dynamically depending on the user role type
 		User user = (User) session.getAttribute("usession");
 		model.addAttribute("user", user);
 		return "/transaction/transactions";
@@ -101,12 +86,15 @@ public class TransactionController
 		if(!uservice.verifyLogin(session)) {
 			return "redirect:/";
 		}
-		
+		//List all transaction details
 		List<TransactionDetail> td = tdService.findAllTransactionDetails();
 		model.addAttribute("transactiondetail", td);
+		//Receives success/failure from redirectattributes model, send to view for notification
 		model.addAttribute("success", success);	
+		//View changes dynamically depending on the user role type
 		User user = (User) session.getAttribute("usession");
-		model.addAttribute("user", user.getRoleName());
+		model.addAttribute("user", user);
+		//Remember page to return to this page upon cancellation of form
 		session.setAttribute("preView", "alltd");
 		return "/transaction/alltransactiondetail";
 	}
@@ -119,11 +107,16 @@ public class TransactionController
 		if(!uservice.verifyLogin(session)) {
 			return "redirect:/";
 		}
-		
+		//List all PRODUCT transaction details
 		List<TransactionDetail> td = transactionService.listAllProductTransactions(id);
 		model.addAttribute("transactiondetail", td);
+		//To display header message as "product" instead of "all"
 		model.addAttribute("message", "product");
+		//Receives success/failure from redirectattributes model, send to view for notification
 		model.addAttribute("success", success);
+		//View changes dynamically depending on the user role type
+		User user = (User) session.getAttribute("usession");
+		model.addAttribute("user", user);
 		return "/transaction/alltransactiondetail";
 	}
 	
@@ -134,10 +127,11 @@ public class TransactionController
 		if(!uservice.verifyLogin(session)) {
 			return "redirect:/";
 		}
-			
+		//String.valueof(boolean of whether deletion was successful)
 		String success = String.valueOf(transactionService.deleteTransaction(transactionService.findTransactionById(id)));
+		//Pass success true/false by redirect model
 		redirectModel.addFlashAttribute("success", success);
-		if (session.getAttribute("preView") == "all") {return "redirect:/transaction/all";}
+		if (session.getAttribute("preView") == "allt") {return "redirect:/transaction/all";}
 		return "redirect:/transaction/car";
 	}
 	
@@ -147,9 +141,10 @@ public class TransactionController
 		if(!uservice.verifyLogin(session)) {
 			return "redirect:/";
 		}
-					
+		//New transaction
 		Transaction t = new Transaction();
 		model.addAttribute("t", t);
+		//Set page to return to upon cancellation of form
 		model.addAttribute("preView", session.getAttribute("preView"));
 		return "/transaction/TransactionForm";
 	}
@@ -160,15 +155,20 @@ public class TransactionController
 		if(!uservice.verifyAdmin(session)) {
 			return "redirect:/";
 		}
-					
+		//New transaction detail
+		//Product list for dropdown selection
+		//Non-car transaction list for dropdown selection
+		//Stock entry is only possible if you are an ADMIN role type
+		//All stock entries do not have an associated carplate number
 		TransactionDetail td = new TransactionDetail();
 		List<Product> productList = productService.findAllProducts();
 		List<Transaction> transactionList = transactionService.listAllNonCarTransactions();
-		model.addAttribute("type1", TransactionType.ORDER);
-		model.addAttribute("type2", TransactionType.RETURN);
+		model.addAttribute("td", td);
 		model.addAttribute("pl", productList);
 		model.addAttribute("tl", transactionList);
-		model.addAttribute("td", td);
+		//To get the two specific transaction types
+		model.addAttribute("type1", TransactionType.ORDER);
+		model.addAttribute("type2", TransactionType.RETURN);
 		return "/transaction/StockUsageForm";
 	}
 	
@@ -177,30 +177,45 @@ public class TransactionController
 			RedirectAttributes redirectModel, HttpSession session, Model model) {
 		//New transaction if no selected transaction
 		Transaction t;
+		List<TransactionDetail> tdList;
 		if (bd.hasErrors()) {
+			//Pass to view all the required parameters in the dropdowns
 			List<Product> productList = productService.findAllProducts();
 			List<Transaction> transactionList = transactionService.listAllNonCarTransactions();
-			model.addAttribute("type1", TransactionType.ORDER);
-			model.addAttribute("type2", TransactionType.RETURN);
+			//Transaction detail td is from the previous error-ing page
+			model.addAttribute("td", td);
 			model.addAttribute("pl", productList);
 			model.addAttribute("tl", transactionList);
-			model.addAttribute("td", td);
+			model.addAttribute("type1", TransactionType.ORDER);
+			model.addAttribute("type2", TransactionType.RETURN);
 			return "/transaction/StockUsageForm";
 		}
+		//Form value sets td's transaction.Id to -1 if "Create new transaction" is selected
+		//Create new transaction & ready a new transactiondetail list to add to it
 		if(td.getTransaction().getId() == -1) {
 			t = new Transaction();
+			tdList = new ArrayList<TransactionDetail>();
 		}
-		else {t = transactionService.findTransactionById(td.getTransaction().getId());}
+		//If an old transaction already exists, find it.
+		else {
+			t = transactionService.findTransactionById(td.getTransaction().getId());
+			tdList = t.getTransactionDetails();
+			}
+
+		//Update new/old transaction with current user 
 		t.setUser((User)session.getAttribute("usession"));
-		List<TransactionDetail> tdList = new ArrayList<TransactionDetail>();
+		//Update new/old transaction with new addition of transactiondetails
 		tdList.add(td);
 		t.setTransactionDetails(tdList);
 		transactionService.saveTransaction(t);
-		//Input product (cause incomplete in form) into transaction detail
+		
+		//Find product (cause incomplete in form) using product id
 		Product p = productService.findProduct(td.getProduct().getId());
+		//Set product in transaction details
 		td.setProduct(p);
 		td.setTransaction(t);
 		String success = String.valueOf(tdService.saveTransactionDetail(td));
+		//Pass success true/false by redirect model
 		redirectModel.addFlashAttribute("success", success);
 		return "redirect:/transaction/list/" + td.getProduct().getId();
 	}
@@ -211,24 +226,26 @@ public class TransactionController
 		if(!uservice.verifyLogin(session)) {
 			return "redirect:/";
 		}
-					
 		Transaction t = transactionService.findTransactionById(id);
 		model.addAttribute("t", t);
+		//Set page to return to upon cancellation of form
 		model.addAttribute("preView", session.getAttribute("preView"));
 		return "/transaction/TransactionForm";
 	}
 	
-	@RequestMapping("/saveTransaction")
+	@RequestMapping("/saveTransaction") //@Valid followed directly by BindingResult
 	public String saveTransaction(@Valid @ModelAttribute("t") Transaction t, BindingResult bd, 
 			Model model, HttpSession session, RedirectAttributes redirectModel) {
+		//If form has error
 		if (bd.hasErrors()) {
+			//Set page to return to upon cancellation of form
 			model.addAttribute("preView", session.getAttribute("preView"));
 			return "/transaction/TransactionForm";
 		}
 		User u = (User)session.getAttribute("usession");
 		t.setUser(u);
 		String success = String.valueOf(transactionService.saveTransaction(t));
-		if (session.getAttribute("preView") == "all") {
+		if (session.getAttribute("preView") == "allt") {
 			redirectModel.addFlashAttribute("success", success);
 			return "redirect:/transaction/all";
 			}

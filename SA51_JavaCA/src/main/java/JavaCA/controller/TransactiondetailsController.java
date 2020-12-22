@@ -69,8 +69,8 @@ public class TransactiondetailsController {
 		List<Product> productList = productService.findAllProducts();
 		model.addAttribute("type1", TransactionType.USAGE);
 		model.addAttribute("type2", TransactionType.DAMAGED);
-		model.addAttribute("pl", productList);
 		model.addAttribute("td", transactiondetail);
+		model.addAttribute("pl", productList);
 		model.addAttribute("tid", tid);
 		return "/transaction/TransactionDetailForm";
 	}
@@ -129,7 +129,7 @@ public class TransactiondetailsController {
 		
 		TransactionDetail td = tdService.findTransactionDetailById(tdid);
 		List<Product> productList = productService.findAllProducts();
-		
+		//Change paired-options depending on transaction type
 		if((td.getTransactionType().toString() == "ORDER")||(td.getTransactionType().toString() == "RETURN")) {
 			model.addAttribute("type1", TransactionType.ORDER);
 			model.addAttribute("type2", TransactionType.RETURN);
