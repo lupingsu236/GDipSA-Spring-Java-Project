@@ -63,6 +63,12 @@ public class UserImplementation implements UserInterface {
 	public User findByUsername(String username) {
 		return urepo.findUserByUsername(username);
 	}
+	
+	@Override
+	public User findByEmail(String email) 
+	{
+		return urepo.findUserByEmail(email);
+	}
 
 	@Override
 	public ArrayList<String> getRoleTypes() {
