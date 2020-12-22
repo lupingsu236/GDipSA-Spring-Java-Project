@@ -85,9 +85,9 @@ function myFunction() {
 								<th>Date</th>
 								<th>Quantity Change</th>
 								<th>Transaction Type</th>
-								<th>View Product Detail</th>
-								<th>Edit Transaction Detail</th>
-								<th>Delete Transaction Detail</th>
+								<th>View Product Details</th>
+								<th style="text-align:center">Edit</th>
+								<th style="text-align:center">Delete</th>
 						  </tr>
                       </thead>
 					  <tbody>
@@ -99,12 +99,12 @@ function myFunction() {
 								<a href="#" class="btn btn-light" th:href="@{/product/detail/}+${td.product.id}"
 								th:utext="${td.product.name}">Product</a>
 								</td>
-								<td>
-								<a href="#" class="btn btn-light" th:href="@{/transactiondetails/edit/} + ${td.id}">Edit</a>
+								<td style="text-align:center">
+								<a href="#" class="btn btn-light" th:href="@{/transactiondetails/edit/} + ${td.id}"><i class="fas fa-edit"></i></a>
 								</td>
-								<td>
+								<td style="text-align:center">
 								<a href="#" class="btn btn-danger" th:href="@{/transactiondetails/delete/} + ${td.id}"
-								onclick="return confirm('Are you sure you want to delete this transaction detail?')">Delete</a>
+								onclick="return confirm('Are you sure you want to delete this transaction detail?')"><i class="fas fa-trash-alt"></i></a>
 								</td>
 							</tr>
 					  </tbody>

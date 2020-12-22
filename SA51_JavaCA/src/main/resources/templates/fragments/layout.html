@@ -66,10 +66,10 @@
                             
                             <div class="sb-sidenav-menu-heading" th:if="${session.usession.role} == ${session.admin}">Report Generation</div>
                             <a class="nav-link" th:href="@{/report/usage}" th:if="${session.usession.role} == ${session.admin}">
-                                <i class="far fa-file-alt sb-nav-link-icon" ></i> Generate Usage Report
+                                <i class="far fa-file-alt sb-nav-link-icon" ></i> Usage Report
                             </a>
                             <a class="nav-link" th:href="@{/report/reorder}" th:if="${session.usession.role} == ${session.admin}">
-                                <i class="far fas fa-file-invoice sb-nav-link-icon" ></i> Generate Reorder Report
+                                <i class="far fas fa-file-invoice sb-nav-link-icon" ></i> Reorder Report
                             </a>
                         </div>
                     </div>
