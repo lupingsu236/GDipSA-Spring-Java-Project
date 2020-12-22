@@ -14,7 +14,7 @@ public class CarplateValidator implements  ConstraintValidator<CarplateContraint
 		
 		if (carplate == null) {return true;}
 		else if (carplate.length() == 0) {return true;}
-		else if (carplate.length() > 7) {return false;}
+		else if (carplate.length() > 8) {return false;}
 		else if (carplate.substring(0, 1).equalsIgnoreCase("S") || carplate.substring(0, 1).equalsIgnoreCase("E")) {return true;}
         return false;
     }

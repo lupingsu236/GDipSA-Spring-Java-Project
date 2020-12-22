@@ -15,7 +15,7 @@ import javax.validation.Payload;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CarplateContraint {
 	 //error message  
-    public String message() default "Must be empty, or start with E or S, and be less than length of 7.";  
+    public String message() default "Must be empty, or start with E or S. Length should be <= 8.";  
     //represents group of constraints     
     public Class<?>[] groups() default {};  
     //represents additional information about annotation  

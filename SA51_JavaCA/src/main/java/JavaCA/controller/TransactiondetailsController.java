@@ -77,7 +77,7 @@ public class TransactiondetailsController {
 	
 	@GetMapping("/detail/{tid}")
 	public String viewTransactionDetails(@PathVariable("tid") int tid, RedirectAttributes redirectModel,
-			@ModelAttribute("success") String success, Model model)
+			@ModelAttribute("success") String success, Model model, HttpSession session)
 	{
 		//check if user has logged in, otherwise redirect
 		if(!uservice.verifyLogin(session)) {
@@ -89,6 +89,8 @@ public class TransactiondetailsController {
 			redirectModel.addFlashAttribute("success", success);
 			return "redirect:/transaction/list";
 			}
+		User user = (User) session.getAttribute("usession");
+		model.addAttribute("user", user);
 		model.addAttribute("success", success);
 		model.addAttribute("transaction", t);
 		model.addAttribute("transactiondetail", t.getTransactionDetails());
@@ -155,6 +157,7 @@ public class TransactiondetailsController {
 		Transaction t = td.getTransaction();
 		String success = String.valueOf(tdService.deleteTransactionDetail(td));
 		redirectModel.addFlashAttribute("success", success);
+		//Delete transaction if it doesn't contain any transaction details
 		if (transactionService.noTransactionDetailsInNullTransaction(t)) {
 			transactionService.deleteTransaction(t);
 			return "redirect:/transaction/list";

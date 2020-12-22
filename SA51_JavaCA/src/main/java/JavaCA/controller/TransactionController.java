@@ -77,7 +77,7 @@ public class TransactionController
 	}
 	
 	@RequestMapping("/all")
-	public String viewAllTransactions(Model model, @ModelAttribute("success") String success)
+	public String viewAllTransactions(Model model, @ModelAttribute("success") String success, HttpSession session)
 	{
 		//check if user has logged in, otherwise redirect
 		if(!uservice.verifyLogin(session)) {
@@ -89,11 +89,13 @@ public class TransactionController
 		model.addAttribute("success", success);
 		session.setAttribute("preView", "all");
 		model.addAttribute("preView", session.getAttribute("preView"));
+		User user = (User) session.getAttribute("usession");
+		model.addAttribute("user", user);
 		return "/transaction/transactions";
 	}
 	
 	@RequestMapping("/list")
-	public String viewAllTransactionsDetails(Model model, @ModelAttribute("success") String success)
+	public String viewAllTransactionsDetails(Model model, @ModelAttribute("success") String success, HttpSession session)
 	{
 		//check if user has logged in, otherwise redirect
 		if(!uservice.verifyLogin(session)) {
@@ -102,7 +104,9 @@ public class TransactionController
 		
 		List<TransactionDetail> td = tdService.findAllTransactionDetails();
 		model.addAttribute("transactiondetail", td);
-		model.addAttribute("success", success);
+		model.addAttribute("success", success);	
+		User user = (User) session.getAttribute("usession");
+		model.addAttribute("user", user.getRoleName());
 		session.setAttribute("preView", "alltd");
 		return "/transaction/alltransactiondetail";
 	}
@@ -203,8 +207,8 @@ public class TransactionController
 	
 	@GetMapping("/edit/{id}")
 	public String editTransaction(@PathVariable("id") int id, Model model) {
-		//check if user is admin, otherwise redirect
-		if(!uservice.verifyAdmin(session)) {
+		//check if user is logged in, otherwise redirect
+		if(!uservice.verifyLogin(session)) {
 			return "redirect:/";
 		}
 					

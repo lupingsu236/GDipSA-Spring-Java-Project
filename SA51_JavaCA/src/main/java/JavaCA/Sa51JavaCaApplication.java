@@ -375,7 +375,7 @@ public class Sa51JavaCaApplication {
 			
 			TransactionDetail td26 = new TransactionDetail(300,new Date(119,5,6), TransactionType.ORDER);
 			td26.setProduct(p21);
-			td26.setTransaction(t8);
+			td26.setTransaction(t7);
 			transactionDetailRepo.save(td26);
 			
 			TransactionDetail td27 = new TransactionDetail(100,new Date(119,10,27), TransactionType.USAGE);

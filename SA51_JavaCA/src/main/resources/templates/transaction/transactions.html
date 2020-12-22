@@ -11,7 +11,7 @@
 		<a th:href="@{/transaction/new}" class="btn btn-info">New Stock Usage</a>
 		</div>
 		<div class="col-sm">
-		<a th:href="@{/transaction/newStockEntry}" class="btn btn-info">New Stock Entry</a>
+		<a th:if="${user.getRoleName() == 'ADMIN'}" th:href="@{/transaction/newStockEntry}" class="btn btn-info">New Stock Entry</a>
 		</div>
 	</div>
 	<br>
@@ -53,10 +53,14 @@
 								<a href="#" class="btn btn-light" th:href="@{/transactiondetails/detail/} + ${t.id}"><i class="fas fa-ellipsis-h"></i></a>
 								</td>
 								<td style="text-align:center">
-								<a href="#" class="btn btn-light" th:href="@{/transaction/edit/} + ${t.id}"><i class="fas fa-edit"></i></a>
+								<a href="#" class="btn btn-light" th:href="@{/transaction/edit/} + ${t.id}" th:if="${(user.getRoleName() == 'ADMIN') || (t.getCarPlateNo() != null)}">
+								<i class="fas fa-edit"></i></a>
+								<i th:if="${(user.getRoleName() == 'MECHANIC')&&(t.getCarPlateNo() == null)}" class="fas fa-ban"></i>
 								</td>
 								<td style="text-align:center">
-								<a href="#" class="btn btn-danger" th:href="@{/transaction/delete/} + ${t.id}"><i class="fas fa-trash-alt"></i></a>
+								<a href="#" class="btn btn-danger" th:href="@{/transaction/delete/} + ${t.id}" th:if="${(user.getRoleName() == 'ADMIN') || (t.getCarPlateNo() != null)}">
+								<i class="fas fa-trash-alt"></i></a>
+								<i th:if="${(user.getRoleName() == 'MECHANIC')&&(t.getCarPlateNo() == null)}" class="fas fa-ban"></i>
 								</td>
 							</tr>
 					  </tbody>
