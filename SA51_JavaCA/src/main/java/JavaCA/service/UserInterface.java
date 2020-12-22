@@ -3,6 +3,8 @@ package JavaCA.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import JavaCA.model.User;
 
 public interface UserInterface {
@@ -17,4 +19,5 @@ public interface UserInterface {
 	User findByUsername(String username);
 	User findByEmail(String email);
 	ArrayList<String> getRoleTypes();
+	boolean verifyAdmin(HttpSession session);
 }

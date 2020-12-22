@@ -3,6 +3,7 @@ package JavaCA.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,5 +78,15 @@ public class UserImplementation implements UserInterface {
 		roleTypes.add(RoleType.MECHANIC.toString());
 		return roleTypes;
 	}
+	
+	@Override
+	public boolean verifyAdmin(HttpSession session)
+	{
+		User u = (User) session.getAttribute("usession");
+		if (u.getRole() == RoleType.ADMIN) {
+			return true;
+		}
+		return false;
+	}	
 	
 }

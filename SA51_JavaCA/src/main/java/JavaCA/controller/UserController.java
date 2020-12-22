@@ -2,6 +2,7 @@ package JavaCA.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +32,19 @@ public class UserController{
 	
 	@Autowired
 	public void setUserImplemetation(UserImplementation uimpl) {
-		this.uservice=uimpl;
+		this.uservice = uimpl;
 	}
 	
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) {}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String createUser(Model model) {
+	public String createUser(Model model, HttpSession session) {
+		//check if user is admin, otherwise redirect
+		if(!uservice.verifyAdmin(session)) {
+			return "redirect:/";
+		}
+				
 		model.addAttribute("user", new User());
 		model.addAttribute("roletypes", uservice.getRoleTypes());
 		return "/user/userform";
@@ -90,14 +96,24 @@ public class UserController{
 	}
 	
 	@RequestMapping(value = {"", "/list"}, method = RequestMethod.GET)
-	public String listUsers(Model model) {
+	public String listUsers(Model model, HttpSession session) {
+		//check if user is admin, otherwise redirect
+		if(!uservice.verifyAdmin(session)) {
+			return "redirect:/";
+		}
+		
 		ArrayList<User> users = (ArrayList<User>) uservice.listAllUser();
 		model.addAttribute("users", users);
 		return "/user/userlist";
 	}
 	
 	@RequestMapping(value="/edit/{id}", method = RequestMethod.GET)
-	public String editUser(Model model, @PathVariable("id") long id) {
+	public String editUser(Model model, @PathVariable("id") long id, HttpSession session) {
+		//check if user is admin, otherwise redirect
+		if(!uservice.verifyAdmin(session)) {
+			return "redirect:/";
+		}
+				
 		model.addAttribute("user", uservice.findById(id));
 		model.addAttribute("roletypes", uservice.getRoleTypes());
 		return "/user/usereditform";
