@@ -12,24 +12,29 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import JavaCA.model.ActiveType;
 import JavaCA.model.Password;
 import JavaCA.model.RoleType;
 import JavaCA.model.User;
+import JavaCA.service.EmailService;
+import JavaCA.service.EmailServiceImpl;
 import JavaCA.service.UserImplementation;
 import JavaCA.service.UserInterface;
 
 @Controller
 public class LoginController {
 	
-	@Autowired
-	UserInterface uservice;
+	private UserInterface uservice;
+	private EmailService eservice;
 	
 	@Autowired
-	public void setUserImplemetation(UserImplementation uimpl) {
-		this.uservice=uimpl;
+	public void setServices(UserImplementation uservice, EmailServiceImpl eservice) 
+	{
+		this.uservice = uservice;
+		this.eservice = eservice;
 	}
 	
 	@InitBinder
@@ -115,9 +120,20 @@ public class LoginController {
 		return "redirect:/";
 	}
 	
+	@RequestMapping(value = "/forgotpassword", method=RequestMethod.GET)
+	public String forgotPassword(Model model) 
+	{
+		return "/login/forgotpassword";
+	}
 	
-	
-	
+	@RequestMapping(value={"/resetpassword"}, method=RequestMethod.POST)
+	public String resetPasswordAndSendEmail(@RequestParam String usernameOrEmail, RedirectAttributes model)
+	{
+		eservice.sendEmailToResetPassword(usernameOrEmail);
+		if (!(uservice.findByUsername(usernameOrEmail) == null && uservice.findByEmail(usernameOrEmail) == null))
+			model.addFlashAttribute("resetPassword", true);
+		return "redirect:/";
+	}
 }
 
 

@@ -15,5 +15,6 @@ public interface UserInterface {
 	User findByName(String name);
 	User findById(long id);
 	User findByUsername(String username);
+	User findByEmail(String email);
 	ArrayList<String> getRoleTypes();
 }
