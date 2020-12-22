@@ -44,7 +44,7 @@ public class Sa51JavaCaApplication {
 		SpringApplication.run(Sa51JavaCaApplication.class, args);
 	}
 	
-	@Bean
+	/*@Bean
 	@SuppressWarnings("deprecation")
 	CommandLineRunner runner() {
 		return args ->{
@@ -393,6 +393,6 @@ public class Sa51JavaCaApplication {
 			td29.setTransaction(t11);
 			transactionDetailRepo.save(td29);
 		};
-	}
+	} */
 }
 

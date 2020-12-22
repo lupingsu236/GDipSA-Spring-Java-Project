@@ -27,19 +27,20 @@ import JavaCA.service.UserInterface;
 @RequestMapping("/user")
 public class UserController{
 
-	@Autowired
-	UserInterface uservice;
+	private UserInterface uservice;
+	private HttpSession session;
 	
 	@Autowired
-	public void setUserImplemetation(UserImplementation uimpl) {
-		this.uservice = uimpl;
+	public void setServices(UserImplementation uservice, HttpSession session) {
+		this.uservice = uservice;
+		this.session = session;
 	}
 	
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) {}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String createUser(Model model, HttpSession session) {
+	public String createUser(Model model) {
 		//check if user is admin, otherwise redirect
 		if(!uservice.verifyAdmin(session)) {
 			return "redirect:/";
@@ -51,7 +52,8 @@ public class UserController{
 	}
 	
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String saveUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Model model) {
+	public String saveUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, 
+							Model model) {
 		if(bindingResult.hasErrors()) {
 			model.addAttribute("roletypes", uservice.getRoleTypes());
 			return "/user/userform";
@@ -108,7 +110,7 @@ public class UserController{
 	}
 	
 	@RequestMapping(value="/edit/{id}", method = RequestMethod.GET)
-	public String editUser(Model model, @PathVariable("id") long id, HttpSession session) {
+	public String editUser(Model model, @PathVariable("id") long id) {
 		//check if user is admin, otherwise redirect
 		if(!uservice.verifyAdmin(session)) {
 			return "redirect:/";

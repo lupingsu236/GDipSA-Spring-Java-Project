@@ -20,4 +20,5 @@ public interface UserInterface {
 	User findByEmail(String email);
 	ArrayList<String> getRoleTypes();
 	boolean verifyAdmin(HttpSession session);
+	boolean verifyLogin(HttpSession session);
 }

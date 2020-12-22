@@ -11,6 +11,7 @@ public interface TransactionDetailsService {
 	ArrayList<TransactionDetail> findTransactionDetailsByProductId(long productId);
 	boolean saveTransactionDetail(TransactionDetail transactionDetail);
 	boolean deleteTransactionDetail(TransactionDetail transactionDetail);
+	void deleteAllRelatedToPdt(TransactionDetail transactionDetail);
 	List<TransactionDetail> findAllTransactionDetails();
 	TransactionDetail findTransactionDetailById(long id);
 	public static boolean isValidDateFormat(String s)

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +27,8 @@ import JavaCA.service.ProductServiceImpl;
 import JavaCA.service.SupplierService;
 import JavaCA.service.SupplierServiceImpl;
 import JavaCA.service.TransactionDetailsService;
+import JavaCA.service.UserImplementation;
+import JavaCA.service.UserInterface;
 
 @Controller
 @RequestMapping("/report")
@@ -33,19 +37,28 @@ public class ReportController
 	private ProductServiceImpl pservice;
 	private TransactionDetailsService tdservice;
 	private SupplierService sservice;
+	private UserInterface uservice;
+	private HttpSession session;
 		
 	@Autowired
-	public void setServices(ProductServiceImpl pservice, TransactionDetailsService tdservice, SupplierServiceImpl sservice) 
+	public void setServices(ProductServiceImpl pservice, TransactionDetailsService tdservice, 
+			SupplierServiceImpl sservice, UserImplementation uservice, HttpSession session) 
 	{
 		this.pservice = pservice;
 		this.tdservice = tdservice;
 		this.sservice = sservice;
+		this.uservice = uservice;
+		this.session = session;
 	}
 	
 	@RequestMapping(value={"/usage"}, method=RequestMethod.GET)
 	public String usageReportForProduct(Model model)
 	{
-		//model.addAttribute("product", new Product());
+		//check if user is admin, otherwise redirect
+		if(!uservice.verifyAdmin(session)) {
+			return "redirect:/";
+		}
+		
 		return "report/usage";
 	}
 	
@@ -80,6 +93,11 @@ public class ReportController
 	@RequestMapping(value={"/usage/{id}"}, method=RequestMethod.GET)
 	public String usageReportForProductId(Model model, @PathVariable long id)
 	{
+		//check if user is admin, otherwise redirect
+		if(!uservice.verifyAdmin(session)) {
+			return "redirect:/";
+		}
+		
 		String output = "report/usage";
 		List<TransactionDetail> transactionDetailsForThisProduct = tdservice.findTransactionDetailsByProductId(id);
 		if (model.getAttribute("fromDate") == null && model.getAttribute("toDate") == null)
@@ -125,6 +143,11 @@ public class ReportController
 	@RequestMapping(value={"/usage/{id}/print"}, method=RequestMethod.GET)
 	public String printUsageReportForProductId(@PathVariable long id, RedirectAttributes model)
 	{
+		//check if user is admin, otherwise redirect
+		if(!uservice.verifyAdmin(session)) {
+			return "redirect:/";
+		}
+		
 		model.addFlashAttribute("print", true);
 		return "redirect:/report/usage/" + id;
 	}
@@ -132,6 +155,11 @@ public class ReportController
 	@RequestMapping(value={"/reorder"}, method=RequestMethod.GET)
 	public String reorderReport(Model model)
 	{
+		//check if user is admin, otherwise redirect
+		if(!uservice.verifyAdmin(session)) {
+			return "redirect:/";
+		}
+		
 		String output = "report/reorder";
 		double grandTotal = 0;
 		List<List<Product>> listOfListsOfProduct = new ArrayList<>();
@@ -161,6 +189,11 @@ public class ReportController
 	@RequestMapping(value={"/reorder/print"}, method=RequestMethod.GET)
 	public String printReorderReport(RedirectAttributes model)
 	{
+		//check if user is admin, otherwise redirect
+		if(!uservice.verifyAdmin(session)) {
+			return "redirect:/";
+		}
+		
 		model.addFlashAttribute("print", true);
 		return "redirect:/report/reorder/";
 	}

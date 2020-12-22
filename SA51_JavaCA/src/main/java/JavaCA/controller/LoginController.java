@@ -29,12 +29,14 @@ public class LoginController {
 	
 	private UserInterface uservice;
 	private EmailService eservice;
+	private HttpSession session;
 	
 	@Autowired
-	public void setServices(UserImplementation uservice, EmailServiceImpl eservice) 
+	public void setServices(UserImplementation uservice, EmailServiceImpl eservice, HttpSession session) 
 	{
 		this.uservice = uservice;
 		this.eservice = eservice;
+		this.session = session;
 	}
 	
 	@InitBinder
@@ -77,8 +79,11 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value="/change/{id}",method=RequestMethod.GET)
-	public String tochange(Model model,@PathVariable("id") long id, HttpSession session) {
-		
+	public String tochange(Model model,@PathVariable("id") long id) {
+		//check if user has logged in, otherwise redirect
+		if(!uservice.verifyLogin(session)) {
+			return "redirect:/";
+		}
 		//only current user that is login can change his password 
 		//prevents bypassing via url
 		User currentUser = (User) session.getAttribute("usession");

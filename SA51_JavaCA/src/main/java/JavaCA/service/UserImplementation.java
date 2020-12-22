@@ -87,6 +87,14 @@ public class UserImplementation implements UserInterface {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public boolean verifyLogin(HttpSession session) {
+		if (session.getAttribute("usession")!=null) {
+			return true;
+		}
+		return false;
 	}	
 	
 }
