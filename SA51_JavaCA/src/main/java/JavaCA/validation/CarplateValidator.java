@@ -13,8 +13,9 @@ public class CarplateValidator implements  ConstraintValidator<CarplateContraint
     public boolean isValid(String carplate, ConstraintValidatorContext cxt) {
 		
 		if (carplate == null) {return true;}
-		if (carplate.length() == 0) {return true;}
-		if (carplate.substring(0, 1).equalsIgnoreCase("S") || carplate.substring(0, 1).equalsIgnoreCase("E")) {return true;}
+		else if (carplate.length() == 0) {return true;}
+		else if (carplate.length() > 7) {return false;}
+		else if (carplate.substring(0, 1).equalsIgnoreCase("S") || carplate.substring(0, 1).equalsIgnoreCase("E")) {return true;}
         return false;
     }
 }
