@@ -8,9 +8,9 @@
 	<h2>Edit form</h2><br>
 	
 	<form action="" th:object="${user}" th:action="@{/user/saveedit/}+${user.id}" method="post">
-		<div class="form-group w-100">
+		<div class="form-group w-50">
 		<b><label for="id">Id:</label>
-		<label th:text="${user.id}"></label></b>
+		<input type="text" readonly class="form-control-plaintext" th:field="*{id}" id="id"></b>
 		</div>
 		
 		<div class="form-group w-50">
@@ -28,7 +28,7 @@
 		
 		<div class="form-group w-50">
 		<label for="email">Email:</label>
-		<input type="text" class="form-control" th:field="*{email}"> 
+		<input type="email" class="form-control" th:field="*{email}"> 
 		<p style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
 		</div>
 		
@@ -45,7 +45,7 @@
 			<option th:value="ACTIVE">ACTIVE</option>
 			<option th:value="INACTIVE">INACTIVE</option>
 			</select>
-		</div>
+		</div> 
 		
 		<div class="form-group">
         <button class="btn btn-success" type="submit" style="margin:10px">Save</button>

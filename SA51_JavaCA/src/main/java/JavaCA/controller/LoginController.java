@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import JavaCA.model.ActiveType;
 import JavaCA.model.Password;
 import JavaCA.model.RoleType;
 import JavaCA.model.User;
@@ -50,6 +52,10 @@ public class LoginController {
 		if(uservice.authenticate(user)) 
 		{
 			User u = uservice.findByName(user.getUsername());
+			if (u.getActivetype()==ActiveType.INACTIVE) {
+				model.addAttribute("errorMsg", "User has been deactivated!");
+				return "login/login";
+			}
 			session.setAttribute("usession", u);
 			return "redirect:/";
 		}
@@ -83,7 +89,7 @@ public class LoginController {
 	
 	@PostMapping(value = "/changePsd/{id}")
 	public String changePSD(@ModelAttribute("password") Password password, Model model, 
-			@PathVariable(value="id") long id) {
+			@PathVariable(value="id") long id, RedirectAttributes redirectfrom) {
 		
 		User user = uservice.findById(id); 
 		
@@ -105,7 +111,8 @@ public class LoginController {
 		
 		user.setPassword(password.getNewpassword());
 		uservice.updateUser(user);
-		return "login/changesuccess";
+		redirectfrom.addFlashAttribute("from", "psdChanged");
+		return "redirect:/";
 	}
 	
 	

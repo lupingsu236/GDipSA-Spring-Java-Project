@@ -64,8 +64,8 @@ public class UserController{
 	}
 	
 	@PostMapping(value="/saveedit/{id}")
-	public String saveeditUser(@ModelAttribute("user") @Valid User user, 
-			@PathVariable("id") long id, BindingResult bindingResult, Model model) {
+	public String saveeditUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
+			@PathVariable("id") long id, Model model) {
 		if(bindingResult.hasErrors()) {
 			model.addAttribute("roletypes", uservice.getRoleTypes());
 			return "/user/usereditform";
@@ -97,7 +97,7 @@ public class UserController{
 	}
 	
 	@RequestMapping(value="/edit/{id}", method = RequestMethod.GET)
-	public String editUser(Model model,@PathVariable("id") long id) {
+	public String editUser(Model model, @PathVariable("id") long id) {
 		model.addAttribute("user", uservice.findById(id));
 		model.addAttribute("roletypes", uservice.getRoleTypes());
 		return "/user/usereditform";
