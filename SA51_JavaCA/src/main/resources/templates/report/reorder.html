@@ -10,7 +10,7 @@
 	<div class="card mb-4">
           <div class="card-header">
               <i class="fas fa-table mr-1"></i>
-              Inventory Reorder Report for products by Supplier
+              Inventory Reorder Report for Products by Supplier
           </div>
           <div class="card-body">
               <div class="table-responsive">
@@ -53,10 +53,10 @@
 				<p style="text-align:center" colspan="8" th:if="${#lists.isEmpty(productsThatRequireReorder)}" th:utext="'No products require reorder as of now'"></p>
 				<p style="text-align:right;font-weight:bold" th:utext="'Grand Total'" th:if="${not #lists.isEmpty(productsThatRequireReorder)}"></p>
 				<p style="text-align:right" th:utext="${#numbers.formatCurrency(grandTotal)}" th:if="${not #lists.isEmpty(productsThatRequireReorder)}"></p>
-				<a class="btn btn-primary" th:href="@{/report/reorder/print}" th:if="${not #lists.isEmpty(productsThatRequireReorder)}">Print</a>
 			</div>
 		</div>
 	</div>
+	<a class="btn btn-primary" style="float: right;" th:href="@{/report/reorder/print}" th:if="${not #lists.isEmpty(productsThatRequireReorder)}">Print</a>
 </div>
 </body>
 </html>

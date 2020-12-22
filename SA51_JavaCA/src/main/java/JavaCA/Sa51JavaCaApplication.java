@@ -165,22 +165,25 @@ public class Sa51JavaCaApplication {
 			p21.setSupplier(s5);
 			productRepo.save(p21);
 			
-			User u1=new User("Oliver Smith","Oliver","password","Oliver@gmail.com",RoleType.MECHANIC,ActiveType.ACTIVE,"active","mechanic");
-			User u2=new User("Jack Brown","Jack","password","Jack@gmail.com",RoleType.ADMIN,ActiveType.ACTIVE,"active","admin");
-			User u3=new User("Harry Jones","Harry","password","Harry@gmail.com",RoleType.MECHANIC, ActiveType.ACTIVE,"active","mechanic");
-			User u4=new User("David Talyor","David","password","David@gmail.com",RoleType.ADMIN,ActiveType.ACTIVE,"active","admin");
-			User u5=new User("Daniel Wilson","Daniel","password","Daniel@gmail.com",RoleType.MECHANIC,ActiveType.ACTIVE,"active","mechanic");
-			User u6=new User("Mary Li","Mary","password","Mary@gmail.com",RoleType.MECHANIC,ActiveType.ACTIVE,"active","mechanic");
-			User u7=new User("Sophia Lam","Sophia","password","Sophia@gmail.com",RoleType.ADMIN,ActiveType.ACTIVE,"active","admin");
-			User u8=new User("Jennifer Martin","Jennifer","password","Jennifer@gmail.com",RoleType.MECHANIC,ActiveType.ACTIVE,"active","mechanic");
-			User u9=new User("Linda Roy","Linda","password","Linda@gmail.com",RoleType.MECHANIC,ActiveType.INACTIVE,"inactive","mechanic");
-			User u10=new User("Susan Lee","Susan","password","Susan@gmail.com",RoleType.MECHANIC,ActiveType.ACTIVE,"active","mechanic");
-			User u11=new User("Kyle Wang","Kyle","password","Kyle@gmail.com",RoleType.MECHANIC,ActiveType.ACTIVE,"active","mechanic");
-			User u12=new User("William White","William","password","William@gmail.com",RoleType.MECHANIC,ActiveType.ACTIVE,"active","mechanic");
-			User u13=new User("Joe Anderson","Joe","password","Joe@gmail.com",RoleType.MECHANIC,ActiveType.ACTIVE,"active","mechanic");
-			User u14=new User("Thomas Davis","Thomas","password","Thomas@gmail.com",RoleType.ADMIN,ActiveType.INACTIVE,"inactive","admin");
-			User u15=new User("Raymone James","Raymone","password","Raymone@gmail.com",RoleType.ADMIN,ActiveType.ACTIVE,"active","admin");
-			User u16=new User("Lily Murphy","Lily","password","Lily@gmail.com",RoleType.MECHANIC,ActiveType.ACTIVE,"active","mechanic");
+			User u1=new User("Oliver Smith","Oliver","password","Oliver@gmail.com",RoleType.MECHANIC,ActiveType.ACTIVE);
+			User u2=new User("Jack Brown","Jack","password","Jack@gmail.com",RoleType.ADMIN,ActiveType.ACTIVE);
+			User u3=new User("Harry Jones","Harry","password","Harry@gmail.com",RoleType.MECHANIC, ActiveType.ACTIVE);
+			User u4=new User("David Talyor","David","password","David@gmail.com",RoleType.ADMIN,ActiveType.ACTIVE);
+			User u5=new User("Daniel Wilson","Daniel","password","Daniel@gmail.com",RoleType.MECHANIC,ActiveType.ACTIVE);
+			User u6=new User("Mary Li","Mary","password","Mary@gmail.com",RoleType.MECHANIC,ActiveType.ACTIVE);
+			User u7=new User("Sophia Lam","Sophia","password","Sophia@gmail.com",RoleType.ADMIN,ActiveType.ACTIVE);
+			User u8=new User("Jennifer Martin","Jennifer","password","Jennifer@gmail.com",RoleType.MECHANIC,ActiveType.ACTIVE);
+			User u9=new User("Linda Roy","Linda","password","Linda@gmail.com",RoleType.MECHANIC,ActiveType.INACTIVE);
+			User u10=new User("Susan Lee","Susan","password","Susan@gmail.com",RoleType.MECHANIC,ActiveType.ACTIVE);
+			User u11=new User("Kyle Wang","Kyle","password","Kyle@gmail.com",RoleType.MECHANIC,ActiveType.ACTIVE);
+			User u12=new User("William White","William","password","William@gmail.com",RoleType.MECHANIC,ActiveType.ACTIVE);
+			User u13=new User("Joe Anderson","Joe","password","Joe@gmail.com",RoleType.MECHANIC,ActiveType.ACTIVE);
+			User u14=new User("Thomas Davis","Thomas","password","Thomas@gmail.com",RoleType.ADMIN,ActiveType.INACTIVE);
+			User u15=new User("Raymone James","Raymone","password","Raymone@gmail.com",RoleType.ADMIN,ActiveType.ACTIVE);
+			User u16=new User("Su Luping","Sulp","password","lupingsu.lp@gmail.com",RoleType.ADMIN,ActiveType.ACTIVE);
+			User u17=new User("Liau Han Yang, Jonathan","Jonathan","password","liauhyj@gmail.com",RoleType.ADMIN,ActiveType.ACTIVE);
+			User u18=new User("Lim Yu-De Justin","Justin","password","makebelief@icloud.com",RoleType.ADMIN,ActiveType.ACTIVE);
+			User u19=new User("Xu Zhenli","Xuzl","password","e0427350@u.nus.edu",RoleType.ADMIN,ActiveType.ACTIVE);
 			userRepo.save(u1);
 			userRepo.save(u2);
 			userRepo.save(u3);
@@ -197,6 +200,9 @@ public class Sa51JavaCaApplication {
 			userRepo.save(u14);
 			userRepo.save(u15);
 			userRepo.save(u16);
+			userRepo.save(u17);
+			userRepo.save(u18);
+			userRepo.save(u19);
 			
 
 			Transaction t1=new Transaction("SJA1234H");

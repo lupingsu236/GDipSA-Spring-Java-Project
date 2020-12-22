@@ -55,6 +55,7 @@ public class TransactionController
 		List<Transaction> carjobs = transactionService.listAllCarTransactions();
 		model.addAttribute("transactions", carjobs);
 		model.addAttribute("success", success);
+		model.addAttribute("preView", "car");
 		session.setAttribute("preView", "car");
 		return "/transaction/transactions";
 	}
@@ -65,6 +66,7 @@ public class TransactionController
 		List<Transaction> all = transactionService.listAllTransactions();
 		model.addAttribute("transactions", all);
 		model.addAttribute("success", success);
+		model.addAttribute("preView", "all");
 		session.setAttribute("preView", "all");
 		return "/transaction/transactions";
 	}
@@ -141,6 +143,7 @@ public class TransactionController
 	public String editTransaction(@PathVariable("id") int id, Model model, HttpSession session) {
 		Transaction t = transactionService.findTransactionById(id);
 		model.addAttribute("t", t);
+		model.addAttribute("preView", session.getAttribute("preView"));
 		return "/transaction/TransactionForm";
 	}
 	

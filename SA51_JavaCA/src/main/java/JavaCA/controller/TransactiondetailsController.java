@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,6 +52,10 @@ public class TransactiondetailsController {
 		this.tdService = transDetailImpl;
 	}
 	
+	@InitBinder
+	protected void initBinder(WebDataBinder binder) {
+	}
+	
 	@RequestMapping("/new/{tid}")
 	public String addProductToTransaction(@PathVariable("tid") int tid, Model model) {
 		TransactionDetail transactiondetail = new TransactionDetail();
@@ -74,12 +80,22 @@ public class TransactiondetailsController {
 		model.addAttribute("success", success);
 		model.addAttribute("transaction", t);
 		model.addAttribute("transactiondetail", t.getTransactionDetails());
+		model.addAttribute("preView", session.getAttribute("preView"));
 		return "/transaction/transactiondetail";
 	}
 	
 	@PostMapping("/save/{tid}")
-	public String saveTransactionDetails(@PathVariable("tid") int tid, @Valid @ModelAttribute("td") TransactionDetail td,
-				BindingResult bindingResult, RedirectAttributes redirectModel, HttpSession session) {
+	public String saveTransactionDetails(@PathVariable("tid") int tid, RedirectAttributes redirectModel,
+			@Valid @ModelAttribute("td") TransactionDetail td, BindingResult bd, HttpSession session, Model model) {
+		if (bd.hasErrors()) {
+			List<Product> productList = productService.findAllProducts();
+			model.addAttribute("type1", TransactionType.USAGE);
+			model.addAttribute("type2", TransactionType.DAMAGED);
+			model.addAttribute("pl", productList);
+			model.addAttribute("td", td);
+			model.addAttribute("tid", tid);
+			return "/transaction/TransactionDetailForm";
+		}
 		Transaction t = transactionService.findTransactionById(tid);
 		td.setTransaction(t);
 		Product p = productService.findProduct(td.getProduct().getId());

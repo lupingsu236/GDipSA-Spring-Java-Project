@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class TransactionDetail 
@@ -15,7 +17,8 @@ public class TransactionDetail
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	@Min(1)
+	@Min(0)
+	@NotNull
 	private int quantityChange;
 	private Date date;
 	private TransactionType transactionType;
