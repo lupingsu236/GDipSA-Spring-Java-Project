@@ -83,12 +83,12 @@
                		<i style="color:green" class="fas fa-angle-right"></i>  View Transaction Details
              		</a></li>
              		<li class="list-group-item" th:if="${session.usession.role} == ${session.admin}">
-               		<a class="stretched-link" style="color: black" th:href="@{/transaction/car}">
-               		<i style="color:green" class="fas fa-angle-right"></i>  My Car Jobs 
-             		</a></li>
-             		<li class="list-group-item" th:if="${session.usession.role} != ${session.admin}">
                		<a class="stretched-link" style="color: black" th:href="@{/transaction/newStockEntry}">
                		<i style="color:green" class="fas fa-angle-right"></i>  Order/ Return Product  
+             		</a></li>
+             		<li class="list-group-item" th:if="${session.usession.role} != ${session.admin}">
+               		<a class="stretched-link" style="color: black" th:href="@{/transaction/car}">
+               		<i style="color:green" class="fas fa-angle-right"></i>  My Car Jobs 
              		</a></li>
              		<li class="list-group-item" th:if="${session.usession.role} == ${session.admin}">
                		<a class="stretched-link" style="color: black" th:href="@{/report/usage}">
