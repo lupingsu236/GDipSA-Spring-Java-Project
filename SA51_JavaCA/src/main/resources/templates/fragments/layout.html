@@ -17,7 +17,8 @@
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <a class="navbar-brand" th:utext="Parts4You"></a>
             <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
-     		 <div class="input-group ml-auto ml-md-0"></div>
+     		<div class="input-group ml-auto ml-md-0"></div>
+            
             <ul class="navbar-nav ml-auto ml-md-0">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" 
@@ -25,12 +26,13 @@
                     <span th:utext="${session.usession.fullName}"></span>
                     <i class="fas fa-user fa-fw"></i></a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                        <a class="dropdown-item" th:href="@{link}">Update account</a>
+                        <a class="dropdown-item" th:href="@{/change/} + ${session.usession.id}">Change Password</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" th:href="@{/logout}">Logout</a>
                     </div>
                 </li>
             </ul>
+            
         </nav>
         
         <!-- Side Navbar-->
@@ -39,47 +41,35 @@
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
-                            <div class="sb-sidenav-menu-heading">Core</div>
+                        
+                            <div class="sb-sidenav-menu-heading">Main</div>
                             <a class="nav-link" th:href="@{/product/list}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Parts
+                                <i class="sb-nav-link-icon fas fa-tachometer-alt"></i> Parts | Products
                             </a>
-                            <a class="nav-link" th:href="@{/transaction/car}">
-                                <div class="sb-nav-link-icon"><i class="fa fa-car"></i></div>
-                                Repair Transactions
+                            <a class="nav-link" th:href="@{/transaction/all}">
+                                <i class="sb-nav-link-icon fa fa-car"></i> All Transactions
                             </a>
                             <a class="nav-link" th:href="@{/transaction/list}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-receipt"></i></div>
-                                All Transactions Details
+                                <i class="sb-nav-link-icon fas fa-receipt"></i> Transactions Details
                             </a>
+                            
                             <div class="sb-sidenav-menu-heading" th:if="${session.usession.role} == ${session.admin}">Admin</div>
-                            <a class="nav-link" th:href="@{/transaction/newStockEntry}" th:if="${session.usession.role} == ${session.admin}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
-                                New Stock Entry
+                        	<a class="nav-link" th:href="@{/brand}" th:if="${session.usession.role} == ${session.admin}">
+                                <i class="fas fas fa-box-open sb-nav-link-icon"></i> Manage Brands
                             </a>
-                            <a class="nav-link" th:href="@{/transaction/all}" th:if="${session.usession.role} == ${session.admin}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
-                                View All Transactions
+                            <a class="nav-link" th:href="@{/supplier}" th:if="${session.usession.role} == ${session.admin}">
+                                <i class="fas fa-parachute-box sb-nav-link-icon"></i> Manage Suppliers
                             </a>
-                            <a class="nav-link" th:href="@{link}" th:if="${session.usession.role} == ${session.admin}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
-                                Manage Users
+                            <a class="nav-link" th:href="@{/user}" th:if="${session.usession.role} == ${session.admin}">
+                                <i class="fas fa-users sb-nav-link-icon"></i> Manage Users
                             </a>
-                            <a class="nav-link" th:href="@{link}" th:if="${session.usession.role} == ${session.admin}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
-                                Manage Products
-                            </a>
-                            <a class="nav-link" th:href="@{link}" th:if="${session.usession.role} == ${session.admin}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-parachute-box"></i></div>
-                                Manage Suppliers
-                            </a>
+                            
+                            <div class="sb-sidenav-menu-heading" th:if="${session.usession.role} == ${session.admin}">Report Generation</div>
                             <a class="nav-link" th:href="@{/report/usage}" th:if="${session.usession.role} == ${session.admin}">
-                                <div class="sb-nav-link-icon"><i class="far fa-file-alt" ></i></div>
-                                Generate Usage Report
+                                <i class="far fa-file-alt sb-nav-link-icon" ></i> Generate Usage Report
                             </a>
                             <a class="nav-link" th:href="@{/report/reorder}" th:if="${session.usession.role} == ${session.admin}">
-                                <div class="sb-nav-link-icon"><i class="far fa-file" ></i></div>
-                                Generate Reorder Report
+                                <i class="far fas fa-file-invoice sb-nav-link-icon" ></i> Generate Reorder Report
                             </a>
                         </div>
                     </div>

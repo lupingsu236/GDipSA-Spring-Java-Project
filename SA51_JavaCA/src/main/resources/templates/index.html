@@ -11,15 +11,24 @@
   </button>
 </div>
 
-	<h2 class="mt-4">Home</h2>
+	<h3 class="mt-4">Home</h3>
        <br>
     <div class="row">
        <div class="col-xl-3 col-md-6">
            <div class="card bg-primary text-white mb-4">
-               <div class="card-body">User List</div>
-               <div class="card-footer d-flex align-items-center justify-content-between">
-                   <a class="small text-white stretched-link" href="#">View Details</a>
-                   <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+				<img class="card-img-top" src="/img/car_parts.jpg">
+				<div class="card-body">
+               <h5 class="card-title">Manage Products</h5>
+               <ul class="list-group list-group-flush">
+               		<li class="list-group-item">
+               		<a class="stretched-link" style="color: black" th:href="@{/product}">
+               		<i class="fas fa-angle-right"></i>  View Products  
+             		</a></li>
+				    <li class="list-group-item">
+               		<a class="stretched-link" style="color: black" th:href="@{/product/new}">
+               		<i class="fas fa-angle-right"></i>  Add Product  
+             		</a></li>
+				</ul>
                </div>
            </div>
        </div>
