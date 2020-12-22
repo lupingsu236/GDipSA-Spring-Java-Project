@@ -71,6 +71,8 @@
 
 package JavaCA.model;
 
+import java.sql.Date;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -134,38 +136,38 @@ class ProductUserTransactionTransactionDetailMappingTest
 		User lup = new User("Su Luping", "sulp", "password","sulp@gmail.com", RoleType.ADMIN,ActiveType.ACTIVE,"active","admin");
 		userRepo.save(lup);
 	}
-	/**
+	
 	@SuppressWarnings("deprecation")
 	@Test
 	void dataseeding() {
 		Brand b1=new Brand("Honda");
 		Brand b2=new Brand("Toyota");
 		Brand b3=new Brand("Aisin");
-		Brand b4=new Brand("Volkswagen");
-		Brand b5=new Brand("Jeep");
+		Brand b4=new Brand("Valeo");
+		Brand b5=new Brand("Mando");
 		brandRepo.save(b1);
 		brandRepo.save(b2);
 		brandRepo.save(b3);
 		brandRepo.save(b4);
 		brandRepo.save(b5);
 		
-		Supplier s1=new Supplier("Bosch");
-		Supplier s2=new Supplier("Denso");
-		Supplier s3=new Supplier("Magna");
-		Supplier s4=new Supplier("Continental");
-		Supplier s5=new Supplier("Valeo");
-//		Supplier s6=new Supplier("Faurecia");
-		suppRepo.save(s1);
-		suppRepo.save(s2);
-		suppRepo.save(s3);
-		suppRepo.save(s4);
-		suppRepo.save(s5);
+		Supplier s1=new Supplier("Min Ghee Auto Pte Ltd");
+		Supplier s2=new Supplier("Transglober Auto Pte Ltd ");
+		Supplier s3=new Supplier("Kheng Keng Auto Pte Ltd");
+		Supplier s4=new Supplier("YSH Pte Ltd");
+		Supplier s5=new Supplier("Bridgestone Tyre Sales Singapore Pte Ltd");
+
+		supplierRepo.save(s1);
+		supplierRepo.save(s2);
+		supplierRepo.save(s3);
+		supplierRepo.save(s4);
+		supplierRepo.save(s5);
 		
-		Product p1=new Product("HR-V LX","fresh, bold style, 60/40 split 2nd-row magic seat, all-wheel drive, multi-angle rearview camera","Petrol/Gasoline","Light", "Dash light", 20920, 200,200,1000);
-		Product p2=new Product("Clarity Plug-in Hybrid","streamlined Design, 60/40 split fold-down rear seatback, laser-welded roof, dual-zone automatic climate control","Hybrid","Light", "Head light", 33400, 200,200,500);
-		Product p3=new Product("Civic Type R","carbon fiber wing spoiler, limited edition BBS wheels, turbocharged engine, triple outlet exhaust","Petrol/Gasoline","Light", "Dash light", 37255, 200,200,1000);
-		Product p4=new Product("Pilot Touring","aerodynamic styling, die-cast running boards, seating for up to eight, one-touch power moonroof","Petrol/Gasoline","Light", "Dash light", 42920, 200,200,1000);
-		Product p5=new Product("Passport Sport","gloss-black grille accents, 280-hp V6 engine, 9-speed transmission, wireless phone charger, wifi hotspot capability","Petrol/Gasoline","Light", "Dash light", 32590, 200,200,1000);
+		Product p1=new Product("BP7440LL","Part description: T-6 bulb 3/4 dia; Color: clear; light center length(ln.): 1.250; Design volts primary: 12; Design watts primary: 21; Design amps primary: 1.75.","Electrical","Light", "Brake light", 13.08, 100,100,150);
+		Product p2=new Product("D3S","Part description: T-3 bulb 3/8 dia; Color: clear; Design volts primary: 42; Design watts primary: 35; Design amps primary: 0.83.","Electrical","Light", "Headlight", 14.9, 120,50,100);
+		Product p3=new Product("BPH11TVX","Color: clear; Filament quantity: 1; Design volts primary: 12; Design watts primary: 55; Design amps primary: 4.58; Related avg. life hours primary: 300.","Electrical","Light", "Fog light", 15.02, 100,50,500);
+		Product p4=new Product("BPH11ND2","Part description: T-4 bulb 37/64 dia; Color: clear; Filament quantity: 1; Design volts primary: 12; Design watts primary: 55; Design amps primary: 4.58.","Electrical","Light", "Fog light", 13.81, 100,50,500);
+		Product p5=new Product("BP168LL","Part description: T-3 bulb 13/32 dia; Color: clear; Filament quantity: 1; Design volts primary: 14; Design watts primary: 4.9; Design amps primary: 0.35; Related avg. life hours primary: 1500.","Electrical","Light", "Trunk light", 9.75, 100,75,500);
 		
 		p1.setBrand(b1);
 		p1.setSupplier(s1);
@@ -183,11 +185,11 @@ class ProductUserTransactionTransactionDetailMappingTest
 		p5.setSupplier(s1);
 		productRepo.save(p5);
 		
-		Product p6=new Product("Tacoma SR","3.5-liter V6 direct-injection engine, 6800-lb towing capacity, trailer-sway control, TRD pro skid plate","Petrol/Gasoline","Light", "foglight", 26150, 200,200,1000);
-		Product p7=new Product("Miria XLE","coupe-like design, color head-up display, bird's eye view camera, three hydrogen tanks","Hydrogen","Light", "LED taillight", 39520, 200,200,1000);
-		Product p8=new Product("Prius Prime","Toyata safety sense 2.0, smart charging cable lock, rear cross-traffic alert","Hybrid","Light", "Dash light", 22070, 200,200,1000);
-		Product p9=new Product("Toyata 86","2.0L 4-Cylinder 6-Speed Manual, sporty styling, boxer-four engine, paddle shifters, folding rear seat","Petrol/Gasoline","Light", "LED headlight", 27060, 140,200,1000);
-		Product p10=new Product("Sequoia SR5","nightshade special edition, heated/ventilated front seats, tow up to 7400 lbs, all-aluminum 381-hp 5.7L V8","Petrol/Gasoline","Light", "Running light", 49200, 200,200,1000);
+		Product p6=new Product("FP-1650CP","2.3 L(138.0) L4 wheel tractor engines; 8 valve 3.375 bore carb 1 bbl. gasoline naturally aspirated G138;","Petrol/Gasoline","Engine", "Jet engine", 133.3, 50,50,500);
+		Product p7=new Product("FP-2520CP10","2.4 L(149.0) L4 OHV crawler tractor engine; 8 valve 2.5000 bore carb 1 bbl. gasoline naturally aspirated G149;","Petrol/Gasoline","Engine", "Jet engine", 124.6, 50,50,500);
+		Product p8=new Product("FP-AX1650P","1.9 L(116.0) L4 OHV harvest engine; 8 valve 3.2500 bore carb 1 bbl. gasoline naturally aspirated B15;","Petrol/Gasoline","Engine", "Jet engine", 138.2, 50,50,500);
+		Product p9=new Product("OS 12237","3.3 L(200.0) L4 OHV crawler tractor engine; 8 valve 3.8750 bore FI MFI diesel naturally aspirated D2200;","Petrol/Gasoline","Engine", "Piston engine", 158.7, 50,50,500);
+		Product p10=new Product("HS 7805 B-2","4.4 L(262.0) L6 OHV crawler tractor engine; 12 valve 3.5625 bore FI MFI diesel naturally aspirated D262;","Petrol/Gasoline","Engine", "Piston engine", 181.2, 50,50,500);
 		
 		p6.setBrand(b2);
 		p6.setSupplier(s2);
@@ -205,11 +207,11 @@ class ProductUserTransactionTransactionDetailMappingTest
 		p10.setSupplier(s2);
 		productRepo.save(p10);
 		
-		Product p11=new Product("Fusion hybrid SE","2.0L i-VCT atkinson-cycle hybrid engine and electric motor, eCVT automatic transmission, electric power-assisted steering","Hybrid","Light", "Dash light", 28000, 200,200,1000);
-		Product p12=new Product("Mustang Mach-E","hands-free, foot-activated liftgate, 360-degree camera with split view and front washer, intelligent adaptive cruise control with stop-and-go and speed sign recognition","Electric","Light", "Dash light", 42895, 200,200,1000);
-		Product p13=new Product("EcoSport S","1,400 lbs. with available 1.0L EcoBoost 2,000 lbs. with 2.0L Ti-VCT, standard 6-speed selectshift automatic transmissionc, 1.0L EcoBoost engine with auto start-stop technology","Petrol/Gasoline","Light", "Dash light", 19995, 200,200,1000);
-		Product p14=new Product("Escape SE","available AWD disconnect, electric parking brake, black molded-in-color lower bodyside cladding","Hybrid","Light", "Dash light", 27105, 200,200,1000);
-		Product p15=new Product("Expedition XLT","ten-speed selectshift automatic transmission, PowerFold and PowerRecline 60/40 3rd-row seat, remote keyless entry system","Petrol/Gasoline","Light", "Dash light", 52810, 200,200,1000);
+		Product p11=new Product("48/L3 Group/H6-AGM","Weight: 45.6 kg; Voltage: 12 Volt; PHCA: 1140; Reserve capacity 25Amp draw: 137 min; Chemistry: thin plate, pure lead AGM.","Electrical","Battery", "Dual purpose battery", 283.99, 100,100,300);
+		Product p12=new Product("FT16V830-24,","Weight: 59.3 kg; Voltage: 16 Volt; PHCA: 1140; Reserve capacity 25Amp draw: 120 min; Chemistry: sealed lead acid AGM.","Electrical","Battery", "Dual purpose battery", 347.32, 100,100,300);
+		Product p13=new Product("DC55-12","Weight: 38.3 kg; Voltage: 12 Volt; Reserve capacity 25Amp draw: 96 min; Chemistry: sealed lead acid AGM.","Electrical","Battery", "Fullriver battery", 266.49, 100,100,300);
+		Product p14=new Product("DC35-12","Weight: 25.4 kg; Voltage: 12 Volt; Reserve capacity 25Amp draw: 52 min; Chemistry: sealed lead acid AGM.","Electrical","Battery", "Fullriver battery", 210.49, 100,100,300);
+		Product p15=new Product("48-723CCA","Weight: 48 kg; Voltage: 12 Volt; PHCA: 1250; Reserve capacity 25Amp draw: 130 min; Chemistry: thin plate, pure lead AGM.","Electrical","Battery", "Starting battery", 259.99, 100,100,300);
 		
 		p11.setBrand(b3);
 		p11.setSupplier(s3);
@@ -227,9 +229,9 @@ class ProductUserTransactionTransactionDetailMappingTest
 		p15.setSupplier(s3);
 		productRepo.save(p15);
 		
-		Product p16=new Product("Tiguan R-Line 1.4 TSI","panoramic slide/tilt sunroof, R-Line bodykit, app-connect, adaptive cruise control","Petrol/Gasoline","Light", "Dash light", 180400, 200,200,1000);
-		Product p17=new Product("Passat Elegance 2.0 TSI","ergocomfort seat, nappa leather upholstery & trim, discover pro navigation system","Petrol/Gasoline","Light", "Dash light", 187400, 200,200,1000);
-		Product p18=new Product("Golf GTI 2.0 TSI","turbocharged TSI engine, sports suspension, dynamic turn signal, blind spot sensor with rear traffic alert","Petrol/Gasoline","Light", "Dash light", 200400, 200,200,1000);
+		Product p16=new Product("A4TR5591ZT","Voltage: 24 V; Amp.: 110 A; G: 8 qty.; L.1: 212 mm.","Petrol/Gasoline","Alternator", "Automotive alternator", 80.4, 100,50,300);
+		Product p17=new Product("UD19236A","Voltage: 24 V; Amp.: 110 A; G: 6 qty.; L.1: 218 mm.","Petrol/Gasoline","Alternator", "Automotive alternator", 76.9, 100,50,300);
+		Product p18=new Product("CAL35619RS","Voltage: 24 V; Amp.: 110 A; G: 10 qty.; L.1: 213 mm.","Petrol/Gasoline","Alternator", "Automotive alternator", 100.6, 100,50,300);
 		
 		p16.setBrand(b4);
 		p16.setSupplier(s4);
@@ -241,10 +243,10 @@ class ProductUserTransactionTransactionDetailMappingTest
 		p18.setSupplier(s4);
 		productRepo.save(p18);
 		
-		Product p19=new Product("Renegade","1.4L turbo engine, six-speed dual dry clutch automatic transmission, blind spots monitoring & cross path detection","Petrol/Gasoline","Light", "Dash light", 22998, 200,200,1000);
-		Product p20=new Product("Grand Cherokee","3.6L pentastar V6 engine and eight-speed automatic transmission, natura plus leather-trimmed heated seats, uconnect 8.4 system with AM/FM Radio with voice command with bluetooth","Petrol/Gasoline","Light", "Dash light", 26717, 200,200,1000);
-		Product p21=new Product("Wrangler","2.0L direct-injection turbo engine, 8-speed automatic transmission, horsepower:268BHP@5250rpm","Petrol/Gasoline","Light", "Dash light", 148888, 200,200,1000);
-		
+		Product p19=new Product("63528BZD","Core size: 610 mm*368 mm* 26 mm; Color: silver; Working pressure: 1.0 Mpa.","Petrol/Gasoline","Radiator", "Aluminum radiator", 58.3, 100,200,200);
+		Product p20=new Product("AP-34888","Core size: 635 mm*320 mm* 30 mm; Color: black; Working pressure: 1.0 Mpa.","Petrol/Gasoline","Radiator", "Aluminum radiator", 47.8, 100,200,200);
+		Product p21=new Product("HB45999I","Core size: 590 mm*432 mm* 40 mm; Color: white; Working pressure: 1.0 Mpa.","Petrol/Gasoline","Radiator", "Steel radiator", 79.2, 100,200,200);
+				
 		p19.setBrand(b5);
 		p19.setSupplier(s5);
 		productRepo.save(p19);
@@ -255,168 +257,214 @@ class ProductUserTransactionTransactionDetailMappingTest
 		p21.setSupplier(s5);
 		productRepo.save(p21);
 		
-		User u1=new User("Oliver Smith","Oliver","password","Oliver@gmail.com",RoleType.MECHANIC,"mechanic",ActiveType.ACTIVE,"active");
-		User u2=new User("Jack Brown","Jack","password","Jack@gmail.com",RoleType.ADMIN,"admin",ActiveType.ACTIVE,"active");
-		User u3=new User("Harry Jones","Harry","password","Harry@gmail.com",RoleType.MECHANIC,"mechanic", ActiveType.ACTIVE,"active");
-		User u4=new User("David Talyor","David","password","David@gmail.com",RoleType.ADMIN,"admin",ActiveType.ACTIVE,"active");
-		User u5=new User("Daniel Wilson","Daniel","password","Daniel@gmail.com",RoleType.MECHANIC,"mechanic",ActiveType.ACTIVE,"active");
-		User u6=new User("Mary Li","Mary","password","Mary@gmail.com",RoleType.MECHANIC,"mechanic",ActiveType.ACTIVE,"active");
-		User u7=new User("Sophia Lam","Sophia","password","Sophia@gmail.com",RoleType.ADMIN,"admin",ActiveType.ACTIVE,"active");
-		User u8=new User("Jennifer Martin","Jennifer","password","Jennifer@gmail.com",RoleType.MECHANIC,"mechanic",ActiveType.ACTIVE,"active");
-		User u9=new User("Linda Roy","Linda","password","Linda@gmail.com",RoleType.MECHANIC,"mechanic",ActiveType.INACTIVE,"inactive");
-		User u10=new User("Susan Lee","Susan","password","Susan@gmail.com",RoleType.MECHANIC,"mechanic",ActiveType.ACTIVE,"active");
-		User u11=new User("Kyle Wang","Kyle","password","Kyle@gmail.com",RoleType.MECHANIC,"mechanic",ActiveType.ACTIVE,"active");
-		User u12=new User("William White","William","password","William@gmail.com",RoleType.MECHANIC,"mechanic",ActiveType.ACTIVE,"active");
-		User u13=new User("Joe Anderson","Joe","password","Joe@gmail.com",RoleType.MECHANIC,"mechanic",ActiveType.ACTIVE,"active");
-		User u14=new User("Thomas Davis","Thomas","password","Thomas@gmail.com",RoleType.ADMIN,"admin",ActiveType.INACTIVE,"inactive");
-		User u15=new User("Raymone James","Raymone","password","Raymone@gmail.com",RoleType.ADMIN,"admin",ActiveType.ACTIVE,"active");
-		User u16=new User("Lily Murphy","Lily","password","Lily@gmail.com",RoleType.MECHANIC,"mechanic",ActiveType.ACTIVE,"active");
-		uRepo.save(u1);
-		uRepo.save(u2);
-		uRepo.save(u3);
-		uRepo.save(u4);
-		uRepo.save(u5);
-		uRepo.save(u6);
-		uRepo.save(u7);
-		uRepo.save(u8);
-		uRepo.save(u9);
-		uRepo.save(u10);
-		uRepo.save(u11);
-		uRepo.save(u12);
-		uRepo.save(u13);
-		uRepo.save(u14);
-		uRepo.save(u15);
-		uRepo.save(u16);
+		User u1=new User("Oliver Smith","Oliver","password","Oliver@gmail.com",RoleType.MECHANIC,ActiveType.ACTIVE,"active","mechanic");
+		User u2=new User("Jack Brown","Jack","password","Jack@gmail.com",RoleType.ADMIN,ActiveType.ACTIVE,"active","admin");
+		User u3=new User("Harry Jones","Harry","password","Harry@gmail.com",RoleType.MECHANIC, ActiveType.ACTIVE,"active","mechanic");
+		User u4=new User("David Talyor","David","password","David@gmail.com",RoleType.ADMIN,ActiveType.ACTIVE,"active","admin");
+		User u5=new User("Daniel Wilson","Daniel","password","Daniel@gmail.com",RoleType.MECHANIC,ActiveType.ACTIVE,"active","mechanic");
+		User u6=new User("Mary Li","Mary","password","Mary@gmail.com",RoleType.MECHANIC,ActiveType.ACTIVE,"active","mechanic");
+		User u7=new User("Sophia Lam","Sophia","password","Sophia@gmail.com",RoleType.ADMIN,ActiveType.ACTIVE,"active","admin");
+		User u8=new User("Jennifer Martin","Jennifer","password","Jennifer@gmail.com",RoleType.MECHANIC,ActiveType.ACTIVE,"active","mechanic");
+		User u9=new User("Linda Roy","Linda","password","Linda@gmail.com",RoleType.MECHANIC,ActiveType.INACTIVE,"inactive","mechanic");
+		User u10=new User("Susan Lee","Susan","password","Susan@gmail.com",RoleType.MECHANIC,ActiveType.ACTIVE,"active","mechanic");
+		User u11=new User("Kyle Wang","Kyle","password","Kyle@gmail.com",RoleType.MECHANIC,ActiveType.ACTIVE,"active","mechanic");
+		User u12=new User("William White","William","password","William@gmail.com",RoleType.MECHANIC,ActiveType.ACTIVE,"active","mechanic");
+		User u13=new User("Joe Anderson","Joe","password","Joe@gmail.com",RoleType.MECHANIC,ActiveType.ACTIVE,"active","mechanic");
+		User u14=new User("Thomas Davis","Thomas","password","Thomas@gmail.com",RoleType.ADMIN,ActiveType.INACTIVE,"inactive","admin");
+		User u15=new User("Raymone James","Raymone","password","Raymone@gmail.com",RoleType.ADMIN,ActiveType.ACTIVE,"active","admin");
+		User u16=new User("Lily Murphy","Lily","password","Lily@gmail.com",RoleType.MECHANIC,ActiveType.ACTIVE,"active","mechanic");
+		userRepo.save(u1);
+		userRepo.save(u2);
+		userRepo.save(u3);
+		userRepo.save(u4);
+		userRepo.save(u5);
+		userRepo.save(u6);
+		userRepo.save(u7);
+		userRepo.save(u8);
+		userRepo.save(u9);
+		userRepo.save(u10);
+		userRepo.save(u11);
+		userRepo.save(u12);
+		userRepo.save(u13);
+		userRepo.save(u14);
+		userRepo.save(u15);
+		userRepo.save(u16);
 		
 
-		Transaction t1=new Transaction("SJA1234H",new Date(110, 1, 1));
-		Transaction t2=new Transaction("SMW7777X",new Date(110,11,23));
-		Transaction t3=new Transaction("SMW6666P",new Date(113,6,5));
-		Transaction t4=new Transaction("UXA2234I",new Date(114,3,4));
-		Transaction t5=new Transaction("SOI3279H",new Date(116,7,22));
-		Transaction t6=new Transaction("TJP1234I",new Date(118,10,3));
-		Transaction t7=new Transaction("OPA1032E",new Date(119,11,25));
-		Transaction t8=new Transaction("JHS2224R",new Date(120,1,2));
-		Transaction t9=new Transaction("KIB1436T",new Date(110,9,3));
-		Transaction t10=new Transaction("SLB4237Y",new Date(110,9,11));
-		Transaction t11=new Transaction("SSD3635N",new Date(110,10,23));
+		Transaction t1=new Transaction("SJA1234H");
+		Transaction t2=new Transaction("SMW7777X");
+		Transaction t3=new Transaction("SMW6666P");
+		Transaction t4=new Transaction("UXA2234I");
+		Transaction t5=new Transaction("SOI3279H");
+		Transaction t6=new Transaction("TJP1234I");
+		Transaction t7=new Transaction("OPA1032E");
+		Transaction t8=new Transaction("JHS2224R");
+		Transaction t9=new Transaction("KIB1436T");
+		Transaction t10=new Transaction("SLB4237Y");
+		Transaction t11=new Transaction("SSD3635N");
 		
 		t1.setUser(u1);
-		tRepo.save(t1);
+		transactionRepo.save(t1);
 		t2.setUser(u2);
-		tRepo.save(t2);
+		transactionRepo.save(t2);
 		t3.setUser(u3);
-		tRepo.save(t3);
+		transactionRepo.save(t3);
 		t4.setUser(u4);
-		tRepo.save(t4);
+		transactionRepo.save(t4);
 		t5.setUser(u5);
-		tRepo.save(t5);
+		transactionRepo.save(t5);
 		t6.setUser(u6);
-		tRepo.save(t6);
+		transactionRepo.save(t6);
 		t7.setUser(u7);
-		tRepo.save(t7);
+		transactionRepo.save(t7);
 		t8.setUser(u8);
-		tRepo.save(t8);
+		transactionRepo.save(t8);
 		t9.setUser(u9);
-		tRepo.save(t9);
+		transactionRepo.save(t9);
 		t10.setUser(u10);
-		tRepo.save(t10);
+		transactionRepo.save(t10);
 		t11.setUser(u11);
-		tRepo.save(t11);
+		transactionRepo.save(t11);
 		
-		TransactionDetail td1 = new TransactionDetail(-10, TransactionType.USAGE);
+		TransactionDetail td1 = new TransactionDetail(200,new Date(110,1,2), TransactionType.ORDER);
+		TransactionDetail td2 = new TransactionDetail(40,new Date(110,2,2), TransactionType.RETURN);
+		TransactionDetail td3 = new TransactionDetail(10,new Date(110,2,12), TransactionType.DAMAGED);
 		td1.setProduct(p1);
+		td2.setProduct(p1);
+		td3.setProduct(p1);
 		td1.setTransaction(t1);
-		tdRepo.save(td1);
-		p1.setQuantity(p1.getQuantity()+td1.getQuantityChange());
-		productRepo.save(p1);
-		TransactionDetail td2 = new TransactionDetail(-10, TransactionType.USAGE);
-		td2.setProduct(p2);
-		td2.setTransaction(t2);
-		tdRepo.save(td2);
-		p2.setQuantity(p2.getQuantity()+td2.getQuantityChange());
-		productRepo.save(p2);
-		TransactionDetail td3 = new TransactionDetail(-10, TransactionType.USAGE);
-		td3.setProduct(p3);
-		td3.setTransaction(t3);
-		tdRepo.save(td3);
-		p3.setQuantity(p3.getQuantity()+td3.getQuantityChange());
-		productRepo.save(p3);
-		TransactionDetail td4 = new TransactionDetail(-10, TransactionType.USAGE);
-		td4.setProduct(p4);
-		td4.setTransaction(t4);
-		tdRepo.save(td4);
-		p4.setQuantity(p4.getQuantity()+td4.getQuantityChange());
-		productRepo.save(p4);
-		TransactionDetail td5 = new TransactionDetail(-10, TransactionType.USAGE);
-		td5.setProduct(p5);
-		td5.setTransaction(t5);
-		tdRepo.save(td5);
-		p5.setQuantity(p5.getQuantity()+td5.getQuantityChange());
-		productRepo.save(p5);
-		TransactionDetail td6 = new TransactionDetail(-10, TransactionType.USAGE);
-		td6.setProduct(p6);
-		td6.setTransaction(t6);
-		tdRepo.save(td6);
-		p6.setQuantity(p6.getQuantity()+td6.getQuantityChange());
-		productRepo.save(p6);
-		TransactionDetail td7 = new TransactionDetail(-10, TransactionType.USAGE);
-		td7.setProduct(p7);
-		td7.setTransaction(t7);
-		tdRepo.save(td7);
-		p7.setQuantity(p7.getQuantity()+td7.getQuantityChange());
-		productRepo.save(p7);
-		TransactionDetail td8 = new TransactionDetail(-10, TransactionType.USAGE);
-		td8.setProduct(p8);
-		td8.setTransaction(t8);
-		tdRepo.save(td8);
-		p8.setQuantity(p8.getQuantity()+td8.getQuantityChange());
-		productRepo.save(p8);
-		
-		
-		TransactionDetail td8 = new TransactionDetail(200, TransactionType.ORDER);
-		TransactionDetail td9 = new TransactionDetail(10, TransactionType.USAGE);
-		TransactionDetail td10 = new TransactionDetail(50, TransactionType.RETURN);
-		td8.setProduct(p9);
-		td9.setProduct(p9);
-		td9.setTransaction(t9);
-		tdRepo.save(td9);
-		p9.setQuantity(140);
-		productRepo.save(p9);
-		
-		
-		
-		TransactionDetail td10 = new TransactionDetail(-10, TransactionType.USAGE);
-		td10.setProduct(p10);
-		td10.setTransaction(t10);
-		tdRepo.save(td10);
-		p10.setQuantity(p10.getQuantity()+td10.getQuantityChange());
-		productRepo.save(p10);
-		TransactionDetail td11 = new TransactionDetail(-10, TransactionType.USAGE);
-		td11.setProduct(p11);
-		td11.setTransaction(t10);
-		tdRepo.save(td11);
-		p11.setQuantity(p11.getQuantity()+td11.getQuantityChange());
-		productRepo.save(p11);
-		TransactionDetail td12 = new TransactionDetail(-10, TransactionType.USAGE);
-		td12.setProduct(p12);
-		td12.setTransaction(t10);
-		tdRepo.save(td12);
-		p12.setQuantity(p12.getQuantity()+td12.getQuantityChange());
-		productRepo.save(p12);
-		TransactionDetail td13 = new TransactionDetail(-10, TransactionType.USAGE);
-		td13.setProduct(p13);
-		td13.setTransaction(t11);
-		tdRepo.save(td13);
-		p13.setQuantity(p13.getQuantity()+td13.getQuantityChange());
-		productRepo.save(p13);
-		TransactionDetail td14 = new TransactionDetail(-10, TransactionType.USAGE);
-		td14.setProduct(p14);
-		td14.setTransaction(t11);
-		tdRepo.save(td14);
-		p14.setQuantity(p14.getQuantity()+td14.getQuantityChange());
-		productRepo.save(p14);
-	}
-	**/
+		td2.setTransaction(t1);
+		td3.setTransaction(t1);
+		transactionDetailRepo.save(td1);
+		transactionDetailRepo.save(td2);
+		transactionDetailRepo.save(td3);
 
+		TransactionDetail td4 = new TransactionDetail(300,new Date(112,1,2), TransactionType.ORDER);
+		TransactionDetail td5 = new TransactionDetail(100,new Date(113,10,4), TransactionType.USAGE);
+		TransactionDetail td6 = new TransactionDetail(100,new Date(113,11,23), TransactionType.USAGE);
+		td4.setProduct(p2);
+		td5.setProduct(p2);
+		td6.setProduct(p2);
+		td4.setTransaction(t2);
+		td5.setTransaction(t2);
+		td6.setTransaction(t2);
+		transactionDetailRepo.save(td4);
+		transactionDetailRepo.save(td5);
+		transactionDetailRepo.save(td6);
+		
+		TransactionDetail td7 = new TransactionDetail(500,new Date(111,3,2), TransactionType.ORDER);
+		td7.setProduct(p3);
+		td7.setTransaction(t3);
+		transactionDetailRepo.save(td7);
+		
+		TransactionDetail td8 = new TransactionDetail(500,new Date(111,3,2), TransactionType.ORDER);
+		td8.setProduct(p4);
+		td8.setTransaction(t3);
+		transactionDetailRepo.save(td8);
+		
+		TransactionDetail td9 = new TransactionDetail(500,new Date(111,3,2), TransactionType.ORDER);
+		td9.setProduct(p5);
+		td9.setTransaction(t3);
+		transactionDetailRepo.save(td9);
+		
+		TransactionDetail td10 = new TransactionDetail(500,new Date(111,3,2), TransactionType.ORDER);
+		td10.setProduct(p6);
+		td10.setTransaction(t3);
+		transactionDetailRepo.save(td10);
+		
+		TransactionDetail td11 = new TransactionDetail(500,new Date(111,3,2), TransactionType.ORDER);
+		td11.setProduct(p7);
+		td11.setTransaction(t3);
+		transactionDetailRepo.save(td11);
+		
+		TransactionDetail td12 = new TransactionDetail(500,new Date(111,3,2), TransactionType.ORDER);
+		td12.setProduct(p8);
+		td12.setTransaction(t3);
+		transactionDetailRepo.save(td12);
+		
+		TransactionDetail td13 = new TransactionDetail(500,new Date(111,3,2), TransactionType.ORDER);
+		td13.setProduct(p8);
+		td13.setTransaction(t3);
+		transactionDetailRepo.save(td13);
+		
+		TransactionDetail td14 = new TransactionDetail(500,new Date(111,3,2), TransactionType.ORDER);
+		td14.setProduct(p9);
+		td14.setTransaction(t3);
+		transactionDetailRepo.save(td14);
+		
+		TransactionDetail td15 = new TransactionDetail(500,new Date(111,3,2), TransactionType.ORDER);
+		td15.setProduct(p10);
+		td15.setTransaction(t3);
+		transactionDetailRepo.save(td15);
+		
+		TransactionDetail td16 = new TransactionDetail(300,new Date(114,10,12), TransactionType.ORDER);
+		td16.setProduct(p11);
+		td16.setTransaction(t4);
+		transactionDetailRepo.save(td16);
+		
+		TransactionDetail td17 = new TransactionDetail(300,new Date(114,10,12), TransactionType.ORDER);
+		td17.setProduct(p12);
+		td17.setTransaction(t4);
+		transactionDetailRepo.save(td17);
+		
+		TransactionDetail td18 = new TransactionDetail(300,new Date(114,10,12), TransactionType.ORDER);
+		td18.setProduct(p13);
+		td18.setTransaction(t4);
+		transactionDetailRepo.save(td18);
+		
+		TransactionDetail td19 = new TransactionDetail(300,new Date(114,10,12), TransactionType.ORDER);
+		td19.setProduct(p14);
+		td19.setTransaction(t4);
+		transactionDetailRepo.save(td19);
+		
+		TransactionDetail td20 = new TransactionDetail(300,new Date(114,10,12), TransactionType.ORDER);
+		td20.setProduct(p15);
+		td20.setTransaction(t4);
+		transactionDetailRepo.save(td20);
+		
+		TransactionDetail td21 = new TransactionDetail(300,new Date(115,0,24), TransactionType.ORDER);
+		td21.setProduct(p16);
+		td21.setTransaction(t5);
+		transactionDetailRepo.save(td21);
+		
+		TransactionDetail td22 = new TransactionDetail(300,new Date(115,0,24), TransactionType.ORDER);
+		td22.setProduct(p17);
+		td22.setTransaction(t5);
+		transactionDetailRepo.save(td22);
+		
+		TransactionDetail td23 = new TransactionDetail(300,new Date(117,3,3), TransactionType.ORDER);
+		td23.setProduct(p18);
+		td23.setTransaction(t6);
+		transactionDetailRepo.save(td23);
+		
+		TransactionDetail td24 = new TransactionDetail(300,new Date(118,1,27), TransactionType.ORDER);
+		td24.setProduct(p19);
+		td24.setTransaction(t7);
+		transactionDetailRepo.save(td24);
+		
+		TransactionDetail td25 = new TransactionDetail(300,new Date(118,1,27), TransactionType.ORDER);
+		td25.setProduct(p20);
+		td25.setTransaction(t7);
+		transactionDetailRepo.save(td25);
+		
+		TransactionDetail td26 = new TransactionDetail(300,new Date(119,5,6), TransactionType.ORDER);
+		td26.setProduct(p21);
+		td26.setTransaction(t8);
+		transactionDetailRepo.save(td26);
+		
+		TransactionDetail td27 = new TransactionDetail(100,new Date(119,10,27), TransactionType.RETURN);
+		td27.setProduct(p21);
+		td27.setTransaction(t9);
+		transactionDetailRepo.save(td27);
+		
+		TransactionDetail td28 = new TransactionDetail(100,new Date(120,4,9), TransactionType.DAMAGED);
+		td28.setProduct(p20);
+		td28.setTransaction(t10);
+		transactionDetailRepo.save(td28);
+		
+		TransactionDetail td29 = new TransactionDetail(100,new Date(120,11,2), TransactionType.USAGE);
+		td29.setProduct(p19);
+		td29.setTransaction(t11);
+		transactionDetailRepo.save(td29);
+	}
 }
