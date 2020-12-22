@@ -2,6 +2,7 @@ package JavaCA.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +20,22 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import JavaCA.model.Brand;
 import JavaCA.service.BrandService;
 import JavaCA.service.BrandServiceImpl;
+import JavaCA.service.UserImplementation;
+import JavaCA.service.UserInterface;
 
 @Controller
 @RequestMapping("/brand")
 public class BrandController {
 	
 	private BrandService bservice;
+	private UserInterface uservice;
+	private HttpSession session;
 	
 	@Autowired
-	public void setServices(BrandServiceImpl bservice) {
+	public void setServices(BrandServiceImpl bservice, UserImplementation uservice, HttpSession session) {
 		this.bservice = bservice;
+		this.uservice = uservice;
+		this.session = session;
 	}
 	
 	@InitBinder
@@ -36,6 +43,11 @@ public class BrandController {
 	
 	@RequestMapping(value={"","/list"}, method=RequestMethod.GET)
 	public String findAllBrands(Model model) {
+		//check if user has logged in, otherwise redirect
+		if(!uservice.verifyLogin(session)) {
+			return "redirect:/";
+		}
+		
 		//for brand listing
 		ArrayList<Brand> brands = bservice.findAllBrands();
 		model.addAttribute("brands", brands);
@@ -45,6 +57,11 @@ public class BrandController {
 
 	@RequestMapping(value="/new", method=RequestMethod.GET)
 	public String createBrand(Model model) {
+		//check if user is admin, otherwise redirect
+		if(!uservice.verifyAdmin(session)) {
+			return "redirect:/";
+		}
+		
 		Brand b = new Brand(); 
 		model.addAttribute("b", b);
 		
@@ -53,6 +70,11 @@ public class BrandController {
 	
 	@RequestMapping(value="/edit/{id}", method=RequestMethod.GET)
 	public String editBrand(@PathVariable long id, Model model) {
+		//check if user is admin, otherwise redirect
+		if(!uservice.verifyAdmin(session)) {
+			return "redirect:/";
+		}
+		
 		//get current brand details and attach to model
 		Brand b = bservice.findBrand(id);
 		model.addAttribute("b", b);
@@ -90,6 +112,11 @@ public class BrandController {
 	
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.GET)
 	public String deleteBrand(@PathVariable long id, Model model, RedirectAttributes redirectfrom) {
+		//check if user is admin, otherwise redirect
+		if(!uservice.verifyAdmin(session)) {
+			return "redirect:/";
+		}
+		
 		Brand b = bservice.findBrand(id);
 		
 		//if brand has no products tied to it, delete brand

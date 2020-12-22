@@ -36,6 +36,8 @@ import JavaCA.service.TransactionDetailsService;
 import JavaCA.service.TransactionDetailsServiceImpl;
 import JavaCA.service.TransactionService;
 import JavaCA.service.TransactionServiceImpl;
+import JavaCA.service.UserImplementation;
+import JavaCA.service.UserInterface;
 
 @Controller
 @RequestMapping("/product")
@@ -45,15 +47,20 @@ public class ProductController {
 	private SupplierService suppservice;
 	private TransactionService tservice;
 	private TransactionDetailsService tdservice;
+	private UserInterface uservice;
+	private HttpSession session;
 	
 	@Autowired
 	public void setServices(ProductServiceImpl pservice, BrandServiceImpl bservice, 
-			SupplierServiceImpl suppservice, TransactionServiceImpl tservice, TransactionDetailsServiceImpl tdservice) {
+			SupplierServiceImpl suppservice, TransactionServiceImpl tservice, 
+			TransactionDetailsServiceImpl tdservice, UserImplementation uservice, HttpSession session) {
 		this.pservice = pservice;
 		this.bservice = bservice;
 		this.suppservice = suppservice;
 		this.tservice = tservice;
 		this.tdservice = tdservice;
+		this.uservice = uservice;
+		this.session = session;
 	}
 	
 	@InitBinder
@@ -61,6 +68,10 @@ public class ProductController {
 	
 	@RequestMapping(value={"","/list"}, method=RequestMethod.GET)
 	public String findAllProducts(Model model) {
+		//check if user has logged in, otherwise redirect
+		if(!uservice.verifyLogin(session)) {
+			return "redirect:/";
+		}
 		
 		//adding model and get values for search parameters dropdown
 		model.addAttribute("p", new Product());
@@ -74,7 +85,12 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value={"/detail/{id}"}, method=RequestMethod.GET)
-	public String findAllProducts(@PathVariable long id, Model model) {
+	public String findProductDetail(@PathVariable long id, Model model) {
+		//check if user has logged in, otherwise redirect
+		if(!uservice.verifyLogin(session)) {
+			return "redirect:/";
+		}
+		
 		Product p = pservice.findProduct(id);
 		model.addAttribute("p", p);
 		return "/product/productdetail";
@@ -82,6 +98,11 @@ public class ProductController {
 	
 	@RequestMapping(value="/new", method=RequestMethod.GET)
 	public String createProduct(Model model) {
+		//check if user is admin, otherwise redirect
+		if(!uservice.verifyAdmin(session)) {
+			return "redirect:/";
+		}
+				
 		//adding model and get values for field dropdown
 		model.addAttribute("p", new Product());
 		model.addAllAttributes(pservice.getDropdownValues());
@@ -90,6 +111,11 @@ public class ProductController {
 	
 	@RequestMapping(value="/edit/{id}", method=RequestMethod.GET)
 	public String editProduct(@PathVariable long id, Model model) {
+		//check if user is admin, otherwise redirect
+		if(!uservice.verifyAdmin(session)) {
+			return "redirect:/";
+		}
+		
 		//get current product details and attach to model
 		Product p = pservice.findProduct(id);
 		model.addAttribute("p", p);
@@ -103,7 +129,7 @@ public class ProductController {
 	public String saveProduct(@Valid @ModelAttribute("p") Product p, BindingResult bindingResult, 
 			@RequestParam(value="editBrandName", required=false) Integer editBrandName,
 			@RequestParam(value="editSupplierName", required=false) Integer editSupplierName,
-			Model model, HttpSession session, RedirectAttributes redirectfrom) {
+			Model model, RedirectAttributes redirectfrom) {
 		
 		//form validation check
 		if (bindingResult.hasErrors() || 
@@ -189,15 +215,20 @@ public class ProductController {
 	
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.GET)
 	public String deleteProduct(@PathVariable long id, Model model, RedirectAttributes redirectfrom) {
+		//check if user is admin, otherwise redirect
+		if(!uservice.verifyAdmin(session)) {
+			return "redirect:/";
+		}
+		
 		Product p = pservice.findProduct(id);
 		
 		//check for existing transactionDetails to delete 
 		ArrayList<TransactionDetail> transactionDetails = tdservice.findTransactionDetailsByProductId(id);
 		for (TransactionDetail td : transactionDetails) {
-			tdservice.deleteTransactionDetail(td);
+			tdservice.deleteAllRelatedToPdt(td);
 			//if no remaining transaction detail, delete transaction as well
 			if(td.getTransaction().getTransactionDetails().size()==0) {
-				tservice.deleteTransaction(td.getTransaction());
+				tservice.deleteAllRelatedToPdt(td.getTransaction());
 			}
 			
 		}
@@ -235,7 +266,12 @@ public class ProductController {
 	@RequestMapping(value="/search", method=RequestMethod.GET) 
 	public String searchProduct(@RequestParam(value="sid", required=false) Optional<Long> sid,
 			@RequestParam(value="bid", required=false) Optional<Long> bid, Model model) {
-
+		
+		//check if user has logged in, otherwise redirect
+		if(!uservice.verifyLogin(session)) {
+			return "redirect:/";
+		}
+		
 		ArrayList<Product> products = new ArrayList<>();
 		
 		if (bid.isPresent()) 

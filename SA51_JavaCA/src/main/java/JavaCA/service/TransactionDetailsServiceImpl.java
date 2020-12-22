@@ -120,4 +120,9 @@ public class TransactionDetailsServiceImpl implements TransactionDetailsService 
 		return transDRepo.findById(id).get();
 	}
 
+	@Override
+	public void deleteAllRelatedToPdt(TransactionDetail transactionDetail) {
+		transDRepo.delete(transactionDetail);
+	}
+
 }

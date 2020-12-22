@@ -3,7 +3,6 @@
 
 <body>
 
-<br>
 <div th:if="${from}!=null" th:switch="${from}" class="alert alert-success alert-dismissible fade show" role="alert">
   <span th:case="'delete'">Product has been successfully deleted!</span>
   <span th:case="'save'">Product has been successfully saved!</span>
@@ -99,7 +98,7 @@
 
 	<br>
 	
-	<div class = "row">
+	<div class = "row my-4 mx-2">
 	<div class="card mb-4">
           <div class="card-header">
               <i class="fas fa-table mr-1"></i>

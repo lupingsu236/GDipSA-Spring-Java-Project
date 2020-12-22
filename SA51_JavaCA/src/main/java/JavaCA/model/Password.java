@@ -1,8 +1,12 @@
 package JavaCA.model;
 
+import javax.validation.constraints.Size;
+
 public class Password {
 	private String oldpassword;
+	@Size(min=6)
 	private String newpassword;
+	@Size(min=6)
 	private String conpassword;
 	
 	public Password() {}

@@ -2,6 +2,7 @@ package JavaCA.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +20,23 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import JavaCA.model.Supplier;
 import JavaCA.service.SupplierService;
 import JavaCA.service.SupplierServiceImpl;
+import JavaCA.service.UserImplementation;
+import JavaCA.service.UserInterface;
 
 @Controller
 @RequestMapping("/supplier")
 public class SupplierController {
 	
 	private SupplierService suppservice;
+	private UserInterface uservice;
+	private HttpSession session;
+	
 	
 	@Autowired
-	public void setServices(SupplierServiceImpl suppservice) {
+	public void setServices(SupplierServiceImpl suppservice, UserImplementation uservice, HttpSession session) {
 		this.suppservice = suppservice;
+		this.uservice = uservice;
+		this.session = session;
 	}
 	
 	@InitBinder
@@ -36,6 +44,11 @@ public class SupplierController {
 	
 	@RequestMapping(value={"","/list"}, method=RequestMethod.GET)
 	public String findAllSuppliers(Model model) {
+		//check if user has logged in, otherwise redirect
+		if(!uservice.verifyLogin(session)) {
+			return "redirect:/";
+		}
+				
 		//for supplier listing
 		ArrayList<Supplier> suppliers = suppservice.findAllSuppliers();
 		model.addAttribute("suppliers", suppliers);
@@ -45,6 +58,11 @@ public class SupplierController {
 
 	@RequestMapping(value="/new", method=RequestMethod.GET)
 	public String createsupplier(Model model) {
+		//check if user is admin, otherwise redirect
+		if(!uservice.verifyAdmin(session)) {
+			return "redirect:/";
+		}
+		
 		Supplier s = new Supplier(); 
 		model.addAttribute("s", s);
 		
@@ -53,6 +71,11 @@ public class SupplierController {
 	
 	@RequestMapping(value="/edit/{id}", method=RequestMethod.GET)
 	public String editSupplier(@PathVariable long id, Model model) {
+		//check if user is admin, otherwise redirect
+		if(!uservice.verifyAdmin(session)) {
+			return "redirect:/";
+		}
+		
 		//get current supplier details and attach to model
 		Supplier s = suppservice.findSupplier(id);
 		model.addAttribute("s", s);
@@ -90,6 +113,11 @@ public class SupplierController {
 	
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.GET)
 	public String deleteSupplier(@PathVariable long id, Model model, RedirectAttributes redirectfrom) {
+		//check if user is admin, otherwise redirect
+		if(!uservice.verifyAdmin(session)) {
+			return "redirect:/";
+		}
+		
 		Supplier s = suppservice.findSupplier(id);
 		
 		//if supplier has no products tied to it, delete supplier

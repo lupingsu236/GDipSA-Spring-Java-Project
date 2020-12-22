@@ -3,7 +3,6 @@
 
 <body>
 
-<br>
 <div th:if="${from}=='delete'" class="alert alert-success alert-dismissible fade show" role="alert">
   Brand has been successfully deleted!
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -32,10 +31,8 @@
 		<a href="#" class="btn btn-info" th:href="@{/brand/new/}" th:if="${session.usession.role} == ${session.admin}">Add New Brand</a>
 		</div>
 	</div>
-
-	<br>
 	
-	<div class = "row my-4">
+	<div class = "row my-4 mx-2">
 	<div class="card mb-4">
           <div class="card-header">
               <i class="fas fa-table mr-1"></i>
@@ -50,9 +47,9 @@
 								<th>Name</th>
 								<th style="text-align:center">No. of Products</th>
 								<th style="text-align:center">View Products</th>
-								<th style="text-align:center" th:if="${session.usession.role} == ${session.admin}">Edit Brand</th>
+								<th style="text-align:center" th:if="${session.usession.role} == ${session.admin}">Edit</th>
 								<th style="text-align:center" 
-								th:if="${session.usession.role} == ${session.admin}">Delete Brand</th>
+								th:if="${session.usession.role} == ${session.admin}">Delete</th>
                           </tr>
                       </thead>
                       <tfoot>
@@ -62,9 +59,9 @@
 								<th style="text-align:center">No. of Products</th>
 								<th style="text-align:center">View Products</th>
 								<th style="text-align:center" 
-								th:if="${session.usession.role} == ${session.admin}">Edit Brand</th>
+								th:if="${session.usession.role} == ${session.admin}">Edit</th>
 								<th style="text-align:center" 
-								th:if="${session.usession.role} == ${session.admin}">Delete Brand</th>
+								th:if="${session.usession.role} == ${session.admin}">Delete</th>
                           </tr>
                       </tfoot>
                       <tbody>
@@ -77,7 +74,7 @@
 							<i class="fas fa-ellipsis-h"></i></a>
 							</td>
 							<td th:if="${session.usession.role} == ${session.admin}" style="text-align:center; vertical-align:middle">
-							<a href="#" class="btn btn-info" th:href="@{/brand/edit/}+${b.id}">
+							<a href="#" class="btn btn-light" th:href="@{/brand/edit/}+${b.id}">
 							<i class="fas fa-edit"></i></a>
 							</td>
 							<td th:if="${session.usession.role} == ${session.admin}" style="text-align:center; vertical-align:middle">

@@ -5,10 +5,13 @@
 	<div class="my-4 container-sm">
 	
 	<div class="row">
-		<div th:if="${preView == 'car'}" class="col-sm-9"> <h3>Car Transactions</h3></div>
-		<div th:if="${preView == 'all'}" class="col-sm-9"> <h3>All Transactions</h3></div>
+		<div th:if="${preView == 'car'}" class="col-sm-7"> <h3>Car Transactions</h3></div>
+		<div th:if="${preView == 'all'}" class="col-sm-7"> <h3>All Transactions</h3></div>
 		<div class="col-sm">
-		<a th:href="@{/transaction/new}" class="btn btn-info">New Job</a>
+		<a th:href="@{/transaction/new}" class="btn btn-info">New Stock Usage</a>
+		</div>
+		<div class="col-sm">
+		<a th:href="@{/transaction/newStockEntry}" class="btn btn-info">New Stock Entry</a>
 		</div>
 	</div>
 	<br>
@@ -26,10 +29,10 @@
 								<th>Transaction Id</th>
 								<th>Car Plate No.</th>
 								<th>Name of User</th>
-								<th>View Transaction Details</th>
-								<th>Edit Transaction</th>
-								<th>Delete Transaction</th>
-                          </tr>
+								<th style="text-align:center">View Details</th>
+								<th style="text-align:center">Edit</th>
+								<th style="text-align:center">Delete</th>
+                          </tr> 
                       </thead>
                      <!--  <tfoot>
                           <tr>
@@ -46,14 +49,14 @@
 								<td th:utext="${t.id}"></td>
 								<td th:utext="${t.carPlateNo}"></td>
 								<td th:utext="${t.user.fullName}"></td>
-								<td>
-								<a href="#" class="btn btn-light" th:href="@{/transactiondetails/detail/} + ${t.id}">Details</a>
+								<td style="text-align:center">
+								<a href="#" class="btn btn-light" th:href="@{/transactiondetails/detail/} + ${t.id}"><i class="fas fa-ellipsis-h"></i></a>
 								</td>
-								<td>
-								<a href="#" class="btn btn-light" th:href="@{/transaction/edit/} + ${t.id}">Edit</a>
+								<td style="text-align:center">
+								<a href="#" class="btn btn-light" th:href="@{/transaction/edit/} + ${t.id}"><i class="fas fa-edit"></i></a>
 								</td>
-								<td>
-								<a href="#" class="btn btn-danger" th:href="@{/transaction/delete/} + ${t.id}">Delete</a>
+								<td style="text-align:center">
+								<a href="#" class="btn btn-danger" th:href="@{/transaction/delete/} + ${t.id}"><i class="fas fa-trash-alt"></i></a>
 								</td>
 							</tr>
 					  </tbody>

@@ -1,12 +1,15 @@
 package JavaCA.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import JavaCA.model.RoleType;
 import JavaCA.model.User;
 import JavaCA.repo.UserRepository;
 
@@ -61,5 +64,37 @@ public class UserImplementation implements UserInterface {
 	public User findByUsername(String username) {
 		return urepo.findUserByUsername(username);
 	}
+	
+	@Override
+	public User findByEmail(String email) 
+	{
+		return urepo.findUserByEmail(email);
+	}
+
+	@Override
+	public ArrayList<String> getRoleTypes() {
+		ArrayList<String> roleTypes = new ArrayList<>();
+		roleTypes.add(RoleType.ADMIN.toString());
+		roleTypes.add(RoleType.MECHANIC.toString());
+		return roleTypes;
+	}
+	
+	@Override
+	public boolean verifyAdmin(HttpSession session)
+	{
+		User u = (User) session.getAttribute("usession");
+		if (u.getRole() == RoleType.ADMIN) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean verifyLogin(HttpSession session) {
+		if (session.getAttribute("usession")!=null) {
+			return true;
+		}
+		return false;
+	}	
 	
 }

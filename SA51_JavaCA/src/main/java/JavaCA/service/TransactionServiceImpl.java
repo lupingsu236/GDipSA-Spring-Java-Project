@@ -79,4 +79,9 @@ public class TransactionServiceImpl implements TransactionService
 	public List<Transaction> listAllNonCarTransactions() {
 		return transRepo.findAllNonCarTransactions();
 	}
+
+	@Override
+	public void deleteAllRelatedToPdt(Transaction transaction) {
+		transRepo.delete(transaction);
+	}
 }

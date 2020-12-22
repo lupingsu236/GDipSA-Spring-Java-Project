@@ -85,7 +85,7 @@
 			<td th:if="*{id}==0"><input type="text" class="form-control" th:field="*{quantity}"> 
 				<p style="color:red" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></p></td>
 			<td th:if="*{id}!=0"><input readonly type="text" class="form-control-plaintext" th:field="*{quantity}"></td>
-			<td th:if="*{id}!=0"><a class="btn btn-info" th:href="@{/transaction/stockentry/} + *{id}">Edit</a></td>
+			<td th:if="*{id}!=0"><a class="btn btn-info" th:href="@{/transaction/newStockEntry}">Edit</a></td>
 			</tr>
 			
 			<tr><td class="pt-2">Reorder Level:</td> 

@@ -9,9 +9,9 @@
 		<a href="#" class="btn btn-info" th:href="@{/user/add/}">Add New User</a>
 		</div>
 	</div>
-</div>
-	
-<div class="card mb-4">
+
+	<div class = "row my-4 mx-2">	
+	<div class="card mb-4">
           <div class="card-header">
               <i class="fas fa-table mr-1"></i>
               Users
@@ -24,11 +24,11 @@
                           <tr>
                           
                             <th>Id</th>
-							<th>FullName</th>
-							<th>UserName</th>
+							<th>Full Name</th>
+							<th>Username</th>
 							<th>Email</th>
-							<th>RoleType</th>
-							<th>State</th>
+							<th>Role</th>
+							<th>Status</th>
 							<th>Edit User</th>
                           
                           </tr>
@@ -37,11 +37,11 @@
                           <tr>
                           
                             <th>Id</th>
-							<th>FullName</th>
-							<th>UserName</th>
+							<th>Full Name</th>
+							<th>Username</th>
 							<th>Email</th>
-							<th>RoleType</th>
-							<th>State</th>
+							<th>Role</th>
+							<th>Status</th>
 							<th>Edit User</th>
                           
                           </tr>
@@ -56,12 +56,14 @@
 							
 							<td style="text-align:center; vertical-align:middle">
 							<a href="#" class="btn btn-light" th:href="@{/user/edit/}+${u.id}">
-							<i class="fas fa-ellipsis-h"></i></a>
+							<i class="fas fa-edit"></i></a>
 							</td>
 					</tr>
 					</table>
-					</div>
-					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 </body>
 </html>

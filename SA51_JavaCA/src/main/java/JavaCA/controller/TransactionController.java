@@ -29,37 +29,45 @@ import JavaCA.service.ProductService;
 import JavaCA.service.ProductServiceImpl;
 import JavaCA.service.TransactionDetailsService;
 import JavaCA.service.TransactionServiceImpl;
+import JavaCA.service.UserImplementation;
+import JavaCA.service.UserInterface;
 import JavaCA.service.TransactionService;
 
 @Controller
 @RequestMapping("/transaction")
 public class TransactionController 
 {
-	@Autowired
 	private TransactionService transactionService;
-	
-	@Autowired
 	private TransactionDetailsService tdService;
+	private ProductService productService;
+	private UserInterface uservice;
+	private HttpSession session;
 	
 	@Autowired
-	private ProductService productService;
+	public void setServices(TransactionServiceImpl transImpl, ProductServiceImpl prodImpl,
+			TransactionDetailsServiceImpl transDetailImpl, UserImplementation uservice,
+			HttpSession session)
+	{
+		this.transactionService = transImpl;
+		this.tdService = transDetailImpl;
+		this.productService = prodImpl;
+		this.uservice = uservice;
+		this.session = session;
+	}
 	
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) {
 	}
 	
-	@Autowired
-	public void setTransactionImplementation(TransactionServiceImpl transImpl, ProductServiceImpl prodImpl,
-			TransactionDetailsServiceImpl transDetailImpl)
-	{
-		this.transactionService = transImpl;
-		this.tdService = transDetailImpl;
-		this.productService = prodImpl;
-	}
 	
 	@RequestMapping("/car")
-	public String viewAllCarTransactions(Model model, HttpSession session, @ModelAttribute("success") String success)
-	{
+	public String viewAllCarTransactions(Model model, @ModelAttribute("success") String success)
+	{	
+		//check if user has logged in, otherwise redirect
+		if(!uservice.verifyLogin(session)) {
+			return "redirect:/";
+		}
+		
 		List<Transaction> carjobs = transactionService.listAllCarTransactions();
 		model.addAttribute("transactions", carjobs);
 		model.addAttribute("success", success);
@@ -69,8 +77,13 @@ public class TransactionController
 	}
 	
 	@RequestMapping("/all")
-	public String viewAllTransactions(Model model, HttpSession session, @ModelAttribute("success") String success)
+	public String viewAllTransactions(Model model, @ModelAttribute("success") String success)
 	{
+		//check if user has logged in, otherwise redirect
+		if(!uservice.verifyLogin(session)) {
+			return "redirect:/";
+		}
+		
 		List<Transaction> all = transactionService.listAllTransactions();
 		model.addAttribute("transactions", all);
 		model.addAttribute("success", success);
@@ -80,8 +93,13 @@ public class TransactionController
 	}
 	
 	@RequestMapping("/list")
-	public String viewAllTransactionsDetails(Model model, HttpSession session, @ModelAttribute("success") String success)
+	public String viewAllTransactionsDetails(Model model, @ModelAttribute("success") String success)
 	{
+		//check if user has logged in, otherwise redirect
+		if(!uservice.verifyLogin(session)) {
+			return "redirect:/";
+		}
+		
 		List<TransactionDetail> td = tdService.findAllTransactionDetails();
 		model.addAttribute("transactiondetail", td);
 		model.addAttribute("success", success);
@@ -93,6 +111,11 @@ public class TransactionController
 	public String viewAllProductTransactions(@PathVariable("productid") int id, Model model, 
 			@ModelAttribute("success") String success)
 	{
+		//check if user has logged in, otherwise redirect
+		if(!uservice.verifyLogin(session)) {
+			return "redirect:/";
+		}
+		
 		List<TransactionDetail> td = transactionService.listAllProductTransactions(id);
 		model.addAttribute("transactiondetail", td);
 		model.addAttribute("message", "product");
@@ -101,9 +124,13 @@ public class TransactionController
 	}
 	
 	@RequestMapping("/delete/{id}")
-	public String deleteTransactionAndTransactionDetails(@PathVariable("id") int id,  RedirectAttributes redirectModel, HttpSession session)
+	public String deleteTransactionAndTransactionDetails(@PathVariable("id") int id, RedirectAttributes redirectModel)
 	{
-		
+		//check if user has logged in, otherwise redirect
+		if(!uservice.verifyLogin(session)) {
+			return "redirect:/";
+		}
+			
 		String success = String.valueOf(transactionService.deleteTransaction(transactionService.findTransactionById(id)));
 		redirectModel.addFlashAttribute("success", success);
 		if (session.getAttribute("preView") == "all") {return "redirect:/transaction/all";}
@@ -111,7 +138,12 @@ public class TransactionController
 	}
 	
 	@RequestMapping("/new")
-	public String newTransaction(HttpSession session, Model model) {
+	public String newTransaction(Model model) {
+		//check if user has logged in, otherwise redirect
+		if(!uservice.verifyLogin(session)) {
+			return "redirect:/";
+		}
+					
 		Transaction t = new Transaction();
 		model.addAttribute("t", t);
 		model.addAttribute("preView", session.getAttribute("preView"));
@@ -120,6 +152,11 @@ public class TransactionController
 	
 	@GetMapping("/newStockEntry")
 	public String newStockEntryTransaction(Model model) {
+		//check if user is admin, otherwise redirect
+		if(!uservice.verifyAdmin(session)) {
+			return "redirect:/";
+		}
+					
 		TransactionDetail td = new TransactionDetail();
 		List<Product> productList = productService.findAllProducts();
 		List<Transaction> transactionList = transactionService.listAllNonCarTransactions();
@@ -165,7 +202,12 @@ public class TransactionController
 	}
 	
 	@GetMapping("/edit/{id}")
-	public String editTransaction(@PathVariable("id") int id, Model model, HttpSession session) {
+	public String editTransaction(@PathVariable("id") int id, Model model) {
+		//check if user is admin, otherwise redirect
+		if(!uservice.verifyAdmin(session)) {
+			return "redirect:/";
+		}
+					
 		Transaction t = transactionService.findTransactionById(id);
 		model.addAttribute("t", t);
 		model.addAttribute("preView", session.getAttribute("preView"));

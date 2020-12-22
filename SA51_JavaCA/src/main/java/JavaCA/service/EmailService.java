@@ -4,6 +4,6 @@ import JavaCA.model.Product;
 
 public interface EmailService 
 {
-	void sendSimpleMessage();
 	void sendReorderEmailReminderForThisProduct(Product product);
+	void sendEmailToResetPassword(String s);
 }

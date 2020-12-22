@@ -14,6 +14,7 @@ public interface TransactionService
 	Transaction findTransactionById(long id);
 	boolean saveTransaction(Transaction transaction);
 	boolean deleteTransaction(Transaction transaction);
+	void deleteAllRelatedToPdt(Transaction transaction);
 	boolean noTransactionDetailsInNullTransaction(Transaction transaction);
 	//to force update
 }
