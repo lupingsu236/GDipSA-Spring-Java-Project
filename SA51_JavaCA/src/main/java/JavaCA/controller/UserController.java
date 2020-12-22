@@ -85,7 +85,7 @@ public class UserController{
 	
 	@PostMapping(value="/user/saveedit/{id}")
 	public String saveeditUser(@ModelAttribute("user") @Valid User user, 
-			@PathVariable("id") long id,BindingResult bindingResult,Model model) {
+			BindingResult bindingResult,@PathVariable("id") long id,Model model) {
 		if(bindingResult.hasErrors()) {
 			return "/user/usereditform";
 		}		
