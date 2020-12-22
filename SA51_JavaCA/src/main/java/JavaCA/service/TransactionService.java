@@ -9,6 +9,7 @@ public interface TransactionService
 {
 	List<Transaction> listAllTransactions();
 	List<Transaction> listAllCarTransactions();
+	List<Transaction> listAllNonCarTransactions();
 	List<TransactionDetail> listAllProductTransactions(int id);
 	Transaction findTransactionById(long id);
 	boolean saveTransaction(Transaction transaction);

@@ -75,4 +75,8 @@ public class TransactionServiceImpl implements TransactionService
 		}
 		return false;
 	}
+	
+	public List<Transaction> listAllNonCarTransactions() {
+		return transRepo.findAllNonCarTransactions();
+	}
 }

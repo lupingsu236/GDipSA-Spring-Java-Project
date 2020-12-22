@@ -3,12 +3,72 @@
 <!-- For update -->
 <body>
 
+<script>
+function myFunction() {
+	  var startDate, endDate, start, end, table, tr, td, i, currentDate;
+	  startDate = new Date(document.getElementById("startDate").value);
+	  start = Date.parse(startDate);
+	  endDate = new Date(document.getElementById("endDate").value);
+	  end = Date.parse(endDate);
+	  table = document.getElementById("dataTable");
+	  tr = table.getElementsByTagName("tr");
+	  
+	  if(!end) {
+		  for (i = 1; i < tr.length; i++) {
+		    td = tr[i].getElementsByTagName("td")[0];
+		    if (td) {
+		      currentDate = Date.parse(td.innerText);
+		      if (currentDate >= start) {
+		        tr[i].style.display = "";
+		      } else {
+		        tr[i].style.display = "none";
+		      }
+		    }       
+		  }
+	  }
+	  else if (!start) {
+		  for (i = 1; i < tr.length; i++) {
+		    td = tr[i].getElementsByTagName("td")[0];
+		    if (td) {
+		      currentDate = Date.parse(td.innerText);
+		      if (currentDate <= end) {
+		        tr[i].style.display = "";
+		      } else {
+		        tr[i].style.display = "none";
+		      }
+		    }       
+		  }
+	  }
+	  else {
+		  for (i = 1; i < tr.length; i++) {
+		    td = tr[i].getElementsByTagName("td")[0];
+		    if (td) {
+		      currentDate = Date.parse(td.innerText);
+		      if (currentDate >= start && currentDate <= end) {
+		        tr[i].style.display = "";
+		      } else {
+		        tr[i].style.display = "none";
+		      }
+		    }       
+		  }
+	  }
+	}
+</script>
+
 <div class="my-4 container-sm">
 	<div class="row">
-		<div class="col-sm-9"> 
+		<div class="col-sm-5"> 
 			<h3><span th:if="${message == 'product'}">Product</span>
 			<span th:unless="${message == 'product'}">All</span>
 			Transaction Details</h3>
+		</div>
+		<div class="col-sm-3">
+			<label for="startDate">Select start date:</label>
+			<input type="date" id="startDate" onchange="myFunction()" placeholder="Search start date" title="Type in a date">
+		</div>
+		<div class="col-sm-3">
+			<label for="endDate">Select end date:</label>
+			<input type="date" id="endDate" onchange="myFunction()" placeholder="Search end date" title="Type in a date">
 		</div>
 	</div>
 	<br>

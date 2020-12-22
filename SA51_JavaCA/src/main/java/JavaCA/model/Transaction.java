@@ -9,12 +9,15 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import JavaCA.validation.CarplateContraint;
+
 @Entity
 public class Transaction 
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	@CarplateContraint
 	private String carPlateNo;
 	@ManyToOne
 	private User user;

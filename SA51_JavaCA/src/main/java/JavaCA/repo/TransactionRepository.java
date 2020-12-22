@@ -13,4 +13,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long>
 {
 	@Query( value = "SELECT * FROM transaction t WHERE t.car_plate_no != '' AND t.car_plate_no IS NOT null", nativeQuery = true)
 	List<Transaction> findAllCarTransactions();
+	
+	@Query( value = "SELECT * FROM transaction t WHERE t.car_plate_no IS null", nativeQuery = true)
+	List<Transaction> findAllNonCarTransactions();
 }
