@@ -132,10 +132,20 @@ public class TransactionController
 	}
 	
 	@PostMapping("/newStockEntry")
-	public String saveNewStockEntryTransaction(@ModelAttribute("td") TransactionDetail td, 
-			RedirectAttributes redirectModel, HttpSession session) {
+	public String saveNewStockEntryTransaction(@Valid @ModelAttribute("td") TransactionDetail td, BindingResult bd, 
+			RedirectAttributes redirectModel, HttpSession session, Model model) {
 		//New transaction if no selected transaction
 		Transaction t;
+		if (bd.hasErrors()) {
+			List<Product> productList = productService.findAllProducts();
+			List<Transaction> transactionList = transactionService.listAllNonCarTransactions();
+			model.addAttribute("type1", TransactionType.ORDER);
+			model.addAttribute("type2", TransactionType.RETURN);
+			model.addAttribute("pl", productList);
+			model.addAttribute("tl", transactionList);
+			model.addAttribute("td", td);
+			return "/transaction/StockUsageForm";
+		}
 		if(td.getTransaction().getId() == -1) {
 			t = new Transaction();
 		}

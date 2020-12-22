@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body})}">
-<!-- For update -->
+
 <body>
 
-<script>
+<!-- <script>
     function noBlankInteger() {
     	if (document.getElementById("qtychange").value == ""){
     		document.getElementById("qtychange").value = new Number("0");
     	}
     }
-</script>
+</script> -->
 
 <div class="my-4 container-sm">
 	<br>
@@ -45,6 +45,7 @@
 				<div class="form-group w-200">
 					  <label for="quantity">Enter Quantity</label>
 					  <input id="qtychange" type="number" min="0" step="1" class="form-control" th:field="*{quantityChange}">
+					  <p style="color:red" th:if="${#fields.hasErrors('quantityChange')}">Please enter a valid integer</p>
 				</div>
 				<div class="form-group">
 				<button class="btn btn-success" type="submit" style="margin:10px">Save</button>
