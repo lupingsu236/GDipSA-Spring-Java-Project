@@ -25,7 +25,7 @@ public interface ProductService {
 	{
 		boolean output = true;
 		if (s.isBlank())
-			output = false;
+			return false;
 		try
 		{
 			Integer.parseInt(s);
