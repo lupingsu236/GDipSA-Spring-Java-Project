@@ -2,166 +2,127 @@
 <html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body})}">
 
 <body>
-	<div class="card mb-4">
-          <div class="card-header">
-              <i class="fas fa-table mr-1"></i>
-              DataTable Example
-          </div>
-          <div class="card-body">
-              <div class="table-responsive">
-                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                      <thead>
-                          <tr>
-                              <th>Transaction Detail ID</th>
-                              <th>Transaction Type</th>
-                              <th>Product Name</th>
-                              <th>Quantity Changed</th>
-                          </tr>
-                      </thead>
-                      <tfoot>
-                          <tr>
-                              <th>Transaction Detail ID</th>
-                              <th>Transaction Type</th>
-                              <th>Product Name</th>
-                              <th>Quantity Changed</th>
-                          </tr>
-                      </tfoot>
-                      <tbody>
-                       <tr>
-                              <td>1</td>
-                              <td>Order</td>
-                              <td>Gear Box</td>
-                              <td>200</td>
-                          </tr>
-                          <tr>
-                              <td>2</td>
-                              <td>Usage</td>
-                              <td>Wheel</td>
-                              <td>40</td>
-                          </tr>
-                          <tr>
-                              <td>3</td>
-                              <td>Return</td>
-                              <td>Side mirror</td>
-                              <td>20</td>
-                          </tr>
-                          <tr>
-                              <td>4</td>
-                              <td>Damaged</td>
-                              <td>Gearstick</td>
-                              <td>10</td>
-                          </tr>
-                          <tr>
-                              <td>5</td>
-                              <td>Usage</td>
-                              <td>Undercarriage</td>
-                              <td>33</td>
-                          </tr>
-                          <tr>
-                              <td>6</td>
-                              <td>Order</td>
-                              <td>Windscreen</td>
-                              <td>10</td>
-                          </tr>
-                          <tr>
-                              <td>7</td>
-                              <td>Order</td>
-                              <td>Headlights</td>
-                              <td>20</td>
-                          </tr>
-                          <tr>
-                              <td>8</td>
-                              <td>Order</td>
-                              <td>Breaking lights</td>
-                              <td>20</td>
-                          </tr>
-                          <tr>
-                              <td>9</td>
-                              <td>Order</td>
-                              <td>Gear Box</td>
-                              <td>200</td>
-                          </tr>
-                          <tr>
-                              <td>10</td>
-                              <td>Usage</td>
-                              <td>Wheel</td>
-                              <td>40</td>
-                          </tr>
-                          <tr>
-                              <td>11</td>
-                              <td>Return</td>
-                              <td>Side mirror</td>
-                              <td>20</td>
-                          </tr>
-                          <tr>
-                              <td>12</td>
-                              <td>Damaged</td>
-                              <td>Gearstick</td>
-                              <td>10</td>
-                          </tr>
-                          <tr>
-                              <td>13</td>
-                              <td>Usage</td>
-                              <td>Undercarriage</td>
-                              <td>33</td>
-                          </tr>
-                          <tr>
-                              <td>14</td>
-                              <td>Order</td>
-                              <td>Windscreen</td>
-                              <td>10</td>
-                          </tr>
-                          <tr>
-                              <td>15</td>
-                              <td>Order</td>
-                              <td>Headlights</td>
-                              <td>20</td>
-                          </tr>
-                          <tr>
-                              <td>16</td>
-                              <td>Order</td>
-                              <td>Breaking lights</td>
-                              <td>20</td>
-                          </tr>
-                          <tr>
-                              <td>14</td>
-                              <td>Order</td>
-                              <td>Windscreen</td>
-                              <td>10</td>
-                          </tr>
-                          <tr>
-                              <td>15</td>
-                              <td>Order</td>
-                              <td>Headlights</td>
-                              <td>20</td>
-                          </tr>
-                          <tr>
-                              <td>16</td>
-                              <td>Order</td>
-                              <td>Breaking lights</td>
-                              <td>20</td>
-                          </tr>
-                          <tr>
-                              <td>14</td>
-                              <td>Order</td>
-                              <td>Windscreen</td>
-                              <td>10</td>
-                          </tr>
-                          <tr>
-                              <td>15</td>
-                              <td>Order</td>
-                              <td>Headlights</td>
-                              <td>20</td>
-                          </tr>
-                          <tr>
-                              <td>16</td>
-                              <td>Order</td>
-                              <td>Breaking lights</td>
-                              <td>20</td>
-                          </tr>
-                      </tbody>
-                  </table>
-              </div>
-          </div>
-      </div>
+
+<div th:if="${from}=='psdChanged'" class="alert alert-success alert-dismissible fade show" role="alert">
+  Password has been successfully changed!
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+	<h3 class="mt-4">Home</h3>
+       <br>
+    <div class="row">
+    
+    	<!-- Products links -->
+       <div class="col-xl-3 col-md-6">
+           <div class="card bg-primary text-white mb-4">
+				<img class="card-img-top" src="/img/car_parts.jpg">
+				<div class="card-body">
+               <h5 class="card-title">Products</h5>
+               <ul class="list-group list-group-flush">
+               		<li class="list-group-item">
+               		<a class="stretched-link" style="color: black" th:href="@{/product}">
+               		<i style="color:blue" class="fas fa-angle-right"></i>  View Products  
+             		</a></li>
+				    <li class="list-group-item" th:if="${session.usession.role} == ${session.admin}">
+               		<a class="stretched-link" style="color: black" th:href="@{/product/new}">
+               		<i style="color:blue" class="fas fa-angle-right"></i>  Add Product  
+             		</a></li>
+             		<li class="list-group-item" th:if="${session.usession.role} == ${session.admin}">
+               		<a class="stretched-link" style="color: black" th:href="@{/report/reorder}">
+               		<i style="color:blue" class="fas fa-angle-right"></i>  Generate Reorder Report 
+             		</a></li>
+				</ul>
+               </div>
+           </div>
+       </div>
+       
+       <!-- Brands and Suppliers links-->
+       <div class="col-xl-3 col-md-6">
+           <div class="card bg-warning text-white mb-4">
+              <img class="card-img-top" src="/img/suppliers.jpg">
+				<div class="card-body">
+               <h5 class="card-title">Brands | Suppliers</h5>
+               <ul class="list-group list-group-flush">
+               		<li class="list-group-item">
+               		<a class="stretched-link" style="color: black" th:href="@{/brand}">
+               		<i style="color:orange;" class="fas fa-angle-right"></i>  View Brands  
+             		</a></li>				    
+             		<li class="list-group-item" th:if="${session.usession.role} == ${session.admin}">
+               		<a class="stretched-link" style="color: black" th:href="@{/brand/new}">
+               		<i style="color:orange" class="fas fa-angle-right" ></i>  Add Brand
+             		</a></li>
+             		<li class="list-group-item">
+               		<a class="stretched-link" style="color: black" th:href="@{/supplier}">
+               		<i style="color:orange;" class="fas fa-angle-right"></i>  View Suppliers 
+             		</a></li>
+             		<li class="list-group-item" th:if="${session.usession.role} == ${session.admin}">
+               		<a class="stretched-link" style="color: black" th:href="@{/supplier/new}">
+               		<i style="color:orange" class="fas fa-angle-right"></i>  Add Supplier
+             		</a></li>
+               		
+				</ul>
+               </div>
+           </div>
+       </div>
+       
+       <!-- Transactions links-->
+       <div class="col-xl-3 col-md-6">
+           <div class="card bg-success text-white mb-4">
+               <img class="card-img-top" src="/img/transactions.jpg">
+				<div class="card-body">
+               <h5 class="card-title">Transactions</h5>
+               <ul class="list-group list-group-flush">
+             	    <li class="list-group-item">
+               		<a class="stretched-link" style="color: black" th:href="@{/transaction/all}">
+               		<i style="color:green;" class="fas fa-angle-right"></i>  View Transactions  
+             		</a></li>
+             		<li class="list-group-item">
+               		<a class="stretched-link" style="color: black" th:href="@{/transaction/list}">
+               		<i style="color:green" class="fas fa-angle-right"></i>  View Transaction Details
+             		</a></li>
+             		<li class="list-group-item" th:if="${session.usession.role} == ${session.admin}">
+               		<a class="stretched-link" style="color: black" th:href="@{/transaction/newStockEntry}">
+               		<i style="color:green" class="fas fa-angle-right"></i>  Order/ Return Product  
+             		</a></li>
+             		<li class="list-group-item" th:if="${session.usession.role} != ${session.admin}">
+               		<a class="stretched-link" style="color: black" th:href="@{/transaction/car}">
+               		<i style="color:green" class="fas fa-angle-right"></i>  My Car Jobs 
+             		</a></li>
+             		<li class="list-group-item" th:if="${session.usession.role} == ${session.admin}">
+               		<a class="stretched-link" style="color: black" th:href="@{/report/usage}">
+               		<i style="color:green" class="fas fa-angle-right"></i>  Generate Usage Report   
+             		</a></li>
+             		<li class="list-group-item" th:if="${session.usession.role} != ${session.admin}">
+               		<a class="stretched-link" style="color: black" th:href="@{/transaction/new}">
+               		<i style="color:green" class="fas fa-angle-right"></i>  Record Stock Usage
+             		</a></li>
+				</ul>
+               </div>
+           </div>
+       </div>
+      
+       <!-- Users links-->
+       <div class="col-xl-3 col-md-6" th:if="${session.usession.role} == ${session.admin}">
+           <div class="card bg-danger text-white mb-4">
+               <img class="card-img-top" src="/img/users.jpg">
+				<div class="card-body">
+               <h5 class="card-title">Users</h5>
+               <ul class="list-group list-group-flush">
+             	    <li class="list-group-item">
+               		<a class="stretched-link" style="color: black" th:href="@{/user}">
+               		<i style="color:red;" class="fas fa-angle-right"></i>  View Users 
+             		</a></li>				    
+             		<li class="list-group-item">
+               		<a class="stretched-link" style="color: black" th:href="@{/user/new}">
+               		<i style="color:red" class="fas fa-angle-right"></i>  Add User
+             		</a></li>
+				</ul>
+               </div>
+           </div>
+       </div>
+   </div>
+	
+                  
 </body>

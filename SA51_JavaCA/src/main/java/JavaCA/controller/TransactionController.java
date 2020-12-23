@@ -131,8 +131,7 @@ public class TransactionController
 		String success = String.valueOf(transactionService.deleteTransaction(transactionService.findTransactionById(id)));
 		//Pass success true/false by redirect model
 		redirectModel.addFlashAttribute("success", success);
-		if (session.getAttribute("preView") == "allt") {return "redirect:/transaction/all";}
-		return "redirect:/transaction/car";
+		return "redirect:/transaction/all";
 	}
 	
 	@RequestMapping("/new")
@@ -245,10 +244,7 @@ public class TransactionController
 		User u = (User)session.getAttribute("usession");
 		t.setUser(u);
 		String success = String.valueOf(transactionService.saveTransaction(t));
-		if (session.getAttribute("preView") == "allt") {
-			redirectModel.addFlashAttribute("success", success);
-			return "redirect:/transaction/all";
-			}
-		return "redirect:/transaction/car";
+		redirectModel.addFlashAttribute("success", success);
+		return "redirect:/transaction/all";
 	}
 }
