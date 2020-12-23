@@ -81,7 +81,7 @@
 							<a th:if="${b.products.size()}==0" href="#" class="btn btn-danger" th:href="@{/brand/delete/}+${b.id}" 
 							onclick="return confirm('Are you sure you want to delete the brand?')">
 							<i class="fas fa-trash-alt"></i></a>
-							<span th:if="${b.products.size()}!=0" style="font-style: italic">Cannot be deleted</span>
+							<i th:if="${b.products.size()}!=0" class="fas fa-ban"></i>
 							</td>
 						
 							</tr>

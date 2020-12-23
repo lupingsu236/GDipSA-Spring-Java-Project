@@ -81,7 +81,7 @@
 							<a th:if="${s.products.size()}==0" href="#" class="btn btn-danger" th:href="@{/supplier/delete/}+${s.id}" 
 							onclick="return confirm('Are you sure you want to delete the supplier?')">
 							<i class="fas fa-trash-alt"></i></a>
-							<span th:if="${s.products.size()}!=0" style="font-style: italic">Cannot be deleted</span>
+							<i th:if="${s.products.size()}!=0" class="fas fa-ban"></i>
 							</td>
 						
 							</tr>
