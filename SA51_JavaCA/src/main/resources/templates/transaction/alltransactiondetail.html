@@ -10,19 +10,18 @@
 			<span th:unless="${message == 'product'}">All</span>
 			Transaction Details</h3>
 		</div>
-		<div class="col-sm-8">
-			<form class="row form-inline" action="" th:action="@{/transaction/daterange}" method="post">
-			<div class="col-sm-4">
-				<label for="startDate">Select start date:</label>
-				<input type="text" name="startDate" placeholder="yyyy-MM-dd" title="Type in a date" th:value="${startDate}">
+		<div class="col-sm-8 row form-group">
+			<form class="form-inline" action="" th:action="@{/transactiondetails/daterange}" method="post">
+			<div class="col-xs-2">
+				<input class="form-control" type="text" name="startDate" placeholder="From: yyyy-MM-dd" title="Type in a date" th:value="${startDate}">
 				<p style="color:red" th:if="${errorMsgStartDate != null}" th:utext="${errorMsgStartDate}"></p>
 			</div>
-			<div class="col-sm-4">
-				<label for="endDate">Select end date:</label>
-				<input type="text" name="endDate" placeholder="yyyy-MM-dd" title="Type in a date" th:value="${endDate}">
+			<div class="col-xs-2"></div>
+			<div class="col-xs-2">
+				<input class="form-control" type="text" name="endDate" placeholder="To: yyyy-MM-dd" title="Type in a date" th:value="${endDate}">
 				<p style="color:red" th:if="${errorMsgEndDate != null}" th:utext="${errorMsgEndDate}"></p>
 			</div>
-			<button class="btn btn-primary" type="submit">Search Date Range</button>
+				<button class="btn btn-primary form-control" type="submit">Search Date Range </button>
 			</form>
 		</div>
 	</div>
