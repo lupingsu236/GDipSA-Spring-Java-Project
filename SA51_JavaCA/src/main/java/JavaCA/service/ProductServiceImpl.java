@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import JavaCA.model.Product;
+import JavaCA.model.TransactionDetail;
 import JavaCA.repo.ProductRepository;
 
 @Service
@@ -19,6 +20,8 @@ public class ProductServiceImpl implements ProductService {
 	private ProductRepository prepo; 
 	private BrandService bservice;
 	private SupplierService suppservice;
+	private TransactionService tservice;
+	private TransactionDetailsService tdservice;
 	
 	@Autowired
 	public void setProductRepo(ProductRepository prepo) {
@@ -26,9 +29,12 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Autowired
-	public void setServices(BrandServiceImpl bservice, SupplierServiceImpl suppservice) {
+	public void setServices(BrandServiceImpl bservice, SupplierServiceImpl suppservice, 
+			TransactionServiceImpl tservice, TransactionDetailsServiceImpl tdservice) {
 		this.bservice = bservice;
 		this.suppservice = suppservice;
+		this.tservice = tservice;
+		this.tdservice = tdservice;
 	}
 	
 	
@@ -53,6 +59,16 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public void deleteProduct(Product p) {
+		//check for existing transactionDetails to delete 
+		ArrayList<TransactionDetail> transactionDetails = tdservice.findTransactionDetailsByProductId(p.getId());
+		for (TransactionDetail td : transactionDetails) {
+			tdservice.deleteAllRelatedToPdt(td);
+			//if no remaining transaction detail, delete transaction as well
+			if(td.getTransaction().getTransactionDetails().size()==0) {
+				tservice.deleteAllRelatedToPdt(td.getTransaction());
+			}
+			
+		}
 		prepo.delete(p);
 		
 	}

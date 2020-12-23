@@ -22,17 +22,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import JavaCA.model.Brand;
 import JavaCA.model.Product;
 import JavaCA.model.Supplier;
-import JavaCA.model.TransactionDetail;
 import JavaCA.service.BrandService;
 import JavaCA.service.BrandServiceImpl;
 import JavaCA.service.ProductService;
 import JavaCA.service.ProductServiceImpl;
 import JavaCA.service.SupplierService;
 import JavaCA.service.SupplierServiceImpl;
-import JavaCA.service.TransactionDetailsService;
-import JavaCA.service.TransactionDetailsServiceImpl;
-import JavaCA.service.TransactionService;
-import JavaCA.service.TransactionServiceImpl;
 import JavaCA.service.UserImplementation;
 import JavaCA.service.UserInterface;
 
@@ -42,20 +37,15 @@ public class ProductController {
 	private ProductService pservice;
 	private BrandService bservice;
 	private SupplierService suppservice;
-	private TransactionService tservice;
-	private TransactionDetailsService tdservice;
 	private UserInterface uservice;
 	private HttpSession session;
 	
 	@Autowired
 	public void setServices(ProductServiceImpl pservice, BrandServiceImpl bservice, 
-			SupplierServiceImpl suppservice, TransactionServiceImpl tservice, 
-			TransactionDetailsServiceImpl tdservice, UserImplementation uservice, HttpSession session) {
+			SupplierServiceImpl suppservice, UserImplementation uservice, HttpSession session) {
 		this.pservice = pservice;
 		this.bservice = bservice;
 		this.suppservice = suppservice;
-		this.tservice = tservice;
-		this.tdservice = tdservice;
 		this.uservice = uservice;
 		this.session = session;
 	}
@@ -201,17 +191,6 @@ public class ProductController {
 		}
 		
 		Product p = pservice.findProduct(id);
-		
-		//check for existing transactionDetails to delete 
-		ArrayList<TransactionDetail> transactionDetails = tdservice.findTransactionDetailsByProductId(id);
-		for (TransactionDetail td : transactionDetails) {
-			tdservice.deleteAllRelatedToPdt(td);
-			//if no remaining transaction detail, delete transaction as well
-			if(td.getTransaction().getTransactionDetails().size()==0) {
-				tservice.deleteAllRelatedToPdt(td.getTransaction());
-			}
-			
-		}
 		
 		pservice.deleteProduct(p);
 		
