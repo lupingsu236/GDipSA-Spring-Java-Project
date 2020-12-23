@@ -22,10 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import JavaCA.model.Brand;
 import JavaCA.model.Product;
 import JavaCA.model.Supplier;
-import JavaCA.model.Transaction;
 import JavaCA.model.TransactionDetail;
-import JavaCA.model.TransactionType;
-import JavaCA.model.User;
 import JavaCA.service.BrandService;
 import JavaCA.service.BrandServiceImpl;
 import JavaCA.service.ProductService;
@@ -189,24 +186,7 @@ public class ProductController {
 		//save product to db
 		pservice.saveProduct(p);
 		
-		
-		//new product
-		if (product==null) {
-			//save first transaction if quantity >0
-			if(p.getQuantity()>0) {
-				//get user from session to set into transaction
-				Transaction t = new Transaction();
-				User user = (User) session.getAttribute("usession");
-				t.setUser(user);
-				tservice.saveTransaction(t);
-				// Create the transaction detail and set product and transaction before persisting
-				TransactionDetail td = new TransactionDetail(p.getQuantity(), TransactionType.ORDER);
-				td.setProduct(p);
-				td.setTransaction(t);
-				tdservice.saveTransactionDetail(td);
-			}
-		}
-			
+
 		//add redirect attribute for alert
 		redirectfrom.addFlashAttribute("from", "save");
 		return "redirect:/product";
