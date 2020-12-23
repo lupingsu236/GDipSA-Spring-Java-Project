@@ -28,7 +28,7 @@ public interface ProductService {
 			output = false;
 		try
 		{
-			int parsedString = Integer.parseInt(s);
+			Integer.parseInt(s);
 		}
 		catch(NumberFormatException e)
 		{
