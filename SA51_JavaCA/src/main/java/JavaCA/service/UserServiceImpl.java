@@ -15,7 +15,7 @@ import JavaCA.repo.UserRepository;
 
 @Service
 @Transactional
-public class UserImplementation implements UserInterface {
+public class UserServiceImpl implements UserService {
 
 	@Autowired
 	UserRepository urepo;

@@ -21,18 +21,18 @@ import JavaCA.model.RoleType;
 import JavaCA.model.User;
 import JavaCA.service.EmailService;
 import JavaCA.service.EmailServiceImpl;
-import JavaCA.service.UserImplementation;
-import JavaCA.service.UserInterface;
+import JavaCA.service.UserServiceImpl;
+import JavaCA.service.UserService;
 
 @Controller
 public class LoginController {
 	
-	private UserInterface uservice;
+	private UserService uservice;
 	private EmailService eservice;
 	private HttpSession session;
 	
 	@Autowired
-	public void setServices(UserImplementation uservice, EmailServiceImpl eservice, HttpSession session) 
+	public void setServices(UserServiceImpl uservice, EmailServiceImpl eservice, HttpSession session) 
 	{
 		this.uservice = uservice;
 		this.eservice = eservice;

@@ -1,7 +1,9 @@
 package JavaCA.service;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -124,5 +126,26 @@ public class TransactionDetailsServiceImpl implements TransactionDetailsService 
 	public void deleteAllRelatedToPdt(TransactionDetail transactionDetail) {
 		transDRepo.delete(transactionDetail);
 	}
-
+	
+	@Override
+	public List<TransactionDetail> findAllTransactionDetailsForProductBetweenDateRange(long productId, Date fromDate, Date toDate)
+	{
+		return transDRepo.findTransactionDetailsByProductId(productId).stream().filter(x -> x.getDate().compareTo(toDate) <= 0
+																	  && x.getDate().compareTo(fromDate) >= 0)
+																	  .collect(Collectors.toList());
+	}
+	
+	@Override
+	public List<TransactionDetail> findAllTransactionDetailsForProductFromDate(long productId, Date fromDate)
+	{
+		return transDRepo.findTransactionDetailsByProductId(productId).stream().filter(x -> x.getDate().compareTo(fromDate) >= 0)
+																			   .collect(Collectors.toList());
+	}
+	
+	@Override
+	public List<TransactionDetail> findAllTransactionDetailsForProductUpToDate(long productId, Date toDate)
+	{
+		return transDRepo.findTransactionDetailsByProductId(productId).stream().filter(x -> x.getDate().compareTo(toDate) <= 0)
+																			   .collect(Collectors.toList());
+	}
 }

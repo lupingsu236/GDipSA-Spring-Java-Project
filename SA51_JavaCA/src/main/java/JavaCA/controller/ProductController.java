@@ -28,8 +28,8 @@ import JavaCA.service.ProductService;
 import JavaCA.service.ProductServiceImpl;
 import JavaCA.service.SupplierService;
 import JavaCA.service.SupplierServiceImpl;
-import JavaCA.service.UserImplementation;
-import JavaCA.service.UserInterface;
+import JavaCA.service.UserServiceImpl;
+import JavaCA.service.UserService;
 
 @Controller
 @RequestMapping("/product")
@@ -37,12 +37,12 @@ public class ProductController {
 	private ProductService pservice;
 	private BrandService bservice;
 	private SupplierService suppservice;
-	private UserInterface uservice;
+	private UserService uservice;
 	private HttpSession session;
 	
 	@Autowired
 	public void setServices(ProductServiceImpl pservice, BrandServiceImpl bservice, 
-			SupplierServiceImpl suppservice, UserImplementation uservice, HttpSession session) {
+			SupplierServiceImpl suppservice, UserServiceImpl uservice, HttpSession session) {
 		this.pservice = pservice;
 		this.bservice = bservice;
 		this.suppservice = suppservice;

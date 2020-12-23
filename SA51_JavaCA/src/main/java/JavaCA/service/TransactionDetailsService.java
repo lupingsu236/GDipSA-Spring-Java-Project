@@ -1,9 +1,9 @@
 package JavaCA.service;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import JavaCA.model.Transaction;
 import JavaCA.model.TransactionDetail;
 
 public interface TransactionDetailsService {
@@ -14,6 +14,9 @@ public interface TransactionDetailsService {
 	void deleteAllRelatedToPdt(TransactionDetail transactionDetail);
 	List<TransactionDetail> findAllTransactionDetails();
 	TransactionDetail findTransactionDetailById(long id);
+	List<TransactionDetail> findAllTransactionDetailsForProductBetweenDateRange(long productId, Date fromDate, Date toDate);
+	List<TransactionDetail> findAllTransactionDetailsForProductFromDate(long productId, Date fromDate);
+	List<TransactionDetail> findAllTransactionDetailsForProductUpToDate(long productId, Date toDate);
 	public static boolean isValidDateFormat(String s)
 	{
 		boolean output = true;

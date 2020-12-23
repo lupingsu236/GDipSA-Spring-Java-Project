@@ -22,10 +22,10 @@ public class EmailServiceImpl implements EmailService
 {
 	@Autowired
     private JavaMailSender emailSender;	
-	private UserInterface uservice;
+	private UserService uservice;
 	
 	@Autowired
-	public void setServices(UserImplementation uservice) 
+	public void setServices(UserServiceImpl uservice) 
 	{
 		this.uservice = uservice;
 	}	

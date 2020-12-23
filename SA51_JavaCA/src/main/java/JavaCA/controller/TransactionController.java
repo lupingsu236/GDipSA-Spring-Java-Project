@@ -30,8 +30,8 @@ import JavaCA.service.TransactionDetailsService;
 import JavaCA.service.TransactionDetailsServiceImpl;
 import JavaCA.service.TransactionService;
 import JavaCA.service.TransactionServiceImpl;
-import JavaCA.service.UserImplementation;
-import JavaCA.service.UserInterface;
+import JavaCA.service.UserServiceImpl;
+import JavaCA.service.UserService;
 
 @Controller
 @RequestMapping("/transaction")
@@ -40,12 +40,12 @@ public class TransactionController
 	private TransactionService transactionService;
 	private TransactionDetailsService tdService;
 	private ProductService productService;
-	private UserInterface uservice;
+	private UserService uservice;
 	private HttpSession session;
 	
 	@Autowired
 	public void setServices(TransactionServiceImpl transImpl, ProductServiceImpl prodImpl,
-			TransactionDetailsServiceImpl transDetailImpl, UserImplementation uservice,
+			TransactionDetailsServiceImpl transDetailImpl, UserServiceImpl uservice,
 			HttpSession session)
 	{
 		this.transactionService = transImpl;

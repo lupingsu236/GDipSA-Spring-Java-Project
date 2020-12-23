@@ -20,20 +20,20 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import JavaCA.model.Supplier;
 import JavaCA.service.SupplierService;
 import JavaCA.service.SupplierServiceImpl;
-import JavaCA.service.UserImplementation;
-import JavaCA.service.UserInterface;
+import JavaCA.service.UserServiceImpl;
+import JavaCA.service.UserService;
 
 @Controller
 @RequestMapping("/supplier")
 public class SupplierController {
 	
 	private SupplierService suppservice;
-	private UserInterface uservice;
+	private UserService uservice;
 	private HttpSession session;
 	
 	
 	@Autowired
-	public void setServices(SupplierServiceImpl suppservice, UserImplementation uservice, HttpSession session) {
+	public void setServices(SupplierServiceImpl suppservice, UserServiceImpl uservice, HttpSession session) {
 		this.suppservice = suppservice;
 		this.uservice = uservice;
 		this.session = session;

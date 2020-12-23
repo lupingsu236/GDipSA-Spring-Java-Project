@@ -2,9 +2,8 @@ package JavaCA.controller;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -18,17 +17,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import JavaCA.model.Product;
-import JavaCA.model.Supplier;
 import JavaCA.model.TransactionDetail;
-import JavaCA.service.EmailService;
-import JavaCA.service.EmailServiceImpl;
 import JavaCA.service.ProductService;
 import JavaCA.service.ProductServiceImpl;
+import JavaCA.service.ReportService;
+import JavaCA.service.ReportServiceImpl;
 import JavaCA.service.SupplierService;
 import JavaCA.service.SupplierServiceImpl;
 import JavaCA.service.TransactionDetailsService;
-import JavaCA.service.UserImplementation;
-import JavaCA.service.UserInterface;
+import JavaCA.service.UserServiceImpl;
+import JavaCA.service.UserService;
 
 @Controller
 @RequestMapping("/report")
@@ -37,17 +35,19 @@ public class ReportController
 	private ProductServiceImpl pservice;
 	private TransactionDetailsService tdservice;
 	private SupplierService sservice;
-	private UserInterface uservice;
+	private UserService uservice;
+	private ReportService rservice;
 	private HttpSession session;
 		
 	@Autowired
 	public void setServices(ProductServiceImpl pservice, TransactionDetailsService tdservice, 
-			SupplierServiceImpl sservice, UserImplementation uservice, HttpSession session) 
+			SupplierServiceImpl sservice, UserServiceImpl uservice, ReportServiceImpl rservice, HttpSession session) 
 	{
 		this.pservice = pservice;
 		this.tdservice = tdservice;
 		this.sservice = sservice;
 		this.uservice = uservice;
+		this.rservice = rservice;
 		this.session = session;
 	}
 	
@@ -84,7 +84,8 @@ public class ReportController
 			if (!toDate.isBlank())
 				model.addFlashAttribute("toDate", Date.valueOf(toDate));
 		}
-		if (!ProductService.isProductIdNumeric(id) || pservice.findProduct(Integer.parseInt(id)) == null || !TransactionDetailsService.isValidDateFormat(fromDate) || !TransactionDetailsService.isValidDateFormat(toDate))
+		if (!ProductService.isProductIdNumeric(id) || pservice.findProduct(Integer.parseInt(id)) == null 
+			|| !TransactionDetailsService.isValidDateFormat(fromDate) || !TransactionDetailsService.isValidDateFormat(toDate))
 			return "redirect:/report/usage/";
 		model.addFlashAttribute("search", true);
 		return "redirect:/report/usage/" + id;
@@ -99,37 +100,28 @@ public class ReportController
 		}
 		
 		String output = "report/usage";
+		Date fromDate = (Date) model.getAttribute("fromDate");
+		Date toDate = (Date) model.getAttribute("toDate");
 		List<TransactionDetail> transactionDetailsForThisProduct = tdservice.findTransactionDetailsByProductId(id);
-		if (model.getAttribute("fromDate") == null && model.getAttribute("toDate") == null)
+		if (fromDate == null && toDate == null)
 		{
 			model.addAttribute("transactiondetails", transactionDetailsForThisProduct);
 		}
 		else
 		{
-			if(model.getAttribute("fromDate") != null && model.getAttribute("toDate") != null)
+			if(fromDate != null && toDate != null)
 			{
-				Date fromDate = (Date) model.getAttribute("fromDate");
-				Date toDate = (Date) model.getAttribute("toDate");
-				transactionDetailsForThisProduct = transactionDetailsForThisProduct.stream().filter(x -> 
-																	x.getDate().compareTo(toDate) <= 0
-																	&& x.getDate().compareTo(fromDate) >= 0)
-														   			.collect(Collectors.toList());
+				transactionDetailsForThisProduct = tdservice.findAllTransactionDetailsForProductBetweenDateRange(id, fromDate, toDate);
 				model.addAttribute("transactiondetails", transactionDetailsForThisProduct);
 			}
 			else if (model.getAttribute("fromDate") != null)
 			{
-				Date fromDate = (Date) model.getAttribute("fromDate");
-				transactionDetailsForThisProduct = transactionDetailsForThisProduct.stream().filter(x -> 
-																	x.getDate().compareTo(fromDate) >= 0)
-																	.collect(Collectors.toList());
+				transactionDetailsForThisProduct = tdservice.findAllTransactionDetailsForProductFromDate(id, fromDate);
 				model.addAttribute("transactiondetails", transactionDetailsForThisProduct);
 			}
 			else
 			{
-				Date toDate = (Date) model.getAttribute("toDate");
-				transactionDetailsForThisProduct = transactionDetailsForThisProduct.stream().filter(x -> 
-																	x.getDate().compareTo(toDate) <= 0)
-																	.collect(Collectors.toList());
+				transactionDetailsForThisProduct = tdservice.findAllTransactionDetailsForProductUpToDate(id, toDate);
 				model.addAttribute("transactiondetails", transactionDetailsForThisProduct);
 			}
 		}
@@ -161,25 +153,9 @@ public class ReportController
 		}
 		
 		String output = "report/reorder";
-		double grandTotal = 0;
-		List<List<Product>> listOfListsOfProduct = new ArrayList<>();
-		List<Supplier> suppliers = sservice.findAllSuppliers();
-		for (Supplier s:suppliers)
-		{
-			List<Product> productsThatRequireReorderBySupplier = pservice.findAllProducts().stream()
-					   .filter(x -> x.getQuantity() <= x.getReorderLevel())
-					   .filter(x -> x.getSupplier().getId() == s.getId())
-					   .collect(Collectors.toList());
-			if (productsThatRequireReorderBySupplier.size() > 0)
-			{
-				listOfListsOfProduct.add(productsThatRequireReorderBySupplier);
-				grandTotal = grandTotal + productsThatRequireReorderBySupplier.stream()
-				.mapToDouble(x -> x.getOriginalPrice() * (x.getReorderLevel() - x.getQuantity() + x.getMinOrderQty()))
-				.sum();
-			}
-		}
-		model.addAttribute("productsThatRequireReorder", listOfListsOfProduct);
-		model.addAttribute("grandTotal", grandTotal);
+		Map<Double, List<List<Product>>> reorderReport = rservice.reorderReportData();
+		model.addAttribute("productsThatRequireReorder", reorderReport.get(reorderReport.keySet().toArray()[0]));
+		model.addAttribute("grandTotal", reorderReport.keySet().toArray()[0]);
 		if (model.containsAttribute("print"))
 			output = "report/reorderreportprint";
 			model.addAttribute("timeOfReport", Date.valueOf(LocalDate.now()));

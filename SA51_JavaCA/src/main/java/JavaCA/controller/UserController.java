@@ -20,18 +20,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import JavaCA.model.ActiveType;
 import JavaCA.model.RoleType;
 import JavaCA.model.User;
-import JavaCA.service.UserImplementation;
-import JavaCA.service.UserInterface;
+import JavaCA.service.UserServiceImpl;
+import JavaCA.service.UserService;
 
 @Controller
 @RequestMapping("/user")
 public class UserController{
 
-	private UserInterface uservice;
+	private UserService uservice;
 	private HttpSession session;
 	
 	@Autowired
-	public void setServices(UserImplementation uservice, HttpSession session) {
+	public void setServices(UserServiceImpl uservice, HttpSession session) {
 		this.uservice = uservice;
 		this.session = session;
 	}

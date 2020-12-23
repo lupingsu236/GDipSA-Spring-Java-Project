@@ -20,19 +20,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import JavaCA.model.Brand;
 import JavaCA.service.BrandService;
 import JavaCA.service.BrandServiceImpl;
-import JavaCA.service.UserImplementation;
-import JavaCA.service.UserInterface;
+import JavaCA.service.UserServiceImpl;
+import JavaCA.service.UserService;
 
 @Controller
 @RequestMapping("/brand")
 public class BrandController {
 	
 	private BrandService bservice;
-	private UserInterface uservice;
+	private UserService uservice;
 	private HttpSession session;
 	
 	@Autowired
-	public void setServices(BrandServiceImpl bservice, UserImplementation uservice, HttpSession session) {
+	public void setServices(BrandServiceImpl bservice, UserServiceImpl uservice, HttpSession session) {
 		this.bservice = bservice;
 		this.uservice = uservice;
 		this.session = session;
