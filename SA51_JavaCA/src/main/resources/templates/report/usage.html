@@ -82,7 +82,7 @@
 			</div>
 		</div>
 	</div>
-	<a class="btn btn-primary" style="float: right;" th:href="@{/report/usage/} + ${product.id} + '/print'" th:if="${not #lists.isEmpty(transactiondetails)}">Print</a>
+	<a class="btn btn-primary" style="float: right;" th:href="@{/report/usage/} + ${product.id} + '/print'" target="_blank" th:if="${not #lists.isEmpty(transactiondetails)}">Print</a>
 	<br><br><br>
 
 </body>
