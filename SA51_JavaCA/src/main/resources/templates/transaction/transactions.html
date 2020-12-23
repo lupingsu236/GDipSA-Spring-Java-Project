@@ -53,14 +53,14 @@
 								<a href="#" class="btn btn-light" th:href="@{/transactiondetails/detail/} + ${t.id}"><i class="fas fa-ellipsis-h"></i></a>
 								</td>
 								<td style="text-align:center">
-								<a href="#" class="btn btn-light" th:href="@{/transaction/edit/} + ${t.id}" th:if="${(user.getRoleName() == 'ADMIN') || (t.getCarPlateNo() != null)}">
+								<a href="#" class="btn btn-light" th:href="@{/transaction/edit/} + ${t.id}" th:if="${(user.getRoleName() == 'ADMIN') || ((t.getCarPlateNo() != null) && !(t.getCarPlateNo().equals('')))}">
 								<i class="fas fa-edit"></i></a>
-								<i th:if="${(user.getRoleName() == 'MECHANIC')&&(t.getCarPlateNo() == null)}" class="fas fa-ban"></i>
+								<i th:if="${(user.getRoleName() == 'MECHANIC')&&((t.getCarPlateNo() == null) || (t.getCarPlateNo().equals('')))}" class="fas fa-ban"></i>
 								</td>
 								<td style="text-align:center">
-								<a href="#" class="btn btn-danger" th:href="@{/transaction/delete/} + ${t.id}" th:if="${(user.getRoleName() == 'ADMIN') || (t.getCarPlateNo() != null)}">
+								<a href="#" class="btn btn-danger" th:href="@{/transaction/delete/} + ${t.id}" th:if="${(user.getRoleName() == 'ADMIN') || ((t.getCarPlateNo() != null) && !(t.getCarPlateNo().equals('')))}">
 								<i class="fas fa-trash-alt"></i></a>
-								<i th:if="${(user.getRoleName() == 'MECHANIC')&&(t.getCarPlateNo() == null)}" class="fas fa-ban"></i>
+								<i th:if="${(user.getRoleName() == 'MECHANIC')&&((t.getCarPlateNo() == null) || (t.getCarPlateNo().equals('')))}" class="fas fa-ban"></i>
 								</td>
 							</tr>
 					  </tbody>
