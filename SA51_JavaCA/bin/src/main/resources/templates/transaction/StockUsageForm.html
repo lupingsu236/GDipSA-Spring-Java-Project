@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body})}">
+
+<body>
+
+<!-- <script>
+    function noBlankInteger() {
+    	if (document.getElementById("qtychange").value == ""){
+    		document.getElementById("qtychange").value = new Number("0");
+    	}
+    }
+</script> -->
+
+<div class="my-4 container-sm">
+	<br>
+	<div class="row">
+		<h3>New Stock Entry</h3>
+	</div>
+	<br>
+	<div class="row">
+		<form onsubmit="noBlankInteger();" action="" th:object="${td}" th:action="@{/transaction/newStockEntry}" method="post">
+				<div class="form-group w-200" th:if="*{id}!=0">
+					<input type="hidden" readonly class="form-control-plaintext" th:field="*{id}">
+				</div>
+				<div class="form-group w-200">
+					  <label for="prod">Select Transaction To Add To / Create New Transaction:</label>
+				      <select th:field="*{transaction.id}" class="form-control" id="prod">
+				      		<option th:value="-1">Create New Transaction</option>
+				        	<option th:each = "t : ${tl}" th:value="${t.id}" th:text="${'Transaction: ' + t.id}"></option>
+				      </select>
+				</div>
+				<div class="form-group w-200">
+					  <label for="prod">Select Product:</label>
+				      <select th:field="*{product.id}" class="form-control" id="prod">
+				        	<option th:each = "p : ${pl}" th:value="${p.id}" th:text="${p.name}"></option>
+				      </select>
+				</div>
+				<div class="form-group w-200">
+					  <label for="ttype">Select Transaction Type:</label>
+				      <select th:field="*{transactionType}" class="form-control" id="ttype">
+					        <option th:value="${type1}" th:text="${type1.toString()}" ></option>
+					        <option th:value="${type2}" th:text="${type2.toString()}" ></option>
+				      </select>
+				</div>
+				<div class="form-group w-200">
+					  <label for="quantity">Enter Quantity</label>
+					  <input id="qtychange" type="number" min="0" step="1" class="form-control" th:field="*{quantityChange}">
+					  <p style="color:red" th:if="${#fields.hasErrors('quantityChange')}">Please enter a valid integer</p>
+				</div>
+				<div class="form-group">
+				<button class="btn btn-success" type="submit" style="margin:10px">Save</button>
+		        <a class="btn btn-danger" th:href="@{/transaction/list/}" style="margin:10px">Cancel</a>
+		        </div>
+		</form>
+	</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body})}">
+
+<body>
+
+	<div class="my-4 container-sm">
+	
+	<h2>Edit form</h2><br>
+	
+	<form action="" th:object="${user}" th:action="@{/user/saveedit/}+${user.id}" method="post">
+		<div class="form-group w-50">
+		<b><label for="id">Id:</label>
+		<input type="text" readonly class="form-control-plaintext" th:field="*{id}" id="id"></b>
+		</div>
+		
+		<div class="form-group w-50">
+		<label for="fullName">Full Name:</label>
+		<input type="text" class="form-control" th:field="*{fullName}"> 
+		<p style="color:red" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></p>
+		</div>
+		
+		<div class="form-group w-50">
+		<label for="username">Username:</label>
+		<input type="text" class="form-control" th:field="*{username}"> 
+		<p style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+		<p style="color:red" th:utext="${errMsg_username}"></p>
+		</div>
+		
+		<div class="form-group w-50">
+		<label for="email">Email:</label>
+		<input type="email" class="form-control" th:field="*{email}"> 
+		<p style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+		</div>
+		
+		<div class="form-group w-50">
+		<label for="role">Role:</label>
+			<select th:field="*{role}" class="form-control" id="role">
+			<option th:each="r: ${roletypes}" th:text="${r}" th:value="${r}"></option>
+			</select>
+		</div>
+		
+		<div class="form-group w-50">
+		<label for="activetype">Status:</label>
+			<select th:field="*{activetype}" class="form-control" id="activetype">
+			<option th:value="ACTIVE">ACTIVE</option>
+			<option th:value="INACTIVE">INACTIVE</option>
+			</select>
+		</div> 
+		
+		<div class="form-group">
+        <button class="btn btn-success" type="submit" style="margin:10px">Save</button>
+        <a class="btn btn-danger" th:href="@{/user/list}" style="margin:10px">Cancel</a>
+		</div>
+	</form>
+	
+	</div>
+	
+</body>
+</html>

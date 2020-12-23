@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body})}">
+<!-- For update -->
+<body>
+<div class="my-4 container-sm">
+	<br>
+	<div class="row">
+			<div class="col-sm-9"> <h3>New Transaction</h3></div>
+	</div>
+	
+	<div class="row">
+		<form action="" th:object="${t}" th:action="@{/transaction/saveTransaction/}" method="post">
+				<div class="form-group w-100">
+				<input type="hidden" class="form-control" th:field="*{id}">
+				<label for="carPlateNo">Enter Car Plate Number</label>
+				<input type="text" class="form-control" th:field="*{carPlateNo}"> 
+				<p style="color:red" th:if="${#fields.hasErrors('carPlateNo')}" th:errors="*{carPlateNo}">Please enter a valid car plate no</p>
+				</div>
+				<div class="form-group">
+				<button class="btn btn-success" type="submit" style="margin:10px">Save</button>
+		        <a th:if="${preView == 'car'}" class="btn btn-danger" th:href="@{/transaction/car}" style="margin:10px">Cancel</a>
+		        <a th:if="${preView == 'all'}" class="btn btn-danger" th:href="@{/transaction/all}" style="margin:10px">Cancel</a>
+		        </div>
+		</form>
+	</div>
+</div>
+</body>
+</html>

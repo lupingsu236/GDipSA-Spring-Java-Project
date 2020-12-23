@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body})}">
+
+<body>
+
+	<div class="my-4 container-sm">
+	<div class="row">
+		<div class="col-sm-10"> <h3 th:text="${s.id}? 'Edit Supplier' : 'Add Supplier'">Add/Edit Supplier</h3></div>
+		</div>
+	</div>
+	
+	<div class = "row mx-4">
+	<form action="" th:action="@{/supplier/save}" method="post">
+	<div class="row" th:object="${s}">
+		<div class="col-sm mr-2">
+			
+			<table class="table table-bordered table-sm"> 
+			<thead class="thead-light">
+				<tr> <th colspan=2>Supplier</th></tr>
+			</thead>
+			
+			<tr th:if="*{id}!=0"><td class="pt-2">Id:</td> 
+			<td><input type="text" readonly class="form-control-plaintext" th:field="*{id}"></td>
+			</tr>
+			
+			<tr><td class="pt-2">Name:</td> 
+			<td><input type="text" class="form-control" th:field="*{supplierName}"> 
+			<p style="color:red" th:if="${#fields.hasErrors('supplierName')}" th:errors="*{supplierName}"></p>
+			<p style="color:red" th:text="${errMsg}"></p></td>
+			</tr>
+			
+			</table>
+		</div>
+		
+	</div>
+	
+	<div class="row float-right">
+	       <button class="btn btn-success" type="submit" style="margin:10px">Save</button> 
+	       <a class="btn btn-danger" th:href="@{/supplier}" style="margin:10px">Cancel</a>
+	</div>
+	</form>
+	</div>
+	
+</body>
+</html>

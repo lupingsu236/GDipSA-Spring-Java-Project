@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body})}">
+
+<body>
+
+<div th:if="${from}=='delete'" class="alert alert-success alert-dismissible fade show" role="alert">
+  Brand has been successfully deleted!
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div th:if="${from}=='save'" class="alert alert-success alert-dismissible fade show" role="alert">
+  Brand has been successfully saved!
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div th:if="${from}=='delete_error'" class="alert alert-danger alert-dismissible fade show" role="alert">
+  Brand cannot be deleted as there are existing products!
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+
+<div class="my-4 container-sm">
+	
+	<div class="row">
+		<div class="col-sm-8"> <h3>Brands</h3></div>
+		<div class="col-sm">
+		<a href="#" class="btn btn-info" th:href="@{/brand/new/}" th:if="${session.usession.role} == ${session.admin}">Add New Brand</a>
+		</div>
+	</div>
+	
+	<div class = "row my-4 mx-2">
+	<div class="card mb-4">
+          <div class="card-header">
+              <i class="fas fa-table mr-1"></i>
+              Brands
+          </div>
+          <div class="card-body">
+              <div class="table-responsive">
+                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                      <thead>
+                          <tr>
+                             	<th>Id</th>
+								<th>Name</th>
+								<th style="text-align:center">No. of Products</th>
+								<th style="text-align:center">View Products</th>
+								<th style="text-align:center" th:if="${session.usession.role} == ${session.admin}">Edit</th>
+								<th style="text-align:center" 
+								th:if="${session.usession.role} == ${session.admin}">Delete</th>
+                          </tr>
+                      </thead>
+                      <tfoot>
+                          <tr>
+                                <th>Id</th>
+								<th>Name</th>
+								<th style="text-align:center">No. of Products</th>
+								<th style="text-align:center">View Products</th>
+								<th style="text-align:center" 
+								th:if="${session.usession.role} == ${session.admin}">Edit</th>
+								<th style="text-align:center" 
+								th:if="${session.usession.role} == ${session.admin}">Delete</th>
+                          </tr>
+                      </tfoot>
+                      <tbody>
+                            <tr th:each="b : ${brands}">
+							<td th:text="${b.id}" style="vertical-align:middle"></td>
+							<td th:text="${b.name}" style="vertical-align:middle"></td>
+							<td th:text="${b.products.size()}" style=" text-align:center; vertical-align:middle"></td>
+							<td style="text-align:center; vertical-align:middle">
+							<a href="#" class="btn btn-light" th:href="@{/product/search/}+'?bid='+${b.id}">
+							<i class="fas fa-ellipsis-h"></i></a>
+							</td>
+							<td th:if="${session.usession.role} == ${session.admin}" style="text-align:center; vertical-align:middle">
+							<a href="#" class="btn btn-light" th:href="@{/brand/edit/}+${b.id}">
+							<i class="fas fa-edit"></i></a>
+							</td>
+							<td th:if="${session.usession.role} == ${session.admin}" style="text-align:center; vertical-align:middle">
+							<a th:if="${b.products.size()}==0" href="#" class="btn btn-danger" th:href="@{/brand/delete/}+${b.id}" 
+							onclick="return confirm('Are you sure you want to delete the brand?')">
+							<i class="fas fa-trash-alt"></i></a>
+							<span th:if="${b.products.size()}!=0" style="font-style: italic">Cannot be deleted</span>
+							</td>
+						
+							</tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+      </div>
+</div>
+      
+	
+</body>
+</html>
