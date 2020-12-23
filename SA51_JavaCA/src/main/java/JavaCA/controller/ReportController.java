@@ -22,7 +22,6 @@ import JavaCA.service.ProductService;
 import JavaCA.service.ProductServiceImpl;
 import JavaCA.service.ReportService;
 import JavaCA.service.ReportServiceImpl;
-import JavaCA.service.SupplierService;
 import JavaCA.service.SupplierServiceImpl;
 import JavaCA.service.TransactionDetailsService;
 import JavaCA.service.UserServiceImpl;
@@ -34,7 +33,6 @@ public class ReportController
 {
 	private ProductServiceImpl pservice;
 	private TransactionDetailsService tdservice;
-	private SupplierService sservice;
 	private UserService uservice;
 	private ReportService rservice;
 	private HttpSession session;
@@ -45,7 +43,6 @@ public class ReportController
 	{
 		this.pservice = pservice;
 		this.tdservice = tdservice;
-		this.sservice = sservice;
 		this.uservice = uservice;
 		this.rservice = rservice;
 		this.session = session;
