@@ -60,12 +60,13 @@ public class TransactionController
 	}
 	
 	@RequestMapping("/all")
-	public String viewAllTransactions(Model model, @ModelAttribute("success") String success, HttpSession session)
+	public String viewAllTransactions(Model model, @ModelAttribute("success") String success)
 	{
 		//check if user has logged in, otherwise redirect
 		if(!uservice.verifyLogin(session)) {
 			return "redirect:/";
 		}
+		
 		//List all transactions
 		List<Transaction> all = transactionService.listAllTransactions();
 		model.addAttribute("transactions", all);

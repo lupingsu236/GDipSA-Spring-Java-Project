@@ -44,7 +44,7 @@ public class LoginController {
 	
 	
 	@RequestMapping(path = {"/", "/login"})
-	public String login(Model model, HttpSession session) 
+	public String login(Model model) 
 	{
 		session.setAttribute("admin", RoleType.ADMIN);
 		if (session.getAttribute("usession") != null) {
@@ -55,7 +55,7 @@ public class LoginController {
 	}
 	
 	@RequestMapping(path = "/authenticate")
-	public String authenticate(@ModelAttribute("user") User user, Model model, HttpSession session) {
+	public String authenticate(@ModelAttribute("user") User user, Model model) {
 		if(uservice.authenticate(user)) 
 		{
 			User u = uservice.findByName(user.getUsername());
