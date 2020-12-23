@@ -6,7 +6,9 @@
 	
 	<div class="row">
 		<div class="col-sm-9"> <h3>Transaction Detail for Transaction ID <span th:utext="${transaction.id}"></span></h3></div>
-		<div class="col-sm"><a th:href="@{/transactiondetails/new/} + ${transaction.id}" class="btn btn-info">New Transaction Detail</a></div>
+			<div class="col-sm" th:unless="${(user.getRoleName == 'MECHANIC') && (transaction.getCarPlateNo() == null)}">
+				<a th:href="@{/transactiondetails/new/} + ${transaction.id}" class="btn btn-info">New Transaction Detail</a>
+			</div>
 	</div>
 	<br>
 	<div class="row">
@@ -32,17 +34,20 @@
 			th:utext="${td.product.name}">Product</a>
 			</td>
 			<td>
-			<a href="#" class="btn btn-light" th:href="@{/transactiondetails/edit/} + ${td.id}">Edit</a>
+			<a href="#" class="btn btn-light" th:href="@{/transactiondetails/edit/} + ${td.id}" 
+			th:unless="${(user.getRoleName == 'MECHANIC') && (transaction.getCarPlateNo() == null)}">Edit</a>
+			<i th:if="${(user.getRoleName == 'MECHANIC') && (transaction.getCarPlateNo() == null)}" class="fas fa-ban"></i>
 			</td>
 			<td>
-			<a href="#" class="btn btn-danger" th:href="@{/transactiondetails/delete/} + ${td.id}">Delete</a>
+			<a href="#" class="btn btn-danger" th:href="@{/transactiondetails/delete/} + ${td.id}" 
+			th:unless="${(user.getRoleName == 'MECHANIC') && (transaction.getCarPlateNo() == null)}">Delete</a>
+			<i th:if="${(user.getRoleName == 'MECHANIC') && (transaction.getCarPlateNo() == null)}" class="fas fa-ban"></i>
 			</td>
 		</tr>
 	</table>
 	<div class="row">
 		<div class="col-sm">
-		<a th:unless="${preView == 'all'}" th:href="@{/transaction/car}" class="btn btn-dark">View Transactions</a>
-		<a th:if="${preView == 'all'}" th:href="@{/transaction/all}" class="btn btn-dark">View Transactions</a>
+		<a th:href="@{/transaction/all}" class="btn btn-dark">View Transactions</a>
 		</div>
 	</div>
 

@@ -1,7 +1,9 @@
 package JavaCA.controller;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import JavaCA.model.Product;
@@ -69,7 +73,7 @@ public class TransactionController
 		//List all transactions
 		List<Transaction> all = transactionService.listAllTransactions();
 		model.addAttribute("transactions", all);
-		//Receives success/failure from redirectattributes model, send to view for notification
+		//Receives success/failure from redirectattr"/transaction/alltransactiondetail"ibutes model, send to view for notification
 		model.addAttribute("success", success);
 		//Remember page to return to this page upon cancellation of form
 		session.setAttribute("preView", "allt");

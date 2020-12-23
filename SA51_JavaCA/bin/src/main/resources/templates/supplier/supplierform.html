@@ -5,11 +5,12 @@
 
 	<div class="my-4 container-sm">
 	<div class="row">
-		<div class="col-sm-10"> <h3 th:text="${s.id}? 'Edit Supplier' : 'Add Supplier'">Add/Edit Supplier</h3></div>
+		<div class="col-sm-10"> <h3 th:text="${s.id}? 'Edit Supplier' : 'Add Supplier'">Add/Edit Supplier</h3>
 		</div>
 	</div>
+	<br>
 	
-	<div class = "row mx-4">
+	<div class = "row mx-2">
 	<form action="" th:action="@{/supplier/save}" method="post">
 	<div class="row" th:object="${s}">
 		<div class="col-sm mr-2">
@@ -39,6 +40,7 @@
 	       <a class="btn btn-danger" th:href="@{/supplier}" style="margin:10px">Cancel</a>
 	</div>
 	</form>
+	</div>
 	</div>
 	
 </body>
