@@ -4,6 +4,7 @@
 <body>
 
 <!-- <script>
+//form: onsubmit="noBlankInteger();"
     function noBlankInteger() {
     	if (document.getElementById("qtychange").value == ""){
     		document.getElementById("qtychange").value = new Number("0");
@@ -18,7 +19,7 @@
 	</div>
 	<br>
 	<div class="row">
-		<form onsubmit="noBlankInteger();" action="" th:object="${td}" th:action="@{/transaction/newStockEntry}" method="post">
+		<form action="" th:object="${td}" th:action="@{/transaction/newStockEntry}" method="post">
 				<div class="form-group w-200" th:if="*{id}!=0">
 					<input type="hidden" readonly class="form-control-plaintext" th:field="*{id}">
 				</div>

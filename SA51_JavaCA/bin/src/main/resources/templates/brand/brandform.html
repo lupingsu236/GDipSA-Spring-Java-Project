@@ -7,9 +7,9 @@
 	<div class="row">
 		<div class="col-sm-10"> <h3 th:text="${b.id}? 'Edit Brand' : 'Add Brand'">Add/Edit Brand</h3></div>
 		</div>
-	</div>
 	
-	<div class = "row mx-4">
+	<br>
+	<div class = "row mx-2">
 	<form action="" th:action="@{/brand/save}" method="post">
 	<div class="row" th:object="${b}">
 		<div class="col-sm mr-2">
@@ -39,6 +39,7 @@
 	       <a class="btn btn-danger" th:href="@{/brand}" style="margin:10px">Cancel</a>
 	</div>
 	</form>
+	</div>
 	</div>
 	
 </body>

@@ -174,4 +174,5 @@ public class TransactiondetailsController {
 		}
 		return "redirect:/transactiondetails/detail/" + t.getId();
 	}
+	
 }

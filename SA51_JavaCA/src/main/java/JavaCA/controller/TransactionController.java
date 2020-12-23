@@ -1,7 +1,9 @@
 package JavaCA.controller;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import JavaCA.model.Product;
@@ -69,7 +73,7 @@ public class TransactionController
 		//List all transactions
 		List<Transaction> all = transactionService.listAllTransactions();
 		model.addAttribute("transactions", all);
-		//Receives success/failure from redirectattributes model, send to view for notification
+		//Receives success/failure from redirectattr"/transaction/alltransactiondetail"ibutes model, send to view for notification
 		model.addAttribute("success", success);
 		//Remember page to return to this page upon cancellation of form
 		session.setAttribute("preView", "allt");
@@ -247,5 +251,57 @@ public class TransactionController
 		String success = String.valueOf(transactionService.saveTransaction(t));
 		redirectModel.addFlashAttribute("success", success);
 		return "redirect:/transaction/all";
+	}
+	
+	@PostMapping("/daterange")
+	public String viewAllTransactionsDetailsByDateRange(@RequestParam String startDate, @RequestParam String endDate, 
+			Model model, HttpSession session)
+	{
+		//check if user has logged in, otherwise redirect
+		if(!uservice.verifyLogin(session)) {
+			return "redirect:/";
+		}
+		//List all transaction details
+		List<TransactionDetail> td = tdService.findAllTransactionDetails();
+		
+		//Modify transaction details based on date IF dates are valid
+		if (!TransactionDetailsService.isValidDateFormat(startDate))
+			{model.addAttribute("errorMsgStartDate", "Input must be in the format of yyyy-MM-dd");}
+		if (!TransactionDetailsService.isValidDateFormat(endDate))
+			{model.addAttribute("errorMsgEndDate", "Input must be in the format of yyyy-MM-dd");}
+		
+		if(TransactionDetailsService.isValidDateFormat(startDate) && TransactionDetailsService.isValidDateFormat(endDate)) {
+			if (!startDate.isBlank() && !endDate.isBlank()){
+				Date fromDate = Date.valueOf(startDate);
+				Date toDate = Date.valueOf(endDate);
+				td = td.stream().filter(x -> 
+									x.getDate().compareTo(toDate) <= 0
+									&& x.getDate().compareTo(fromDate) >= 0)
+						   			.collect(Collectors.toList());
+				model.addAttribute("startDate", startDate);
+				model.addAttribute("endDate", endDate);
+			}
+			else if (!startDate.isBlank()) {
+				Date fromDate = Date.valueOf(startDate);
+				td = td.stream().filter(x -> 
+								x.getDate().compareTo(fromDate) >= 0)
+								.collect(Collectors.toList());
+				model.addAttribute("startDate", startDate);
+			}
+			else if (!endDate.isBlank()){
+				Date toDate = Date.valueOf(endDate);
+				td = td.stream().filter(x ->
+									x.getDate().compareTo(toDate) <= 0)
+									.collect(Collectors.toList());
+				model.addAttribute("endDate", endDate);
+			}
+		}
+		model.addAttribute("transactiondetail", td);
+		//View changes dynamically depending on the user role type
+		User user = (User) session.getAttribute("usession");
+		model.addAttribute("user", user);
+		//Remember page to return to this page upon cancellation of form
+		session.setAttribute("preView", "alltd");
+		return "/transaction/alltransactiondetail";
 	}
 }

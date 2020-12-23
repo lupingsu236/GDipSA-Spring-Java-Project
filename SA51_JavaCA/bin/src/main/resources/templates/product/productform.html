@@ -5,11 +5,13 @@
 
 	<div class="my-4 container-sm">
 	<div class="row">
-		<div class="col-sm-10"> <h3 th:text="${p.id}? 'Edit Product' : 'Add Product'">Add/Edit Product</h3></div>
+		<div class="col-sm-10"> <h3 th:text="${p.id}? 'Edit Product' : 'Add Product'">Add/Edit Product</h3>
 		</div>
 	</div>
 	
-	<div class = "row mx-4">
+	<br>
+	
+	<div class = "row mx-3">
 	<form action="" th:action="@{/product/save}" method="post">
 	<div class="row" th:object="${p}">
 		<div class="col-sm-6 mr-2">
@@ -20,7 +22,7 @@
 			</thead>
 			
 			<tr th:if="*{id}!=0"><td class="pt-2">Id:</td> 
-			<td><input type="text" readonly class="form-control-plaintext" th:field="*{id}"></td>
+			<td><input type="text" readonly class="form-control" th:field="*{id}"></td>
 			</tr>
 			
 			<tr><td class="pt-2">Name:</td> 
@@ -79,12 +81,12 @@
 			</thead>
 			
 			<tr><td class="pt-2">Quantity:<br>
-			<span th:if="*{id}==0" style="font-style:italic; color:gray; font-size:small;"> 
-			Set as 0 if initial order has yet to be made</span>
+			<a th:href=@{/transaction/newStockEntry} target="_blank" th:if="*{id}==0" style="font-style:italic; color:blue; font-size:small;"> 
+			Enter stock for initial order here after saving product</a>
 			</td> 
-			<td th:if="*{id}==0"><input type="text" class="form-control" th:field="*{quantity}"> 
-				<p style="color:red" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></p></td>
-			<td th:if="*{id}!=0"><input readonly type="text" class="form-control-plaintext" th:field="*{quantity}"></td>
+			<!-- <td th:if="*{id}==0"><input readonly type="text" class="form-control" th:field="*{quantity}"></td>
+			<td th:if="*{id}!=0"><input readonly type="text" class="form-control" th:field="*{quantity}"></td>-->
+			<td><input readonly type="text" class="form-control" th:field="*{quantity}"></td>
 			<td th:if="*{id}!=0"><a class="btn btn-info" th:href="@{/transaction/newStockEntry}">Edit</a></td>
 			</tr>
 			
@@ -146,6 +148,7 @@
 		</div>
 	</div>
 	</form>
+	</div>
 	</div>
 	
 </body>

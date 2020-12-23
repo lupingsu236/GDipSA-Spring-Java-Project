@@ -5,12 +5,13 @@
 	<div class="my-4 container-sm">
 	
 	<div class="row">
-		<div th:if="${preView == 'car'}" class="col-sm-7"> <h3>Car Transactions</h3></div>
-		<div th:if="${preView == 'all'}" class="col-sm-7"> <h3>All Transactions</h3></div>
+		<!-- <div th:if="${preView == 'car'}" class="col-sm-7"> <h3>Car Transactions</h3></div> -->
+		<div class="col-sm-7"  th:if="${user.getRoleName() == 'ADMIN'}" > <h3>All Transactions</h3></div>
+		<div class="col-sm-9"  th:if="${user.getRoleName() != 'ADMIN'}" > <h3>All Transactions</h3></div>
 		<div class="col-sm">
 		<a th:href="@{/transaction/new}" class="btn btn-info">New Stock Usage</a>
 		</div>
-		<div class="col-sm">
+		<div class="col-sm" th:if="${user.getRoleName() == 'ADMIN'}" >
 		<a th:href="@{/transaction/newStockEntry}" class="btn btn-info">New Stock Entry</a>
 		</div>
 	</div>
@@ -47,16 +48,21 @@
 					  <tbody>
 					  		<tr th:each="t : ${transactions}">
 								<td th:utext="${t.id}"></td>
-								<td th:utext="${t.carPlateNo}"></td>
+								<td style="font-style: italic; color:gray" th:utext="'None'" th:if="${#strings.isEmpty(t.carPlateNo)}"></td>
+								<td th:utext="${t.carPlateNo}" th:if="${not #strings.isEmpty(t.carPlateNo)}"></td>
 								<td th:utext="${t.user.fullName}"></td>
 								<td style="text-align:center">
 								<a href="#" class="btn btn-light" th:href="@{/transactiondetails/detail/} + ${t.id}"><i class="fas fa-ellipsis-h"></i></a>
 								</td>
 								<td style="text-align:center">
-								<a href="#" class="btn btn-light" th:href="@{/transaction/edit/} + ${t.id}"><i class="fas fa-edit"></i></a>
+								<a href="#" class="btn btn-light" th:href="@{/transaction/edit/} + ${t.id}" th:if="${(user.getRoleName() == 'ADMIN') || ((t.getCarPlateNo() != null) && !(t.getCarPlateNo().equals('')))}">
+								<i class="fas fa-edit"></i></a>
+								<i th:if="${(user.getRoleName() == 'MECHANIC')&&((t.getCarPlateNo() == null) || (t.getCarPlateNo().equals('')))}" class="fas fa-ban"></i>
 								</td>
 								<td style="text-align:center">
-								<a href="#" class="btn btn-danger" th:href="@{/transaction/delete/} + ${t.id}"><i class="fas fa-trash-alt"></i></a>
+								<a href="#" class="btn btn-danger" th:href="@{/transaction/delete/} + ${t.id}" th:if="${(user.getRoleName() == 'ADMIN') || ((t.getCarPlateNo() != null) && !(t.getCarPlateNo().equals('')))}">
+								<i class="fas fa-trash-alt"></i></a>
+								<i th:if="${(user.getRoleName() == 'MECHANIC')&&((t.getCarPlateNo() == null) || (t.getCarPlateNo().equals('')))}" class="fas fa-ban"></i>
 								</td>
 							</tr>
 					  </tbody>

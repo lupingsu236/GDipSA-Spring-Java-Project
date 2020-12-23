@@ -10,21 +10,18 @@
 	<div class="row m-3">
 		<form action="" th:action="@{/report/search/}" method="post">
 		<fieldset>Product Id:</fieldset>
-		<fieldset> <input type="text" name="id" th:value="${id}">
+		<fieldset> <input class="form-control" type="text" name="id" th:value="${id}">
 		<p style="color:red" th:if="${errorMsgId != null}" th:utext="${errorMsgId}"></p></fieldset>
-		<br>
 		<fieldset>From Date:</fieldset>
-		<fieldset><input type="text" name="fromDate" th:value="${fromDate}" placeholder="yyyy-MM-dd">
+		<fieldset><input class="form-control" type="text" name="fromDate" th:value="${fromDate}" placeholder="yyyy-MM-dd">
 		<p style="color:red" th:if="${errorMsgFromDate != null}" th:utext="${errorMsgFromDate}"></p></fieldset>
 		<fieldset><span style="font-style: italic; color: gray; font-size:small">You may leave this field empty if you want to include all past records.</span></fieldset>
-		<br>
 		<fieldset>To Date:</fieldset>
-		<fieldset><input type="text" name="toDate" th:value="${toDate}" placeholder="yyyy-MM-dd">
+		<fieldset><input class="form-control" type="text" name="toDate" th:value="${toDate}" placeholder="yyyy-MM-dd">
 		<p style="color:red" th:if="${errorMsgToDate != null}" th:utext="${errorMsgToDate}"></p></fieldset>
 		<fieldset><span style="font-style: italic; color: gray; font-size:small">You may leave this field empty if you want to include all records up to today.</span></fieldset>
 		<fieldset>
-			<br>
-			<button class="btn btn-primary" type="submit">Generate report</button>
+		<button class="btn btn-primary" type="submit">Generate report</button>
 		</fieldset>
 		</form>
 	</div>
@@ -82,7 +79,7 @@
 			</div>
 		</div>
 	</div>
-	<a class="btn btn-primary" style="float: right;" th:href="@{/report/usage/} + ${product.id} + '/print'" th:if="${not #lists.isEmpty(transactiondetails)}">Print</a>
+	<a class="btn btn-primary" style="float: right;" th:href="@{/report/usage/} + ${product.id} + '/print'" target="_blank" th:if="${not #lists.isEmpty(transactiondetails)}">Print</a>
 	<br><br><br>
 
 </body>
