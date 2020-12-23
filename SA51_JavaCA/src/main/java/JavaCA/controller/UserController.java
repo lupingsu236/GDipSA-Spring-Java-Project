@@ -59,8 +59,7 @@ public class UserController{
 			return "/user/userform";
 		}
 		
-		User u = uservice.findByName(user.getUsername());
-		if(u!=null) {
+		if(uservice.isUsernameUsed(user.getUsername())) {
 			model.addAttribute("Errmsgname","The username has been used.");
 			return "/user/userform";
 		}
@@ -80,21 +79,24 @@ public class UserController{
 		}		
 	
 		User u = uservice.findById(id);
+		
+		//if change in username and new username has been used
+		if(!user.getUsername().equals(u.getUsername()) && uservice.isUsernameUsed(user.getUsername())) {
+			model.addAttribute("errMsg_username","The username has been used.");
+			model.addAttribute("roletypes", uservice.getRoleTypes());
+			return "/user/usereditform";
+		}
+		
+		//else set new info and update user
 		u.setEmail(user.getEmail());
 		u.setFullName(user.getFullName());
 		u.setUsername(user.getUsername());
 		u.setRole(user.getRole());
 		u.setActivetype(user.getActivetype());
-		
-		User ucheck = uservice.findByUsername(u.getUsername());
-		if(ucheck==u||ucheck==null) {
-			uservice.updateUser(u);
-			return "redirect:/user";
-		}
-		else {
-			model.addAttribute("errMsg_username","The username has been used.");
-			return "/user/usereditform";
-		}		
+
+		uservice.updateUser(u);
+		return "redirect:/user";
+			
 	}
 	
 	@RequestMapping(value = {"", "/list"}, method = RequestMethod.GET)

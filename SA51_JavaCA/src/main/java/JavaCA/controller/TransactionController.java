@@ -1,9 +1,7 @@
 package JavaCA.controller;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -19,8 +17,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import JavaCA.model.Product;
@@ -28,14 +24,14 @@ import JavaCA.model.Transaction;
 import JavaCA.model.TransactionDetail;
 import JavaCA.model.TransactionType;
 import JavaCA.model.User;
-import JavaCA.service.TransactionDetailsServiceImpl;
 import JavaCA.service.ProductService;
 import JavaCA.service.ProductServiceImpl;
 import JavaCA.service.TransactionDetailsService;
+import JavaCA.service.TransactionDetailsServiceImpl;
+import JavaCA.service.TransactionService;
 import JavaCA.service.TransactionServiceImpl;
 import JavaCA.service.UserImplementation;
 import JavaCA.service.UserInterface;
-import JavaCA.service.TransactionService;
 
 @Controller
 @RequestMapping("/transaction")

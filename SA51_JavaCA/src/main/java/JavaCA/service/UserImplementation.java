@@ -98,6 +98,16 @@ public class UserImplementation implements UserInterface {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public boolean isUsernameUsed(String username) {
+		User u = findByName(username);
+		if (u!=null)
+		{
+			return true;
+		}
+		return false;
 	}	
 	
 }

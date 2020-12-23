@@ -21,4 +21,5 @@ public interface UserInterface {
 	ArrayList<String> getRoleTypes();
 	boolean verifyAdmin(HttpSession session);
 	boolean verifyLogin(HttpSession session);
+	boolean isUsernameUsed(String username);
 }
