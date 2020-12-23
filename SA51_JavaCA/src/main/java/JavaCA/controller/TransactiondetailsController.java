@@ -117,18 +117,25 @@ public class TransactiondetailsController {
 		td.setProduct(p);
 		String success = String.valueOf(tdService.saveTransactionDetail(td));
 		redirectModel.addFlashAttribute("success", success);
+		if (session.getAttribute("preView") == "products") {
+			return "redirect:/transaction/list/" + td.getProduct().getId();
+		}
 		return "redirect:/transactiondetails/detail/" + t.getId();
 	}
 	
 	@RequestMapping("/edit/{tdid}")
-	public String editTransactionDetails(@PathVariable("tdid") int tdid, Model model) {
+	public String editTransactionDetails(@PathVariable("tdid") int tdid, Model model, HttpSession session) {
 		//check if user has logged in, otherwise redirect
 		if(!uservice.verifyLogin(session)) {
 			return "redirect:/";
 		}
 		
 		TransactionDetail td = tdService.findTransactionDetailById(tdid);
+		model.addAttribute("td", td);
+		
 		List<Product> productList = productService.findAllProducts();
+		model.addAttribute("pl", productList);
+		
 		//Change paired-options depending on transaction type
 		if((td.getTransactionType().toString() == "ORDER")||(td.getTransactionType().toString() == "RETURN")) {
 			model.addAttribute("type1", TransactionType.ORDER);
@@ -139,15 +146,15 @@ public class TransactiondetailsController {
 			model.addAttribute("type2", TransactionType.DAMAGED);
 		}
 		
-		model.addAttribute("pl", productList);
-		model.addAttribute("td", td);
 		long tid = td.getTransaction().getId();
 		model.addAttribute("tid", tid);
+		
+		model.addAttribute("preView", session.getAttribute("preView"));
 		return "/transaction/TransactionDetailForm";
 	}
 	
 	@RequestMapping("/delete/{id}")
-	public String deleteTransactionDetails(@PathVariable("id") int id,  RedirectAttributes redirectModel) {
+	public String deleteTransactionDetails(@PathVariable("id") int id,  RedirectAttributes redirectModel, HttpSession session) {
 		//check if user has logged in, otherwise redirect
 		if(!uservice.verifyLogin(session)) {
 			return "redirect:/";
@@ -161,6 +168,9 @@ public class TransactiondetailsController {
 		if (transactionService.noTransactionDetailsInNullTransaction(t)) {
 			transactionService.deleteTransaction(t);
 			return "redirect:/transaction/list";
+		}
+		if (session.getAttribute("preView") == "products") {
+			return "redirect:/transaction/list/" + td.getProduct().getId();
 		}
 		return "redirect:/transactiondetails/detail/" + t.getId();
 	}

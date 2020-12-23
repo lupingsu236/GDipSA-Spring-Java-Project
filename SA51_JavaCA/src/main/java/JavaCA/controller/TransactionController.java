@@ -117,6 +117,7 @@ public class TransactionController
 		//View changes dynamically depending on the user role type
 		User user = (User) session.getAttribute("usession");
 		model.addAttribute("user", user);
+		session.setAttribute("preView", "products");
 		return "/transaction/alltransactiondetail";
 	}
 	
