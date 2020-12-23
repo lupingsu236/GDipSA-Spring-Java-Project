@@ -27,7 +27,7 @@
 								<th>Original Price</th>
 								<th>Quantity</th>
 								<th>Reorder Level</th>
-								<th>Minimum order quantity</th>
+								<th>Min order quantity</th>
 								<th>Quantity to order</th>
                           </tr>
                       </thead>
@@ -56,7 +56,7 @@
 			</div>
 		</div>
 	</div>
-	<a class="btn btn-primary" style="float: right;" th:href="@{/report/reorder/print}" th:if="${not #lists.isEmpty(productsThatRequireReorder)}">Print</a>
+	<a class="btn btn-primary" style="float: right;" th:href="@{/report/reorder/print}" target="_blank" th:if="${not #lists.isEmpty(productsThatRequireReorder)}">Print</a>
 	<br><br>
 </div>
 </body>

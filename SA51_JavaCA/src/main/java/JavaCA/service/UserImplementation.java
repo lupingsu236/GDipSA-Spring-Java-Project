@@ -83,7 +83,10 @@ public class UserImplementation implements UserInterface {
 	public boolean verifyAdmin(HttpSession session)
 	{
 		User u = (User) session.getAttribute("usession");
-		if (u.getRole() == RoleType.ADMIN) {
+		if (u == null) {
+			return false;
+		}
+		else if (u.getRole() == RoleType.ADMIN) {
 			return true;
 		}
 		return false;
