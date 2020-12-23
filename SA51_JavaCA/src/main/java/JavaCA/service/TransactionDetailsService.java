@@ -17,6 +17,10 @@ public interface TransactionDetailsService {
 	List<TransactionDetail> findAllTransactionDetailsForProductBetweenDateRange(long productId, Date fromDate, Date toDate);
 	List<TransactionDetail> findAllTransactionDetailsForProductFromDate(long productId, Date fromDate);
 	List<TransactionDetail> findAllTransactionDetailsForProductUpToDate(long productId, Date toDate);
+	
+	List<TransactionDetail> findAllTransactionDetailsBetweenDateRange(Date fromDate, Date toDate);
+	List<TransactionDetail> findAllTransactionDetailsFromDate(Date fromDate);
+	List<TransactionDetail> findAllTransactionDetailsUpToDate(Date toDate);
 	public static boolean isValidDateFormat(String s)
 	{
 		boolean output = true;

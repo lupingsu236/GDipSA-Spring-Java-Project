@@ -16,4 +16,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long>
 	
 	@Query( value = "SELECT * FROM transaction t WHERE t.car_plate_no IS null", nativeQuery = true)
 	List<Transaction> findAllNonCarTransactions();
+	
+	@Query(value = "SELECT * FROM transaction t WHERE t.id = :id", nativeQuery = true)
+	Transaction findByTransactionId(@Param("id") long tid);
 }

@@ -15,6 +15,5 @@ public interface TransactionService
 	boolean saveTransaction(Transaction transaction);
 	boolean deleteTransaction(Transaction transaction);
 	void deleteAllRelatedToPdt(Transaction transaction);
-	boolean noTransactionDetailsInNullTransaction(Transaction transaction);
-	//to force update
+//	boolean noTransactionDetailsInNullTransaction(Transaction transaction);
 }

@@ -79,48 +79,6 @@ public class TransactionController
 		return "/transaction/transactions";
 	}
 	
-	@RequestMapping("/list")
-	public String viewAllTransactionsDetails(Model model, @ModelAttribute("success") String success, HttpSession session)
-	{
-		//check if user has logged in, otherwise redirect
-		if(!uservice.verifyLogin(session)) {
-			return "redirect:/";
-		}
-		//List all transaction details
-		List<TransactionDetail> td = tdService.findAllTransactionDetails();
-		model.addAttribute("transactiondetail", td);
-		//Receives success/failure from redirectattributes model, send to view for notification
-		model.addAttribute("success", success);	
-		//View changes dynamically depending on the user role type
-		User user = (User) session.getAttribute("usession");
-		model.addAttribute("user", user);
-		//Remember page to return to this page upon cancellation of form
-		session.setAttribute("preView", "alltd");
-		return "/transaction/alltransactiondetail";
-	}
-	
-	@RequestMapping("/list/{productid}")
-	public String viewAllProductTransactions(@PathVariable("productid") int id, Model model, 
-			@ModelAttribute("success") String success)
-	{
-		//check if user has logged in, otherwise redirect
-		if(!uservice.verifyLogin(session)) {
-			return "redirect:/";
-		}
-		//List all PRODUCT transaction details
-		List<TransactionDetail> td = transactionService.listAllProductTransactions(id);
-		model.addAttribute("transactiondetail", td);
-		//To display header message as "product" instead of "all"
-		model.addAttribute("message", "product");
-		//Receives success/failure from redirectattributes model, send to view for notification
-		model.addAttribute("success", success);
-		//View changes dynamically depending on the user role type
-		User user = (User) session.getAttribute("usession");
-		model.addAttribute("user", user);
-		session.setAttribute("preView", "products");
-		return "/transaction/alltransactiondetail";
-	}
-	
 	@RequestMapping("/delete/{id}")
 	public String deleteTransactionAndTransactionDetails(@PathVariable("id") int id, RedirectAttributes redirectModel)
 	{
@@ -217,7 +175,7 @@ public class TransactionController
 		String success = String.valueOf(tdService.saveTransactionDetail(td));
 		//Pass success true/false by redirect model
 		redirectModel.addFlashAttribute("success", success);
-		return "redirect:/transaction/list/" + td.getProduct().getId();
+		return "redirect:/transactiondetails/list/" + td.getProduct().getId();
 	}
 	
 	@GetMapping("/edit/{id}")

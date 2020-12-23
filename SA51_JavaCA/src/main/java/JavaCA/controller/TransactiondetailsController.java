@@ -2,8 +2,6 @@ package JavaCA.controller;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -22,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import JavaCA.model.Product;
-import JavaCA.model.RoleType;
 import JavaCA.model.Transaction;
 import JavaCA.model.TransactionDetail;
 import JavaCA.model.TransactionType;
@@ -61,6 +58,48 @@ public class TransactiondetailsController {
 	protected void initBinder(WebDataBinder binder) {
 	}
 	
+	@RequestMapping("/list")
+	public String viewAllTransactionsDetails(Model model, @ModelAttribute("success") String success, HttpSession session)
+	{
+		//check if user has logged in, otherwise redirect
+		if(!uservice.verifyLogin(session)) {
+			return "redirect:/";
+		}
+		//List all transaction details
+		List<TransactionDetail> td = tdService.findAllTransactionDetails();
+		model.addAttribute("transactiondetail", td);
+		//Receives success/failure from redirectattributes model, send to view for notification
+		model.addAttribute("success", success);	
+		//View changes dynamically depending on the user role type
+		User user = (User) session.getAttribute("usession");
+		model.addAttribute("user", user);
+		//Remember page to return to this page upon cancellation of form
+		session.setAttribute("preView", "alltd");
+		return "/transaction/alltransactiondetail";
+	}
+	
+	@RequestMapping("/list/{productid}")
+	public String viewAllProductTransactions(@PathVariable("productid") int id, Model model, 
+			@ModelAttribute("success") String success)
+	{
+		//check if user has logged in, otherwise redirect
+		if(!uservice.verifyLogin(session)) {
+			return "redirect:/";
+		}
+		//List all PRODUCT transaction details
+		List<TransactionDetail> td = transactionService.listAllProductTransactions(id);
+		model.addAttribute("transactiondetail", td);
+		//To display header message as "product" instead of "all"
+		model.addAttribute("message", "product");
+		//Receives success/failure from redirectattributes model, send to view for notification
+		model.addAttribute("success", success);
+		//View changes dynamically depending on the user role type
+		User user = (User) session.getAttribute("usession");
+		model.addAttribute("user", user);
+		session.setAttribute("preView", "products");
+		return "/transaction/alltransactiondetail";
+	}
+	
 	@RequestMapping("/new/{tid}")
 	public String addProductToTransaction(@PathVariable("tid") int tid, Model model) {
 		//check if user has logged in, otherwise redirect
@@ -90,7 +129,7 @@ public class TransactiondetailsController {
 		Transaction t = transactionService.findTransactionById(tid);
 		if (session.getAttribute("preView") == "alltd") {
 			redirectModel.addFlashAttribute("success", success);
-			return "redirect:/transaction/list";
+			return "redirect:/transactiondetails/list";
 			}
 		User user = (User) session.getAttribute("usession");
 		model.addAttribute("user", user);
@@ -121,7 +160,7 @@ public class TransactiondetailsController {
 		String success = String.valueOf(tdService.saveTransactionDetail(td));
 		redirectModel.addFlashAttribute("success", success);
 		if (session.getAttribute("preView") == "products") {
-			return "redirect:/transaction/list/" + td.getProduct().getId();
+			return "redirect:/transactiondetails/list/" + td.getProduct().getId();
 		}
 		return "redirect:/transactiondetails/detail/" + t.getId();
 	}
@@ -156,24 +195,27 @@ public class TransactiondetailsController {
 		return "/transaction/TransactionDetailForm";
 	}
 	
-	@RequestMapping("/delete/{id}")
-	public String deleteTransactionDetails(@PathVariable("id") int id,  RedirectAttributes redirectModel, HttpSession session) {
+	@RequestMapping("/delete/{tdid}")
+	public String deleteTransactionDetails(@PathVariable("tdid") int tdid,  RedirectAttributes redirectModel, HttpSession session) {
 		//check if user has logged in, otherwise redirect
 		if(!uservice.verifyLogin(session)) {
 			return "redirect:/";
 		}
 		
-		TransactionDetail td = tdService.findTransactionDetailById(id);
+		TransactionDetail td = tdService.findTransactionDetailById(tdid);
 		Transaction t = td.getTransaction();
+		//Store transaction ID incase it gets deleted
+		long tid = t.getId(); 
+		//Return success of deletion for notification
 		String success = String.valueOf(tdService.deleteTransactionDetail(td));
 		redirectModel.addFlashAttribute("success", success);
-		//Delete transaction if it doesn't contain any transaction details
-		if (transactionService.noTransactionDetailsInNullTransaction(t)) {
-			transactionService.deleteTransaction(t);
-			return "redirect:/transaction/list";
+		
+		//Use transaction ID to check if transaction is deleted
+		if (transactionService.findTransactionById(tid) == null) {
+			return "redirect:/transactiondetails/list";
 		}
 		if (session.getAttribute("preView") == "products") {
-			return "redirect:/transaction/list/" + td.getProduct().getId();
+			return "redirect:/transactiondetails/list/" + td.getProduct().getId();
 		}
 		return "redirect:/transactiondetails/detail/" + t.getId();
 	}
@@ -187,7 +229,7 @@ public class TransactiondetailsController {
 			return "redirect:/";
 		}
 		//List all transaction details
-		List<TransactionDetail> td = tdService.findAllTransactionDetails();
+		List<TransactionDetail> td = null;
 		
 		//Modify transaction details based on date IF dates are valid
 		if (!TransactionDetailsService.isValidDateFormat(startDate))
@@ -199,26 +241,23 @@ public class TransactiondetailsController {
 			if (!startDate.isBlank() && !endDate.isBlank()){
 				Date fromDate = Date.valueOf(startDate);
 				Date toDate = Date.valueOf(endDate);
-				td = td.stream().filter(x -> 
-									x.getDate().compareTo(toDate) <= 0
-									&& x.getDate().compareTo(fromDate) >= 0)
-						   			.collect(Collectors.toList());
+				td = tdService.findAllTransactionDetailsBetweenDateRange(fromDate, toDate);
 				model.addAttribute("startDate", startDate);
 				model.addAttribute("endDate", endDate);
 			}
 			else if (!startDate.isBlank()) {
 				Date fromDate = Date.valueOf(startDate);
-				td = td.stream().filter(x -> 
-								x.getDate().compareTo(fromDate) >= 0)
-								.collect(Collectors.toList());
+				
+				td = tdService.findAllTransactionDetailsFromDate(fromDate);
 				model.addAttribute("startDate", startDate);
 			}
 			else if (!endDate.isBlank()){
 				Date toDate = Date.valueOf(endDate);
-				td = td.stream().filter(x ->
-									x.getDate().compareTo(toDate) <= 0)
-									.collect(Collectors.toList());
+				td = tdService.findAllTransactionDetailsUpToDate(toDate);
 				model.addAttribute("endDate", endDate);
+			}
+			else {
+				td = tdService.findAllTransactionDetails();
 			}
 		}
 		model.addAttribute("transactiondetail", td);

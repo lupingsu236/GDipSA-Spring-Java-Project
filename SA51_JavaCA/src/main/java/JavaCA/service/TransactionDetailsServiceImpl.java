@@ -103,7 +103,16 @@ public class TransactionDetailsServiceImpl implements TransactionDetailsService 
 			currentCount -= qtyChange;
 			p.setQuantity(currentCount);
 			prodRepo.save(p);
+			long tid = transactionDetail.getTransaction().getId();
 			transDRepo.delete(transactionDetail);
+			Transaction t = transRepo.findByTransactionId(tid);
+			//If transaction is not attached to a car job, it is non-essential
+			//Delete non-essential transaction if it doesn't contain any transaction details
+			if ((t.getCarPlateNo() == "") || (t.getCarPlateNo() == null)) {
+				if (t.getTransactionDetails().isEmpty()) {
+					transRepo.delete(t);
+				}
+			}
 			eservice.sendReorderEmailReminderForThisProduct(p);
 			return true;
 		}
@@ -147,5 +156,20 @@ public class TransactionDetailsServiceImpl implements TransactionDetailsService 
 	{
 		return transDRepo.findTransactionDetailsByProductId(productId).stream().filter(x -> x.getDate().compareTo(toDate) <= 0)
 																			   .collect(Collectors.toList());
+	}
+
+	@Override
+	public List<TransactionDetail> findAllTransactionDetailsBetweenDateRange(Date fromDate, Date toDate) {
+		return transDRepo.findAll().stream().filter(x -> x.getDate().compareTo(toDate) <= 0 && x.getDate().compareTo(fromDate) >= 0).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<TransactionDetail> findAllTransactionDetailsFromDate(Date fromDate) {
+		return transDRepo.findAll().stream().filter(x -> x.getDate().compareTo(fromDate) >= 0).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<TransactionDetail> findAllTransactionDetailsUpToDate(Date toDate) {
+		return transDRepo.findAll().stream().filter(x -> x.getDate().compareTo(toDate) <= 0).collect(Collectors.toList());
 	}
 }

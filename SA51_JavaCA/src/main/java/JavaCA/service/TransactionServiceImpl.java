@@ -31,7 +31,7 @@ public class TransactionServiceImpl implements TransactionService
 	@Override
 	public Transaction findTransactionById(long id)
 	{
-		return transRepo.findById(id).get();
+		return transRepo.findById(id).orElse(null);
 	}
 	
 	
@@ -65,16 +65,16 @@ public class TransactionServiceImpl implements TransactionService
 		return transDRepo.findAllProductTransactionsByProductId(id);
 	}
 	
-	@Override
-	public boolean noTransactionDetailsInNullTransaction(Transaction transaction) {
-		//to force update
-		if ((transaction.getCarPlateNo() == "") || (transaction.getCarPlateNo() == null)) {
-			if (transaction.getTransactionDetails().isEmpty()) {
-				return true;
-			}
-		}
-		return false;
-	}
+//	@Override
+//	public boolean noTransactionDetailsInNullTransaction(Transaction transaction) {
+//		//to force update
+//		if ((transaction.getCarPlateNo() == "") || (transaction.getCarPlateNo() == null)) {
+//			if (transaction.getTransactionDetails().isEmpty()) {
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
 	
 	public List<Transaction> listAllNonCarTransactions() {
 		return transRepo.findAllNonCarTransactions();
