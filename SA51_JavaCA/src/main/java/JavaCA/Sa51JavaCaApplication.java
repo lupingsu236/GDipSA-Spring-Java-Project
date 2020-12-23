@@ -180,7 +180,7 @@ public class Sa51JavaCaApplication {
 			User u13=new User("Joe Anderson","joeanderson","password","Joe@parts4you.com",RoleType.MECHANIC,ActiveType.ACTIVE);
 			User u14=new User("Thomas Davis","thomasdavis","password","Thomas@parts4you.com",RoleType.ADMIN,ActiveType.INACTIVE);
 			User u15=new User("Raymone James","raymonej","password","Raymone@parts4you.com",RoleType.ADMIN,ActiveType.ACTIVE);
-			User u16=new User("Su Luping","sulp","password","lupingsu.lp@gmail.com",RoleType.ADMIN,ActiveType.ACTIVE);
+			User u16=new User("Su Luping","sulp","password","fakeduckweed@gmail.com",RoleType.ADMIN,ActiveType.ACTIVE);
 			User u17=new User("Liau Han Yang, Jonathan","liauhyj","password","liauhyj@gmail.com",RoleType.MECHANIC,ActiveType.ACTIVE);
 			User u18=new User("Lim Yu-De Justin","justinlim","password","makebelief@icloud.com",RoleType.ADMIN,ActiveType.ACTIVE);
 			User u19=new User("Xu Zhenli","xuzl","password","e0427350@u.nus.edu",RoleType.ADMIN,ActiveType.ACTIVE);
