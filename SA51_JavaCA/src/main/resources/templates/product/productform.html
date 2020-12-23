@@ -5,11 +5,13 @@
 
 	<div class="my-4 container-sm">
 	<div class="row">
-		<div class="col-sm-10"> <h3 th:text="${p.id}? 'Edit Product' : 'Add Product'">Add/Edit Product</h3></div>
+		<div class="col-sm-10"> <h3 th:text="${p.id}? 'Edit Product' : 'Add Product'">Add/Edit Product</h3>
 		</div>
 	</div>
 	
-	<div class = "row mx-4">
+	<br>
+	
+	<div class = "row mx-3">
 	<form action="" th:action="@{/product/save}" method="post">
 	<div class="row" th:object="${p}">
 		<div class="col-sm-6 mr-2">
@@ -146,6 +148,7 @@
 		</div>
 	</div>
 	</form>
+	</div>
 	</div>
 	
 </body>
