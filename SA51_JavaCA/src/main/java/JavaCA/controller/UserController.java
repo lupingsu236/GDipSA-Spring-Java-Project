@@ -18,10 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import JavaCA.model.ActiveType;
-import JavaCA.model.RoleType;
 import JavaCA.model.User;
-import JavaCA.service.UserServiceImpl;
 import JavaCA.service.UserService;
+import JavaCA.service.UserServiceImpl;
 
 @Controller
 @RequestMapping("/user")

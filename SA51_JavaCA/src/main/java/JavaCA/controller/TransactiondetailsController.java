@@ -61,7 +61,7 @@ public class TransactiondetailsController {
 	}
 	
 	@RequestMapping("/list")
-	public String viewAllTransactionsDetails(Model model, @ModelAttribute("success") String success, HttpSession session)
+	public String viewAllTransactionsDetails(Model model, @ModelAttribute("success") String success)
 	{
 		//check if user has logged in, otherwise redirect
 		if(!uservice.verifyLogin(session)) {
@@ -121,7 +121,7 @@ public class TransactiondetailsController {
 	
 	@GetMapping("/detail/{tid}")
 	public String viewTransactionDetails(@PathVariable("tid") int tid, RedirectAttributes redirectModel,
-			@ModelAttribute("success") String success, Model model, HttpSession session)
+			@ModelAttribute("success") String success, Model model)
 	{
 		//check if user has logged in, otherwise redirect
 		if(!uservice.verifyLogin(session)) {
@@ -168,7 +168,7 @@ public class TransactiondetailsController {
 	}
 	
 	@RequestMapping("/edit/{tdid}")
-	public String editTransactionDetails(@PathVariable("tdid") int tdid, Model model, HttpSession session) {
+	public String editTransactionDetails(@PathVariable("tdid") int tdid, Model model) {
 		//check if user has logged in, otherwise redirect
 		if(!uservice.verifyLogin(session)) {
 			return "redirect:/";
@@ -198,7 +198,7 @@ public class TransactiondetailsController {
 	}
 	
 	@RequestMapping("/delete/{tdid}")
-	public String deleteTransactionDetails(@PathVariable("tdid") int tdid,  RedirectAttributes redirectModel, HttpSession session) {
+	public String deleteTransactionDetails(@PathVariable("tdid") int tdid,  RedirectAttributes redirectModel) {
 		//check if user has logged in, otherwise redirect
 		if(!uservice.verifyLogin(session)) {
 			return "redirect:/";
@@ -224,7 +224,7 @@ public class TransactiondetailsController {
 	
 	@PostMapping("/daterange")
 	public String viewAllTransactionsDetailsByDateRange(@RequestParam String startDate, @RequestParam String endDate, 
-			Model model, HttpSession session)
+			Model model)
 	{
 		//check if user has logged in, otherwise redirect
 		if(!uservice.verifyLogin(session)) {

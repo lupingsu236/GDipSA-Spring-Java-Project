@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import JavaCA.model.Transaction;
-import JavaCA.model.TransactionDetail;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 {

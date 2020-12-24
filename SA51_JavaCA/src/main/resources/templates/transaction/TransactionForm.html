@@ -2,13 +2,14 @@
 <html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body})}">
 <!-- For update -->
 <body>
-<div class="my-4 container-sm">
+<div class="m-4 container-sm">
 	<br>
 	<div class="row">
 			<div class="col-sm-9"> <h3>New Transaction</h3></div>
 	</div>
+	<br>
 	
-	<div class="row">
+	<div class="row mx-2">
 		<form action="" th:object="${t}" th:action="@{/transaction/saveTransaction/}" method="post">
 				<div class="form-group w-100">
 				<input type="hidden" class="form-control" th:field="*{id}">

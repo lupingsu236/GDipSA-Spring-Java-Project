@@ -15,13 +15,14 @@
 <div class="my-4 container-sm">
 	
 	<div class="row">
-		<div class="col-sm-7"> <h3>Products <a th:href=@{/product}><i class="fas fa-sync-alt"></i></a></h3></div>
+		<div class="col-sm-7" th:if="${session.usession.role} == ${session.admin}"> <h3>Products <a th:href=@{/product}><i class="fas fa-sync-alt"></i></a></h3></div>
+		<div class="col-sm-9" th:if="${session.usession.role} != ${session.admin}"> <h3>Products <a th:href=@{/product}><i class="fas fa-sync-alt"></i></a></h3></div>
 		<div class="col-sm">
 		<a class="btn btn-info" data-toggle="collapse" href="#advancedSearch" role="button" aria-expanded="false" aria-controls="advancedSearch">
    		Advanced Search </a>
  		</div>
-		<div class="col-sm">
-		<a href="#" class="btn btn-info" th:href="@{/product/new/}" th:if="${session.usession.role} == ${session.admin}">Add New Product</a>
+		<div class="col-sm" th:if="${session.usession.role} == ${session.admin}">
+		<a href="#" class="btn btn-info" th:href="@{/product/new/}">Add New Product</a>
 		</div>
 	</div>
 	
@@ -96,7 +97,7 @@
 	</div>
 	</div>
 
-	<br>
+	
 	
 	<div class = "row my-4 mx-2">
 	<div class="card mb-4">

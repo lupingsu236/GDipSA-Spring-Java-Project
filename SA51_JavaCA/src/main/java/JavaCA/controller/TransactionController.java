@@ -133,7 +133,7 @@ public class TransactionController
 	
 	@PostMapping("/newStockEntry")
 	public String saveNewStockEntryTransaction(@Valid @ModelAttribute("td") TransactionDetail td, BindingResult bd, 
-			RedirectAttributes redirectModel, HttpSession session, Model model) {
+			RedirectAttributes redirectModel, Model model) {
 		//New transaction if no selected transaction
 		Transaction t;
 		List<TransactionDetail> tdList;
@@ -194,7 +194,7 @@ public class TransactionController
 	
 	@RequestMapping("/saveTransaction") //@Valid followed directly by BindingResult
 	public String saveTransaction(@Valid @ModelAttribute("t") Transaction t, BindingResult bd, 
-			Model model, HttpSession session, RedirectAttributes redirectModel) {
+			Model model, RedirectAttributes redirectModel) {
 		//If form has error
 		if (bd.hasErrors()) {
 			//Set page to return to upon cancellation of form
