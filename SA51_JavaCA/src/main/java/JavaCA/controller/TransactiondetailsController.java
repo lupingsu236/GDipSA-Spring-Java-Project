@@ -1,7 +1,9 @@
 package JavaCA.controller;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -26,12 +28,12 @@ import JavaCA.model.TransactionType;
 import JavaCA.model.User;
 import JavaCA.service.ProductService;
 import JavaCA.service.ProductServiceImpl;
-import JavaCA.service.TransactionDetailsServiceImpl;
 import JavaCA.service.TransactionDetailsService;
-import JavaCA.service.TransactionServiceImpl;
-import JavaCA.service.UserServiceImpl;
-import JavaCA.service.UserService;
+import JavaCA.service.TransactionDetailsServiceImpl;
 import JavaCA.service.TransactionService;
+import JavaCA.service.TransactionServiceImpl;
+import JavaCA.service.UserService;
+import JavaCA.service.UserServiceImpl;
 
 @Controller
 @RequestMapping("/transactiondetails")
@@ -229,7 +231,7 @@ public class TransactiondetailsController {
 			return "redirect:/";
 		}
 		//List all transaction details
-		List<TransactionDetail> td = tdService.findAllTransactionDetails();
+		List<TransactionDetail> td = new ArrayList<>();
 		
 		//Modify transaction details based on date IF dates are valid
 		if (!TransactionDetailsService.isValidDateFormat(startDate))
@@ -250,13 +252,7 @@ public class TransactiondetailsController {
 		//if anything is invalid, return to page with error messages displayed
 		if (!TransactionDetailsService.isValidDateFormat(startDate) || !TransactionDetailsService.isValidDateFormat(endDate))
 		{
-			model.addAttribute("transactiondetail", td);
-			//View changes dynamically depending on the user role type
-			User user = (User) session.getAttribute("usession");
-			model.addAttribute("user", user);
-			//Remember page to return to this page upon cancellation of form
-			session.setAttribute("preView", "alltd");
-			return "/transaction/alltransactiondetail";
+			td = tdService.findAllTransactionDetails();
 		}
 		else
 		{
