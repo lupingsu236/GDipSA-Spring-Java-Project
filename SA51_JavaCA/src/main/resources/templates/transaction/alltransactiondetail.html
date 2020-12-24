@@ -14,20 +14,23 @@
 			<form class="form-inline" action="" th:action="@{/transactiondetails/daterange}" method="post">
 			<div class="col-sm mx-1">
 				<input class="form-control" type="text" name="startDate" placeholder="From: yyyy-MM-dd" title="Type in a date" th:value="${startDate}"
-				th:if="${errorMsgStartDate == null}">
-				<input class="form-control" type="text" name="startDate" placeholder="Invalid input!" title="Type in a date"
-				th:if="${errorMsgStartDate != null}">
+				th:if="${#strings.isEmpty(errorMsgStartDate)}">
+				<input class="form-control" type="text" name="startDate" placeholder="From: yyyy-MM-dd" title="Type in a date"
+				th:if="${not #strings.isEmpty(errorMsgStartDate)}">
 			</div>
 			<div class="col-sm mx-1">
 				<input class="form-control" type="text" name="endDate" placeholder="To: yyyy-MM-dd" title="Type in a date" th:value="${endDate}"
-				th:if="${errorMsgEndDate == null}">
-				<input class="form-control" type="text" name="endDate" placeholder="Invalid input!" title="Type in a date" 
-				th:if="${errorMsgEndDate != null}">
+				th:if="${#strings.isEmpty(errorMsgEndDate)}">
+				<input class="form-control" type="text" name="endDate" placeholder="To: yyyy-MM-dd" title="Type in a date" 
+				th:if="${not #strings.isEmpty(errorMsgEndDate)}">
 			</div>
 			<div class="col-sm mx-1">
 				<button class="btn btn-primary form-control" type="submit">Filter</button>
 			</div>
 			</form>
+			<div class="col-sm mx-1">
+				<p style="color: red; font-size:small" th:utext="'Invalid input'" th:if="${search == false}"></p>
+			</div>
 		</div>
 	</div>
 	<br>

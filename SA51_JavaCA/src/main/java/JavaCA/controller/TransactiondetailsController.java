@@ -230,30 +230,32 @@ public class TransactiondetailsController {
 		if(!uservice.verifyLogin(session)) {
 			return "redirect:/";
 		}
-		//List all transaction details
-		List<TransactionDetail> td = new ArrayList<>();
+		//List all transaction details by default if input is invalid xor both inputs are blank
+		List<TransactionDetail> td = tdService.findAllTransactionDetails();
 		
-		//Modify transaction details based on date IF dates are valid
+		//Preserve correct inputs and remove invalid inputs in the filter fields
 		if (!TransactionDetailsService.isValidDateFormat(startDate))
-			model.addAttribute("errorMsgStartDate", "Input must be in the format of yyyy-MM-dd");
+		{
+			model.addAttribute("errorMsgStartDate", "true");
+		}
 		else
 		{
 			if (!startDate.isBlank())
 				model.addAttribute("startDate", Date.valueOf(startDate));
 		}
 		if (!TransactionDetailsService.isValidDateFormat(endDate))
-			model.addAttribute("errorMsgEndDate", "Input must be in the format of yyyy-MM-dd");
+		{
+			model.addAttribute("errorMsgEndDate", "true");
+		}
 		else
 		{
 			if (!endDate.isBlank())
 				model.addAttribute("endDate", Date.valueOf(endDate));
 		}
 		
-		//if anything is invalid, return to page with error messages displayed
 		if (!TransactionDetailsService.isValidDateFormat(startDate) || !TransactionDetailsService.isValidDateFormat(endDate))
-		{
-			td = tdService.findAllTransactionDetails();
-		}
+			model.addAttribute("search", false);
+		//Modify transaction details based on date IF dates are valid
 		else
 		{
 			if (!startDate.isBlank() && !endDate.isBlank())
@@ -264,29 +266,6 @@ public class TransactiondetailsController {
 				td = tdService.findAllTransactionDetailsUpToDate(Date.valueOf(endDate));
 		}
 		
-//		if(TransactionDetailsService.isValidDateFormat(startDate) && TransactionDetailsService.isValidDateFormat(endDate)) {
-//			if (!startDate.isBlank() && !endDate.isBlank()){
-//				Date fromDate = Date.valueOf(startDate);
-//				Date toDate = Date.valueOf(endDate);
-//				td = tdService.findAllTransactionDetailsBetweenDateRange(fromDate, toDate);
-//				model.addAttribute("startDate", startDate);
-//				model.addAttribute("endDate", endDate);
-//			}
-//			else if (!startDate.isBlank()) {
-//				Date fromDate = Date.valueOf(startDate);
-//				
-//				td = tdService.findAllTransactionDetailsFromDate(fromDate);
-//				model.addAttribute("startDate", startDate);
-//			}
-//			else if (!endDate.isBlank()){
-//				Date toDate = Date.valueOf(endDate);
-//				td = tdService.findAllTransactionDetailsUpToDate(toDate);
-//				model.addAttribute("endDate", endDate);
-//			}
-//			else {
-//				td = tdService.findAllTransactionDetails();
-//			}
-//		}
 		model.addAttribute("transactiondetail", td);
 		//View changes dynamically depending on the user role type
 		User user = (User) session.getAttribute("usession");
