@@ -13,12 +13,16 @@
 		<div class="col-sm-8 row form-group">
 			<form class="form-inline" action="" th:action="@{/transactiondetails/daterange}" method="post">
 			<div class="col-sm mx-1">
-				<input class="form-control" type="text" name="startDate" placeholder="From: yyyy-MM-dd" title="Type in a date" th:value="${startDate}">
-				<p style="color:red" th:if="${errorMsgStartDate != null}" th:utext="${errorMsgStartDate}"></p>
+				<input class="form-control" type="text" name="startDate" placeholder="From: yyyy-MM-dd" title="Type in a date" th:value="${startDate}"
+				th:if="${errorMsgStartDate == null}">
+				<input class="form-control" type="text" name="startDate" placeholder="Invalid input!" title="Type in a date"
+				th:if="${errorMsgStartDate != null}">
 			</div>
 			<div class="col-sm mx-1">
-				<input class="form-control" type="text" name="endDate" placeholder="To: yyyy-MM-dd" title="Type in a date" th:value="${endDate}">
-				<p style="color:red" th:if="${errorMsgEndDate != null}" th:utext="${errorMsgEndDate}"></p>
+				<input class="form-control" type="text" name="endDate" placeholder="To: yyyy-MM-dd" title="Type in a date" th:value="${endDate}"
+				th:if="${errorMsgEndDate == null}">
+				<input class="form-control" type="text" name="endDate" placeholder="Invalid input!" title="Type in a date" 
+				th:if="${errorMsgEndDate != null}">
 			</div>
 			<div class="col-sm mx-1">
 				<button class="btn btn-primary form-control" type="submit">Filter</button>

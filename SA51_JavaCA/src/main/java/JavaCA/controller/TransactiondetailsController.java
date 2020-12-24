@@ -229,7 +229,7 @@ public class TransactiondetailsController {
 			return "redirect:/";
 		}
 		//List all transaction details
-		List<TransactionDetail> td = null;
+		List<TransactionDetail> td = tdService.findAllTransactionDetails();
 		
 		//Modify transaction details based on date IF dates are valid
 		if (!TransactionDetailsService.isValidDateFormat(startDate))
@@ -249,7 +249,15 @@ public class TransactiondetailsController {
 		
 		//if anything is invalid, return to page with error messages displayed
 		if (!TransactionDetailsService.isValidDateFormat(startDate) || !TransactionDetailsService.isValidDateFormat(endDate))
+		{
+			model.addAttribute("transactiondetail", td);
+			//View changes dynamically depending on the user role type
+			User user = (User) session.getAttribute("usession");
+			model.addAttribute("user", user);
+			//Remember page to return to this page upon cancellation of form
+			session.setAttribute("preView", "alltd");
 			return "/transaction/alltransactiondetail";
+		}
 		else
 		{
 			if (!startDate.isBlank() && !endDate.isBlank())
@@ -258,8 +266,6 @@ public class TransactiondetailsController {
 				td = tdService.findAllTransactionDetailsFromDate(Date.valueOf(startDate));
 			else if (!endDate.isBlank())
 				td = tdService.findAllTransactionDetailsUpToDate(Date.valueOf(endDate));
-			else 
-				td = tdService.findAllTransactionDetails();
 		}
 		
 //		if(TransactionDetailsService.isValidDateFormat(startDate) && TransactionDetailsService.isValidDateFormat(endDate)) {
