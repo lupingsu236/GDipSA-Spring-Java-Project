@@ -13,27 +13,24 @@
 		<div class="col-sm-8 row form-group">
 			<form class="form-inline" action="" th:action="@{/transactiondetails/daterange}" method="post">
 			<div class="col-sm mx-1">
-				<input class="form-control" type="text" name="startDate" placeholder="From: yyyy-MM-dd" title="Type in a date" th:value="${startDate}"
-				th:if="${#strings.isEmpty(errorMsgStartDate)}">
-				<input class="form-control" type="text" name="startDate" placeholder="From: yyyy-MM-dd" title="Type in a date"
-				th:if="${not #strings.isEmpty(errorMsgStartDate)}">
+				<input class="form-control" type="text" name="startDate" placeholder="From: yyyy-MM-dd" title="Type in a date" th:value="${startDate}">
+				<span style="font-style: italic; color: gray; font-size:small">Leave this field empty if you want to include all past records.</span>
 			</div>
 			<div class="col-sm mx-1">
-				<input class="form-control" type="text" name="endDate" placeholder="To: yyyy-MM-dd" title="Type in a date" th:value="${endDate}"
-				th:if="${#strings.isEmpty(errorMsgEndDate)}">
-				<input class="form-control" type="text" name="endDate" placeholder="To: yyyy-MM-dd" title="Type in a date" 
-				th:if="${not #strings.isEmpty(errorMsgEndDate)}">
+				<input class="form-control" type="text" name="endDate" placeholder="To: yyyy-MM-dd" title="Type in a date" th:value="${endDate}">
+				<span style="font-style: italic; color: gray; font-size:small">Leave this field empty if you want to include all records up to today.</span>
 			</div>
 			<div class="col-sm mx-1">
-				<button class="btn btn-primary form-control" type="submit">Filter</button>
+				<button class="btn btn-primary form-control" type="submit">Filter by Dates</button>
+				<br>
+				<br>
+				<br>
 			</div>
 			</form>
-			<div class="col-sm mx-1">
-				<p style="color: red; font-size:small" th:utext="'Invalid input'" th:if="${search == false}"></p>
-			</div>
 		</div>
 	</div>
 	<br>
+	<p style="color: red; font-size:small" th:utext="'Results are unfiltered due to invalid input(s). Date formats must be in the form of yyyy-MM-dd.'" th:if="${search == false}"></p>
 	<div class="card mb-4">
           <div class="card-header">
               <i class="fas fa-table mr-1"></i>

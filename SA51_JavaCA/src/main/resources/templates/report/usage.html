@@ -17,12 +17,12 @@
 		<fieldset>From Date:</fieldset>
 		<fieldset><input class="form-control" type="text" name="fromDate" th:value="${fromDate}" placeholder="yyyy-MM-dd">
 		<p style="color:red" th:if="${errorMsgFromDate != null}" th:utext="${errorMsgFromDate}"></p></fieldset>
-		<fieldset><span style="font-style: italic; color: gray; font-size:small">You may leave this field empty if you want to include all past records.</span></fieldset>
+		<fieldset><span style="font-style: italic; color: gray; font-size:small">Leave this field empty if you want to include all past records.</span></fieldset>
 		<br>
 		<fieldset>To Date:</fieldset>
 		<fieldset><input class="form-control" type="text" name="toDate" th:value="${toDate}" placeholder="yyyy-MM-dd">
 		<p style="color:red" th:if="${errorMsgToDate != null}" th:utext="${errorMsgToDate}"></p></fieldset>
-		<fieldset><span style="font-style: italic; color: gray; font-size:small">You may leave this field empty if you want to include all records up to today.</span></fieldset>
+		<fieldset><span style="font-style: italic; color: gray; font-size:small">Leave this field empty if you want to include all records up to today.</span></fieldset>
 		<fieldset>
 		<br>
 		<button class="btn btn-primary" type="submit">Generate report</button>
