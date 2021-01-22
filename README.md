@@ -10,7 +10,7 @@ This is a simple inventory management application for car dealership workshops t
 5. Email reminders on Products requiring reorder 
 6. Reports on Inventory Usage and Reorder 
 
-## My contributions to the Project
+## My Contributions to the Project
 My main contributions include: 
 1. Management of Products (including controller, service/repository, HTML/CSS/JavaScript) 
 2. Management of Brands/Suppliers (including controller, service/repository, HTML/CSS/JavaScript) 
